@@ -16,6 +16,7 @@ gulp.task('sass', function () {
     .pipe(cssnano())
     .pipe(autoprefixer({ gulpbrowsers: ['last 2 versions'] }))
     .pipe(gulp.dest('../css'))
+    .pipe(gulp.dest('./src/css/'))
     .pipe(browser.reload({ stream: true }));
 });
 
