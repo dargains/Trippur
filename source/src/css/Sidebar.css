@@ -1,0 +1,10 @@
+.sideBar {
+  width: 500px;
+  margin-right: 20px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  vertical-align: top;
+  padding: 40px 20px; }
+  .sideBar legend {
+    font-weight: bold;
+    text-transform: uppercase; }

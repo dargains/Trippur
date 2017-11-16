@@ -1,0 +1,5 @@
+.resultsList {
+  background-color: green;
+  width: calc(100% - 520px);
+  display: inline-block;
+  vertical-align: top; }
