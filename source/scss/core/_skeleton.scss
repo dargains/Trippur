@@ -1,0 +1,70 @@
+/*Generic Skeleton structure*/
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+main {
+  background-color: #fff;
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+.wrapper {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  @include mq(0, 768px) {
+    padding: 0 20px;
+  }
+  header {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+section {
+  width: 100%;
+  &[data-margin-top="20"] {
+    padding-top: 20px;
+    @include mq(0,768px) {
+      padding-top: 10px;
+    }
+  }
+  &[data-margin-top="40"] {
+    padding-top: 40px;
+    @include mq(0,768px) {
+      padding-top: 30px;
+    }
+  }
+  &[data-margin-top="80"] {
+    padding-top: 80px;
+    @include mq(0,768px) {
+      padding-top: 50px;
+    }
+  }
+  &[data-margin-bottom="20"] {
+    padding-bottom: 20px;
+    @include mq(0,768px) {
+      padding-bottom: 10px;
+    }
+  }
+  &[data-margin-bottom="40"] {
+    padding-bottom: 40px;
+    @include mq(0,768px) {
+      padding-bottom: 30px;
+    }
+  }
+  &[data-margin-bottom="80"] {
+    padding-bottom: 80px;
+    @include mq(0,768px) {
+      padding-bottom: 50px;
+    }
+  }
+}

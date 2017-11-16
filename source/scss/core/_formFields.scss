@@ -1,0 +1,1049 @@
+@import "formFieldsConfig";
+
+.formFields {
+  width: 90%;
+  margin: 0 auto;
+  //padding: 40px 0;
+  .formWrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 0;
+  }
+  .formTitle {
+    @include fontGiant;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .formSubtitle {
+    @include fontM($formGrayMedium);
+    margin-bottom: 40px;
+  }
+  .formSectionTitle {
+    @include fontXL;
+    margin-top: 60px;
+    margin-bottom: 20px;
+  }
+  .formSectionSubtitle {
+    @include fontM($formGrayRegular);
+    margin-bottom: 20px;
+  }
+  .formText {
+    margin: 40px 0;
+    p {
+      @include fontS;
+    }
+  }
+  input,textarea,label {
+    outline: none;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+  }
+  @include mq(0, 768px) {
+    .formSectionTitle {
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+  }
+}
+.textField,
+.radioField,
+.checkField,
+.autocompleteField,
+.dropdownField {
+  vertical-align: top;
+  //word-break: break-all;
+  word-break:normal;
+  word-wrap:break-word;
+  display: inline-block;
+  width: 100%;
+  &.half {
+    width: 50%;
+    display: inline-block;
+  }
+  &.oneThird {
+    width: 33.3333%;
+    display: inline-block;
+  }
+  &.twoThirds {
+    width: 66.6666%;
+    display: inline-block;
+  }
+  @include mq(0, 768px) {
+    &.half,
+    &.oneThird,
+    &.twoThirds {
+      width: 100%;
+      padding: 20px 10px;
+      display: inline-block;
+    }
+  }
+  &.disabled {
+    pointer-events: none;
+    label {
+      color: $formGrayLight;
+    }
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+      border-color: $formGrayLight;
+      color: $formGrayLight;
+    }
+    label:before {
+      border-color: $formGrayLight;
+    }
+  }
+}
+.textField,
+.autocompleteField {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 20px 10px;
+  color: $formGrayRegular;
+  label {
+    @include fontM($formGrayRegular);
+    position: absolute;
+    left: 10px;
+    top: 70px;
+    transform: translate(20px, -40px);
+    font-family: sans-serif;
+    pointer-events: none;
+    transform-origin: left;
+    transition: transform .2s ease-out;
+  }
+  input, textarea {
+    @include fontM(currentColor);
+    border: 0;
+    border-bottom: 1px solid currentColor;
+    outline-color: transparent;
+    outline: none;
+    background-color: transparent;
+    padding: 10px 20px;
+    padding-bottom: 8px;
+    width: 100%;
+    -webkit-user-select: initial;
+    -moz-user-select: initial;
+    -ms-user-select: initial;
+    user-select: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  }
+  i + input {
+    padding-right: 50px;
+  }
+  textarea {
+    resize: none;
+    height: 150px;
+  }
+  span {
+    @include fontXS(currentColor);
+    position: absolute;
+    bottom: -2px;
+    right: 30px;
+    display: none;
+  }
+  i {
+    position: absolute;
+    cursor: pointer;
+    top: 32px;
+    right: 30px;
+    color: $formGrayMedium;
+    font-size: 22px;
+  }
+  &.active {
+    color: $formGrayMedium;
+    input {
+      border-color: $formPrimaryColor;
+    }
+    label {
+      transform: translate(20px, -60px) scale(.8);
+    }
+  }
+  &.filled {
+    color: $formGrayMedium;
+    label {
+      transform: translate(20px, -60px) scale(.8);
+    }
+  }
+  &.error {
+    color: $formErrorColor;
+    span {
+      display: block;
+    }
+  }
+  @include mq(0, 512px) {
+    input,
+    textarea {
+      padding: 10px;
+    }
+    label {
+      left: 0;
+    }
+    i, span {
+      right: 20px;
+    }
+  }
+}
+.radioContainer.error {
+  .radioField {
+    color: $formErrorColor;
+    &:before {
+      border-color: $formErrorColor;
+    }
+  }
+}
+.checkContainer.error {
+  .checkField {
+    color: $formErrorColor;
+    &:before {
+      border-color: $formErrorColor;
+    }
+  }
+}
+.radioField,
+.checkField {
+  position: relative;
+  padding: 15px 10px;
+  word-wrap: break-word;
+  -ms-word-wrap: break-word;
+  color: $formGrayMedium;
+  input {
+    display: none;
+  }
+  label{
+    padding-left: 40px;
+    @include fontM(currentColor);
+    display: inline-block;
+    cursor: pointer;
+    &:before {
+      content: '';
+      display: block;
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      border: 1px solid currentColor;
+      left: 0;
+      top: 15px;
+    }
+    &:after {
+      display: block;
+      position: absolute;
+      transform-origin: center;
+      transform: scale(0);
+      transition: all .1s ease-out;
+    }
+  }
+  input:checked + label:after {
+    transform: scale(1);
+  }
+  &.error {
+    color: $formErrorColor;
+    &:before {
+      border-color: $formErrorColor;
+    }
+  }
+  @include mq(0,768px) {
+    padding: 10px !important;
+    label {
+      padding-left: 30px;
+      &:before {
+        top: 8px;
+      }
+      &:after {
+
+      }
+    }
+  }
+}
+.radioField {
+  label {
+    &:before {
+      border-radius: 50%;
+    }
+    &:after {
+      content: '';
+      width: 13px;
+      height: 13px;
+      background-color: $formPrimaryColor;
+      border-radius: 50%;
+      left: 7px;
+      top: 22px;
+    }
+  }
+  @include mq(0, 768px) {
+    label {
+      &:after {
+        top: 15px;
+      }
+    }
+  }
+}
+.checkField {
+  label {
+    &:after{
+      content: "\e92e";
+      font-family: 'icon-pbs';
+      font-size: 28px;
+      color: $formPrimaryColor;
+      left: 0;
+      top: 15px;
+    }
+  }
+  &.disclaimer {
+    margin-top: 40px;
+    label {
+      @include fontXS($formGrayRegular);
+      &:after {
+        top: 19px;
+      }
+    }
+    &.error {
+      label {
+        color: $formErrorColor;
+      }
+    }
+  }
+  @include mq(0, 768px) {
+    label {
+      &:after {
+        top: 8px;
+      }
+    }
+    &.disclaimer {
+      label {
+        &:after {
+          top: 12px;
+        }
+      }
+    }
+  }
+}
+.accordionField {
+  //padding-top: 20px;
+  border-bottom: 2px solid $formGrayLight;
+  .accordionTitle {
+    @include fontM;
+    font-weight: $Bold;
+    border-top: 2px solid $formGrayLight;
+    padding: 35px;
+    padding-right: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: color .2s ease-out;
+    &:after {
+      content: "\e926";
+      font-family: "icon-pbs";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 20px;
+      color: currentColor;
+      font-size: 23px;
+    }
+    &.opened {
+      color: $formPrimaryColor;
+      &:after {
+        content: "\e927";
+      }
+      & + .accordionBox {
+        opacity: 1;
+      }
+    }
+  }
+  .accordionBox {
+    padding: 0 20px;
+    padding-bottom: 10px;
+    display: none;
+    opacity: 0;
+    font-size: 0;
+    transition: opacity .3s ease-out .1s;
+    > p {
+      @include fontM;
+      margin: 20px 0;
+      padding: 0 15px;
+    }
+    .textField {
+      padding-top: 0;
+      padding-bottom: 40px;
+      i {
+        top: 12px;
+      }
+      label {
+        top: 50px;
+      }
+      span {
+        bottom: 17px;
+      }
+    }
+  }
+  @include mq(0, 768px) {
+    .accordionTitle {
+      padding: 20px;
+      padding-right: 50px;
+      &:after {
+        right: 10px;
+        font-size: 24px;
+      }
+    }
+    .accordionBox {
+      > p {
+        padding: 0;
+      }
+    }
+  }
+}
+.dropdownField {
+  position: relative;
+  padding: 20px 10px;
+  .dropdownTitle {
+    @include fontM($formGrayMedium);
+    line-height: 27px;
+    border-bottom: 1px solid $formGrayRegular;
+    padding: 23px 20px;
+    &:after {
+      font-size: 24px;
+      font-family: "icon-pbs";
+      position: absolute;
+      right: 20px;
+      color: currentColor;
+    }
+  }
+  .dropdownLabel {
+    @include fontM($formGrayRegular);
+    position: absolute;
+    width: 90%;
+    transform-origin: left;
+    transform: translate(20px, 10px);
+    transition: transform .2s ease-out;
+    cursor: pointer;
+    &:after {
+      content: "\e932";
+      font-family: "icon-pbs";
+      font-size: 24px;
+      position: absolute;
+      right: -10px;
+      color: currentColor;
+    }
+  }
+  .listBox {
+    padding: 30px;
+    background-color: $White;
+    box-shadow: 0px 40px 40px 0 rgba(35, 44, 53, 0.1);
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    position: absolute;
+    top: 60px;
+    cursor: pointer;
+    display: none;
+    z-index: 4;
+    max-height: 220px;
+    overflow-y: scroll;
+    left: 20px;
+    li {
+      @include fontM;
+      transition: color .1s ease-in-out;
+      &:hover {
+        color: $formPrimaryColor;
+      }
+    }
+    li + li {
+      margin-top: 10px;
+    }
+  }
+  span {
+    @include fontXS($formErrorColor);
+    position: absolute;
+    bottom: -2px;
+    right: 30px;
+    display: none;
+  }
+  &.listOpened {
+    .dropdownTitle {
+      border-color: $formPrimaryColor;
+    }
+    .dropdownLabel {
+      &:after {
+        transform: rotate(180deg);
+        color: $formGrayMedium;
+      }
+    }
+    .listBox {
+      //display: block;
+    }
+  }
+  &.filled {
+    .dropdownTitle {
+      border-color: $formGrayMedium;
+      cursor: pointer;
+      padding: 10px 20px;
+      &:after {
+        content: "\e932";
+      }
+    }
+    .dropdownLabel {
+      transform: translate(20px, -10px) scale(.8);
+      pointer-events: none;
+      cursor: default;
+      &:after {
+        display: none;
+      }
+    }
+  }
+  &.filled.dropdownOpened {
+    .dropdownTitle {
+      border-color: $formPrimaryColor;
+      &:after {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  &.error {
+    .dropdownTitle {
+      border-color: $formErrorColor;
+    }
+    .dropdownLabel {
+      color: $formErrorColor;
+    }
+    span {
+      display: block;
+    }
+  }
+  &.oneThird {
+    .dropdownLabel:after {
+      right: 10px;
+    }
+  }
+  @include mq(0, 768px) {
+    margin: 20px auto;
+    .dropdownTitle {
+      padding: 20px 10px;
+      &:after {
+        right: 20px;
+      }
+    }
+    .dropdownLabel {
+      transform: translate(20px,5px);
+      width: 92%;
+      &:after {
+        right: 10px;
+      }
+    }
+    .listBox {
+      padding: 30px;
+      box-shadow: 0px 50px 50px 0 rgba(35, 44, 53, 0.08);
+      width: calc(100% - 20px);
+      li + li {
+        margin-top: 5px;
+      }
+    }
+    &.filled {
+      .dropdownTitle {
+        padding: 10px 20px;
+      }
+      .dropdownLabel {
+        transform: translate(20px, -10px) scale(.8);
+      }
+    }
+  }
+  @include mq(0, 512px) {
+    .dropdownLabel {
+      transform: translate(10px, 5px);
+      &:after {
+        right: 0;
+      }
+    }
+    .dropdownTitle {
+      &:after {
+        right: 10px;
+      }
+    }
+    &.filled {
+      .dropdownTitle {
+        padding: 10px;
+      }
+      .dropdownLabel {
+        transform: translate(10px, -10px) scale(.8);
+      }
+    }
+  }
+}
+.autocompleteField {
+  .autocompleteTitle {
+    @include fontM($formGrayMedium);
+    border-bottom: 1px solid $formGrayRegular;
+    padding: 25px 20px;
+    &:after {
+      font-size: 24px;
+      font-family: "icon-pbs";
+      position: absolute;
+      right: 20px;
+      color: currentColor;
+    }
+  }
+  .autocompleteLabel {
+    width: 90%;
+    transform: translate(20px, -40px);
+  }
+  .listBox {
+    padding: 30px;
+    background-color: $White;
+    box-shadow: 0px 40px 40px 0 rgba(35, 44, 53, 0.1);
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    position: absolute;
+    top: 60px;
+    cursor: pointer;
+    display: none;
+    z-index: 4;
+    left: 20px;
+    max-height: 220px;
+    overflow-y: scroll;
+    li {
+      @include fontM;
+      transition: color .1s ease-in-out;
+      &:hover {
+        color: $formPrimaryColor;
+      }
+      .hl {
+        background-color: $formGrayLight;
+        font-style: normal;
+      }
+      &.notAnOption {
+        color: $formGrayRegular !important;
+        cursor: default;
+      }
+    }
+    li + li {
+      margin-top: 10px;
+    }
+    a {
+      text-decoration: none;
+      color: $formGrayMedium;
+      display: block;
+      transition: color .1s ease-in-out;
+      &:hover {
+        color: $formPrimaryColor;
+      }
+    }
+  }
+  &.listOpened {
+    .autocompleteInput {
+      border-color: $formPrimaryColor;
+    }
+    .autocompleteLabel {
+      &:after {
+        display: none;
+      }
+    }
+  }
+  &.filled {
+    .autocompleteTitle {
+      border-color: $formGrayMedium;
+      cursor: pointer;
+      padding: 10px 20px;
+      &:after {
+        content: "\e932";
+      }
+    }
+    .autocompleteLabel {
+      transform: translate(20px, -60px) scale(.8);
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+  &.filled.listOpened {
+    .autocompleteTitle {
+      border-color: $formPrimaryColor;
+      &:after {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  @include mq(0, 768px) {
+    margin: 20px auto;
+    .autocompleteTitle {
+      padding: 20px 10px;
+      &:after {
+        right: 10px;
+      }
+    }
+    .autocompleteLabel {
+      transform: translate(20px,-40px);
+      &:after {
+        right: 20px;
+      }
+    }
+    .listBox {
+      padding: 30px;
+      box-shadow: 0px 50px 50px 0 rgba(35, 44, 53, 0.08);
+      width: calc(100% - 20px);
+      max-height: 160px;
+      li + li {
+        margin-top: 5px;
+      }
+    }
+    &.filled {
+      .autocompleteTitle {
+        border-color: $formGrayMedium;
+        cursor: pointer;
+        padding: 10px;
+        &:after {
+          content: "\e932";
+        }
+      }
+      .autocompleteLabel {
+        transform: translate(20px, -60px) scale(.8);
+
+      }
+    }
+  }
+}
+.sliderField {
+  padding: 0 10px;
+  .sliderText {
+    @include fontM;
+    margin-top: 30px;
+  }
+  .noUi-target,
+  .noUi-target * {
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .noUi-target {
+    position: relative;
+    direction: ltr;
+  }
+  .noUi-base {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 107%;
+      height: 60px;
+      left: -10px;
+      top: -50px;
+      cursor: pointer;
+    }
+  }
+  .noUi-connect {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+  .noUi-origin {
+    position: absolute;
+    height: 0;
+    width: 0;
+  }
+  .noUi-handle {
+    position: relative;
+    z-index: 1;
+  }
+  .noUi-state-tap .noUi-connect,
+  .noUi-state-tap .noUi-origin {
+    -webkit-transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
+    transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
+  }
+  .noUi-state-drag * {
+    cursor: inherit !important;
+  }
+  /* Painting and performance;
+   * Browsers can paint handles in their own layer.
+   */
+  .noUi-base,
+  .noUi-handle {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    &:hover {
+      .noUi-handle {
+        transform: scale(1.1) translate3d(0, 0, 0);
+      }
+    }
+  }
+  /* Slider size and handle placement;
+   */
+  .noUi-horizontal {
+    height: 2px;
+  }
+  .noUi-handle {
+    width: 26px;
+    height: 26px;
+    left: -13px;
+    top: -12px;
+    transform-origin: center;
+    transition: all .2s ease-in-out;
+    &:focus {
+      box-shadow: 0px 0px 2px 3px rgba(72,92,238,.3);
+    }
+  }
+  /* Styling;
+   */
+  .noUi-target {
+    background: $formGrayLight;
+    margin-top: 80px;
+  }
+  .noUi-connect {
+    background: $formPrimaryColor;
+    border-radius: 4px;
+    box-shadow: inset 0 0 3px rgba(51, 51, 51, 0.45);
+    -webkit-transition: background 450ms;
+    transition: background 450ms;
+  }
+  /* Handles and cursors;
+   */
+  .noUi-draggable {
+    cursor: ew-resize;
+  }
+  .noUi-vertical .noUi-draggable {
+    cursor: ns-resize;
+  }
+  .noUi-handle {
+    border-radius: 50%;
+    background: $formPrimaryColor;
+    cursor: pointer;
+    outline-color: transparent;
+
+  }
+  /* Disabled state;
+   */
+   [disabled] .noUi-base:before {
+     cursor: not-allowed;
+   }
+  [disabled] .noUi-connect {
+    background: $formGrayLight;
+  }
+  [disabled].noUi-target,
+  [disabled].noUi-handle,
+  [disabled] .noUi-handle {
+    cursor: not-allowed;
+  }
+  [disabled] .noUi-handle {
+    background-color: $formGrayLight;
+  }
+  [disabled] .noUi-value-large,
+  [disabled] .noUi-value-sub {
+    color: $formGrayLight;
+    &.fill,
+    &.current {
+      color: $formGrayRegular !important;
+    }
+  }
+  .noUi-pips {
+    position: absolute;
+  }
+  .noUi-value {
+    position: absolute;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .noUi-value-large,
+  .noUi-value-sub {
+    @include fontS;
+    &.fill,
+    &.current {
+      color: $formPrimaryColor;
+    }
+  }
+  .noUi-marker {
+    display: none;
+  }
+  .noUi-pips-horizontal {
+    padding: 10px 0;
+    height: 40px;
+    top: -70px;
+    left: 0;
+    width: 100%;
+  }
+  .noUi-value-horizontal {
+    -webkit-transform: translate3d(-50%, 50%, 0);
+    transform: translate3d(-50%, 50%, 0);
+  }
+}
+.buttonField {
+  text-align: center;
+  margin: 60px auto;
+  max-width: 300px;
+  width: 100%;
+  .btn {
+    vertical-align: middle;
+    margin: 0 auto;
+  }
+  .btn + .btn {
+    //margin-top: 20px;
+  }
+  @include mq(0,768px) {
+    margin-bottom: 20px;
+  }
+}
+.hiddenField {
+  display: none;
+}
+.optionsField {
+  li {
+    border-bottom: 2px solid $formGrayLight;
+    padding: 0 20px;
+    color: $formGrayMedium;
+    &:first-of-type {
+      border-top: 2px solid $formGrayLight;
+    }
+    a {
+      @include fontM(currentColor);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      font-weight: $Bold;
+      line-height: 80px;
+    }
+    i {
+      display: block;
+      font-size: 26px;
+    }
+    &:hover {
+      color: $formPrimaryColor;
+    }
+    &.disabled {
+      color: $formGrayLight;
+      a {
+        cursor: default;
+      }
+    }
+  }
+  @include mq(0,768px) {
+    li {
+      padding: 0 10px;
+      a {
+        line-height: 60px;
+      }
+    }
+  }
+}
+.stampsField {
+  ul {
+    margin-top: 30px;
+    vertical-align: top;
+    border: 2px dotted $GrayRegular;
+    padding: 10px;
+    text-align: left;
+    max-width: 285px;
+    display: inline-block;
+    li {
+      position: relative;
+      line-height: 0;
+      max-width: 81px;
+      display: inline-block;
+      &:last-child {
+          > * {
+            padding-right: 0;
+          }
+      }
+      a {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 81px;
+        padding-right: 5%;
+      }
+      img {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 81px;
+        padding-right: 5%;
+        @include mq(0, 768px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+.notificationBar {
+  display: block;
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 40px 50px;
+  transition: transform .2s ease-out;
+  transform: translateY(100%);
+  .wrapper {
+    position: relative;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .messageText {
+    @include fontS($White);
+    padding-right: 30px;
+    display: inline-block;
+    a {
+      color: $White;
+    }
+  }
+  .link {
+    @include fontS($White);
+    &:after {
+      background-color: $White;
+    }
+  }
+  i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    color: $White;
+    transform: translateY(-50%);
+  }
+  &.success {
+    background-color: $formSuccessColor;
+  }
+  &.error {
+    background-color: $formErrorColor;
+  }
+  &.warning {
+    background-color: $formWarningColor;
+  }
+  &.info {
+    background-color: $formInfoColor;
+  }
+  &.functional {
+    background-color: $formFunctionalColor;
+  }
+  &.show {
+    transform: translateY(0);
+  }
+  @include mq(0, 768px) {
+    padding: 20px 10px;
+    i {
+      right: 10px;
+    }
+  }
+}

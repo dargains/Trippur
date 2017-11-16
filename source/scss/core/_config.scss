@@ -1,0 +1,92 @@
+/*Config File*/
+/*Fonts*/
+@font-face {
+  font-family: 'Mirador-Bold';
+  src: url('fonts/33E68F_0_0.eot');
+  src: url('fonts/33E68F_0_0.eot?#iefix') format('embedded-opentype'),url('fonts/33E68F_0_0.woff2') format('woff2'),url('fonts/33E68F_0_0.woff') format('woff'),url('fonts/33E68F_0_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Mirador-Light';
+  src: url('fonts/33E68F_1_0.eot');
+  src: url('fonts/33E68F_1_0.eot?#iefix') format('embedded-opentype'),url('fonts/33E68F_1_0.woff2') format('woff2'),url('fonts/33E68F_1_0.woff') format('woff'),url('fonts/33E68F_1_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Mirador-Medium';
+  src: url('fonts/33E3FD_0_0.eot');
+  src: url('fonts/33E3FD_0_0.eot?#iefix') format('embedded-opentype'),url('fonts/33E3FD_0_0.woff2') format('woff2'),url('fonts/33E3FD_0_0.woff') format('woff'),url('fonts/33E3FD_0_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Mirador-MediumItalic';
+  src: url('fonts/33E3FD_1_0.eot');
+  src: url('fonts/33E3FD_1_0.eot?#iefix') format('embedded-opentype'),url('fonts/33E3FD_1_0.woff2') format('woff2'),url('fonts/33E3FD_1_0.woff') format('woff'),url('fonts/33E3FD_1_0.ttf') format('truetype');
+}
+$MiradorMedium: "Mirador-Medium";
+$MiradorMediumItalic: "Mirador-MediumItalic";
+$MiradorLight: "Mirador-Light";
+$MiradorBold: "Mirador-Bold";
+$Roboto: "Roboto";
+/*Font Weights*/
+$Bold: 700;
+$Medium: 500;
+$Regular: 400;
+$Light: 300;
+/* Color palette */
+$Blue: #192aea;
+$BlueThin: #6d85f4;
+$BlueLight: #485cee;
+$PBS: #1862f9;
+$Black: #111820;
+$White: #ffffff;
+$GrayThin: #f8f8fd;
+$GrayLight: #e8e9f3;
+$GrayRegular: #969da2;
+$GrayMedium: #5c6166;
+$GrayBold: #363d46;
+$Magellan: #00defa;
+$Executive: #a577ed;
+$Crimson: #ef5350;
+$Canary: #ffc947;
+$Honey: #f1be43;
+$Spring: #00e676;
+$Surf: #00b8bc;
+$Pumpkin: #ff9140;
+$Orchid: #ca65ef;
+$Lime: #28ca80;
+/* Text colors*/
+$colorList: (
+  Blue: $Blue,
+  BlueThin: $BlueThin,
+  BlueLight: $BlueLight,
+  Black: $Black,
+  White: $White,
+  GrayThin: $GrayThin,
+  GrayLight: $GrayLight,
+  GrayRegular: $GrayRegular,
+  GrayMedium: $GrayMedium,
+  GrayBold: $GrayBold,
+  PBS: $PBS,
+  Magellan: $Magellan,
+  Executive: $Executive,
+  Marketing: $Crimson,
+  People: $Canary,
+  General: $Spring,
+  Operations: $GrayRegular,
+  Innovation: $Surf,
+  Industry: $Pumpkin,
+  Finance: $Orchid
+);
+@each $index, $value in $colorList {
+  &[data-color="#{$index}"] {
+    color: $value !important;
+  }
+}
+@each $index, $value in $colorList {
+  &[data-background="#{$index}"] {
+    background: $value !important;
+  }
+}
+@each $index, $value in $colorList {
+  &[data-backgroundGradient="#{$index}"] {
+    background-image: linear-gradient(110deg, $value, $Blue), linear-gradient($value, $Blue);
+  }
+}

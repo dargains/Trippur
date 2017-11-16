@@ -1,0 +1,97 @@
+$formWhite: $White;
+$formGrayLight: $GrayLight;
+$formGrayRegular: $GrayRegular;
+$formGrayMedium: $GrayMedium;
+$formGrayBold: $GrayBold;
+$formPrimaryColor: $BlueLight;
+$formSuccessColor: $Lime;
+$formErrorColor: $Crimson;
+$formWarningColor: $Honey;
+$formInfoColor: $Blue;
+$formFunctionalColor: $Blue;
+
+$MiradorMedium: "Mirador-Medium";
+$MiradorMediumItalic: "Mirador-MediumItalic";
+$MiradorLight: "Mirador-Light";
+$MiradorBold: "Mirador-Bold";
+
+$primaryFont: "";
+$secondaryFont: "Roboto";
+
+$bold: 700;
+$medium: 500;
+$regular: 400;
+$light: 300;
+
+@mixin fontGiant($color:$formGrayBold) {
+  font-family: $MiradorBold;
+  font-size: 60px;
+  line-height: 72px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 40px;
+    line-height: 44px;
+  }
+}
+@mixin fontXXL($color:$formPrimaryColor) {
+  font-family: $MiradorBold;
+  font-size: 36px;
+  line-height: 43px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+@mixin fontXL($color:$formGrayBold) {
+  font-family: $secondaryFont;
+  font-weight: $medium;
+  font-size: 30px;
+  line-height: 40px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+@mixin fontL($color:$formGrayBold) {
+  font-family: $secondaryFont;
+  font-weight: $light;
+  font-size: 24px;
+  line-height: 32px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+@mixin fontM($color:$formGrayMedium) {
+  font-family: $secondaryFont;
+  font-weight: $regular;
+  font-size: 18px;
+  line-height: 28px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+@mixin fontS($color:$formGrayMedium) {
+  font-family: $secondaryFont;
+  font-weight: $regular;
+  font-size: 14px;
+  line-height: 20px;
+  color: $color;
+}
+@mixin fontXS($color:$formGrayMedium) {
+  font-family: $secondaryFont;
+  font-weight: $regular;
+  font-size: 12px;
+  line-height: 20px;
+  color: $color;
+}
+@mixin mq($smallerValue,$biggerValue) {
+  @media (min-width: #{$smallerValue}) and (max-width: $biggerValue) {
+    @content;
+  }
+}

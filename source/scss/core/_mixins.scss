@@ -1,0 +1,99 @@
+//MQ
+@mixin mq($smallerValue,$biggerValue) {
+  @media (min-width: #{$smallerValue}) and (max-width: $biggerValue) {
+    @content;
+  }
+}
+
+/*Fonts*/
+@mixin fontFix {
+  font-style: normal;
+  text-rendering: optimizeLegibility;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@mixin fontGiant($color:$GrayBold) {
+  @include fontFix;
+  font-family: $MiradorBold;
+  font-size: 60px;
+  line-height: 72px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 40px;
+    line-height: 44px;
+  }
+}
+@mixin fontXXL($color:$BlueLight) {
+  @include fontFix;
+  font-family: $MiradorBold;
+  font-size: 36px;
+  line-height: 43px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+@mixin fontXL($color:$GrayBold) {
+  @include fontFix;
+  font-family: $Roboto;
+  font-weight: $Medium;
+  font-size: 30px;
+  line-height: 40px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+@mixin fontL($color:$GrayBold) {
+  @include fontFix;
+  font-family: $Roboto;
+  font-weight: $Light;
+  font-size: 24px;
+  line-height: 32px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+@mixin fontM($color:$GrayMedium) {
+  @include fontFix;
+  font-family: $Roboto;
+  font-weight: $Regular;
+  font-size: 18px;
+  line-height: 28px;
+  color: $color;
+  @include mq(0, 768px) {
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+@mixin fontS($color:$GrayMedium) {
+  @include fontFix;
+  font-family: $Roboto;
+  font-weight: $Regular;
+  font-size: 14px;
+  line-height: 20px;
+  color: $color;
+}
+@mixin fontXS($color:$GrayMedium) {
+  @include fontFix;
+  font-family: $Roboto;
+  font-weight: $Regular;
+  font-size: 12px;
+  line-height: 20px;
+  color: $color;
+}
+
+//Elements counter
+@mixin space-out($min, $max) {
+  @for $i from $min through $max {
+    &:first-child:nth-last-child(#{$i}),
+    &:first-child:nth-last-child(#{$i}) ~ * {
+      width:1 / $i * 100%;
+    }
+  }
+}
