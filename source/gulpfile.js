@@ -8,7 +8,6 @@ var gulp = require('gulp'),
     browser = require('browser-sync'),
     partials = require('gulp-inject-partials'),
     autoprefixer = require('gulp-autoprefixer'),
-    webpack = require('gulp-webpack'),
     index = require('gulp-index');
 
 gulp.task('sass', function () {
