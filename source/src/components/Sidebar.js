@@ -12,23 +12,33 @@ import {
 } from 'material-ui/Form';
 import "react-input-range/lib/css/index.css";
 
+function pad(n) {
+  return (n < 10) ? ("0" + n) : n;
+}
 
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: {
-        min: 2,
-        max: 10
+      price: {
+        min: 150,
+        max: 300
+      },
+      inbound: {
+        min: 800,
+        max: 1200
+      },
+      outbound: {
+        min: 500,
+        max: 700
       },
       nonStop: true,
       oneStop: false,
       twoStops: true,
+      economy: false,
+      business: true,
+      firstClass: true,
     };
-  }
-  handleRange(value) {
-    this.setState({ value })
-    console.log(value)
   }
   handleChange = name => (event, checked) => {
     this.setState({ [name]: checked });
@@ -36,51 +46,111 @@ class Sidebar extends React.Component {
   render() {
     return (
       <aside className="sideBar">
-        <p className="categoryTitle">Price</p>
-        <InputRange
-          maxValue={20}
-          minValue={0}
-          formatLabel={value => value}
-          value={this.state.value}
-          onChange={this.handleRange.bind(this)}
-          onChangeComplete={value => console.log(value)} />
-          <p>cenas</p>
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Price</FormLabel>
+            <InputRange
+              maxValue={500}
+              minValue={100}
+              formatLabel={value => `${value}€`}
+              value={this.state.price}
+              onChange={price => this.setState({ price })}
+              onChangeComplete={value => console.log(value)} />
+        </FormControl>
+        <hr />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Stops</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.nonStop}
+                  onChange={this.handleChange('nonStop')}
+                  value="nonStop"
+                />
+              }
+              label="No stops"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.oneStop}
+                  onChange={this.handleChange('oneStop')}
+                  value="oneStop"
+                />
+              }
+              label="One stop"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.twoStops}
+                  onChange={this.handleChange('twoStops')}
+                  value="twoStops"
+                />
+              }
+              label="Two stops"
+            />
+          </FormGroup>
+        </FormControl>
+        <hr />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Times</FormLabel>
+            <p className="flightLegend">Inbound - <span>LIS</span></p>
+            <InputRange
+              maxValue={1440}
+              minValue={0}
+              formatLabel={value => `${pad(Math.floor(value/60))}:${pad(value%60)}`}
+              value={this.state.inbound}
+              onChange={inbound => this.setState({ inbound })}
+              onChangeComplete={value => console.log(value)} />
+            <p className="flightLegend">Outbound - <span>LON</span></p>
+            <InputRange
+              maxValue={1440}
+              minValue={0}
+              formatLabel={value => `${pad(Math.floor(value/60))}:${pad(value%60)}`}
+              value={this.state.outbound}
+              onChange={outbound => this.setState({ outbound })}
+              onChangeComplete={value => console.log(value)} />
+          </FormControl>
           <hr />
           <FormControl component="fieldset">
-            <FormLabel component="legend">Stops</FormLabel>
+            <FormLabel component="legend">Cabin</FormLabel>
             <FormGroup>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.state.nonStop}
-                    onChange={this.handleChange('nonStop')}
-                    value="nonStop"
+                    checked={this.state.economy}
+                    onChange={this.handleChange('economy')}
+                    value="economy"
                   />
                 }
-                label="No stops"
+                label="Economy"
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.state.oneStop}
-                    onChange={this.handleChange('oneStop')}
-                    value="oneStop"
+                    checked={this.state.business}
+                    onChange={this.handleChange('business')}
+                    value="business"
                   />
                 }
-                label="One stop"
+                label="Business"
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.state.twoStops}
-                    onChange={this.handleChange('twoStops')}
-                    value="twoStops"
+                    checked={this.state.firstClass}
+                    onChange={this.handleChange('firstClass')}
+                    value="firstClass"
                   />
                 }
-                label="Two stops"
+                label="First Class"
               />
             </FormGroup>
-            <FormHelperText>Be careful</FormHelperText>
+          </FormControl>
+          <hr />
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Airlines</FormLabel>
           </FormControl>
       </aside>
     );

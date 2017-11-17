@@ -32,8 +32,10 @@ class App extends React.Component {
           </Button>
         </header>
         <main>
-          <Sidebar />
-          <ResultsList />
+          <div className="wrapper">
+            <Sidebar />
+            <ResultsList />
+          </div>
         </main>
       </div>
     );

@@ -1,12 +1,45 @@
 .sideBar {
-  width: 500px;
+  width: 400px;
+  margin: 20px auto;
   margin-right: 20px;
   box-shadow: 5px 5px 10px rgba(0,0,0,.2);
   display: inline-block;
   vertical-align: top;
-  padding: 40px 20px;
+  padding: 20px;
+  fieldset {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 20px;
+  }
   legend {
     font-weight: bold;
     text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .input-range {
+    margin: 30px auto 40px;
+  }
+  hr {
+    border-style: none;
+    height: 1px;
+    background-color: lightgray;
+  }
+  .flightLegend {
+    font-family: Roboto;
+    text-transform: uppercase;
+    color: #222;
+    font-size: .9em;
+    span {
+      color: orange;
+    }
+  }
+  .input-range {
+    &__slider {
+      background-color: orange;
+      border-color: goldenrod;
+    }
+    &__track--active {
+      background-color: orange;
+    }
   }
 }
