@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     wrap = require('gulp-wrap'),
     sass = require('gulp-sass'),
+    sassGlob = require('gulp-sass-glob'),
     uglify = require('gulp-uglify'),
     babel = require('gulp-babel'),
     rename = require('gulp-rename'),
@@ -12,6 +13,7 @@ var gulp = require('gulp'),
 
 gulp.task('sass', function () {
   return gulp.src('scss/*.scss')
+    .pipe(sassGlob())
     .pipe(sass().on('error', sass.logError))
     .pipe(cssnano())
     .pipe(autoprefixer({ gulpbrowsers: ['last 2 versions'] }))

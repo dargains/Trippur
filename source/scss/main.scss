@@ -1,10 +1,4 @@
 /* Generic imports */
-@import 'core/reset';
-@import 'core/config';
-@import 'core/mixins';
-@import 'core/icon-font';
-@import 'core/skeleton';
-@import 'core/components';
-@import 'core/formFields';
+@import "core/*.scss";
 /* Module imports */
-@import '../modules/ModuleA/ModuleA.scss';
+@import "../modules/*/*.scss";
