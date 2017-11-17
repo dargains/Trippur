@@ -22,7 +22,7 @@
   hr {
     border-style: none;
     height: 1px;
-    background-color: lightgray;
+    background-color: $GrayLight;
   }
   .flightLegend {
     font-family: Roboto;
@@ -30,16 +30,16 @@
     color: #222;
     font-size: .9em;
     span {
-      color: orange;
+      color: $PrimaryColor;
     }
   }
   .input-range {
     &__slider {
-      background-color: orange;
-      border-color: goldenrod;
+      background-color: $PrimaryColor;
+      border-color: $PrimaryColorDark;
     }
     &__track--active {
-      background-color: orange;
+      background-color: $PrimaryColor;
     }
   }
 }

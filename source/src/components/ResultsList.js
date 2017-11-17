@@ -1,7 +1,6 @@
 import React from 'react';
 import FlightItem from './FlightItem';
 import HotelItem from './HotelItem';
-import "../css/ResultsList.css";
 
 class ResultsList extends React.Component {
   constructor(props) {

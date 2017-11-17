@@ -1,8 +1,8 @@
 import React from 'react';
-import "../css/Sidebar.css";
 
 import InputRange from 'react-input-range';
 import Checkbox from 'material-ui/Checkbox';
+import { withStyles } from 'material-ui/styles';
 import {
   FormLabel,
   FormControl,
@@ -15,6 +15,12 @@ import "react-input-range/lib/css/index.css";
 function pad(n) {
   return (n < 10) ? ("0" + n) : n;
 }
+
+const styles = {
+  checked: {
+    color: "#FF5722",
+  },
+};
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -44,6 +50,7 @@ class Sidebar extends React.Component {
     this.setState({ [name]: checked });
   };
   render() {
+    const { classes } = this.props;
     return (
       <aside className="sideBar">
         <FormControl component="fieldset">
@@ -66,6 +73,9 @@ class Sidebar extends React.Component {
                   checked={this.state.nonStop}
                   onChange={this.handleChange('nonStop')}
                   value="nonStop"
+                  classes={{
+                    checked: classes.checked,
+                  }}
                 />
               }
               label="No stops"
@@ -76,6 +86,9 @@ class Sidebar extends React.Component {
                   checked={this.state.oneStop}
                   onChange={this.handleChange('oneStop')}
                   value="oneStop"
+                  classes={{
+                    checked: classes.checked,
+                  }}
                 />
               }
               label="One stop"
@@ -86,6 +99,9 @@ class Sidebar extends React.Component {
                   checked={this.state.twoStops}
                   onChange={this.handleChange('twoStops')}
                   value="twoStops"
+                  classes={{
+                    checked: classes.checked,
+                  }}
                 />
               }
               label="Two stops"
@@ -122,6 +138,9 @@ class Sidebar extends React.Component {
                     checked={this.state.economy}
                     onChange={this.handleChange('economy')}
                     value="economy"
+                    classes={{
+                      checked: classes.checked,
+                    }}
                   />
                 }
                 label="Economy"
@@ -132,6 +151,9 @@ class Sidebar extends React.Component {
                     checked={this.state.business}
                     onChange={this.handleChange('business')}
                     value="business"
+                    classes={{
+                      checked: classes.checked,
+                    }}
                   />
                 }
                 label="Business"
@@ -142,6 +164,9 @@ class Sidebar extends React.Component {
                     checked={this.state.firstClass}
                     onChange={this.handleChange('firstClass')}
                     value="firstClass"
+                    classes={{
+                      checked: classes.checked,
+                    }}
                   />
                 }
                 label="First Class"
@@ -157,4 +182,5 @@ class Sidebar extends React.Component {
   }
 }
 
-export default Sidebar;
+//export default Sidebar;
+export default withStyles(styles)(Sidebar);
