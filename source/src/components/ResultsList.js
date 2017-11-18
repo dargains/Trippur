@@ -37,13 +37,17 @@ class ResultsList extends React.Component {
     };
   }
   render() {
-    const flightItems = this.state.flightsResponse.trips.map(trip => {
-      <FlightItem {...trip}/>
-    })
+    const flightItems = this.state.flightsResponse.trips.map((trip, index) =>
+      <FlightItem key={index} {...trip}/>
+    );
+    console.log(this.props)
+    const hotelItems = this.props.locations.map((trip, index) =>
+      <HotelItem key={index} {...trip}/>
+    );
     return (
       <section className="resultsList">
         {flightItems}
-        <HotelItem name="HotelItem"/>
+        {hotelItems}
       </section>
     );
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from "axios";
 
 import Sidebar from "./components/Sidebar";
 import ResultsList from "./components/ResultsList";
@@ -11,15 +12,28 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: {
-        min: 2,
-        max: 10
-      }
+      hotels: {},
+      flights: {}
     };
   }
-  handleRange(value) {
-    this.setState({ value })
-    console.log(value)
+  componentWillMount() {
+    var that = this;
+    Axios.get('http://api.wego.com/hotels/api/locations/search', {
+      params: {
+        key: "047fca814736a1a95010",
+        ts_code: "18109",
+        q: "lisbon",
+        lang: "EN",
+        currency_code: "USD"
+      },
+      crossdomain: true
+    })
+    .then(function (response) {
+      that.setState({hotels: response.data});
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
   render() {
     return (
@@ -31,12 +45,26 @@ class App extends React.Component {
             Primary
           </Button>
         </header>
-        <main>
-          <div className="wrapper">
-            <Sidebar />
-            <ResultsList />
-          </div>
-        </main>
+        <div>
+          {
+            Object.keys(this.state.flights).length !== 0 && (
+              <div className="wrapper">
+                <p>Found {this.state.flights.count} hotels</p>
+                <Sidebar {...this.state.flights}/>
+                <ResultsList {...this.state.flights}/>
+              </div>
+            )
+          }
+          {
+            Object.keys(this.state.hotels).length !== 0 && (
+              <div className="wrapper">
+                <p>Found {this.state.hotels.count} hotels</p>
+                <Sidebar {...this.state.hotels}/>
+                <ResultsList {...this.state.hotels}/>
+              </div>
+            )
+          }
+        </div>
       </div>
     );
   }
