@@ -1,0 +1,85 @@
+.hero {
+    height: 100%;
+    width:100%;
+    overflow: hidden;
+    background-position: center center;
+    background-size:cover;
+    .wrapper {
+        top:50%;
+        transform: translateY(-50%);
+        text-align: center;
+        h1 {
+            color: #FFF;
+            font-size: 50px;
+            font-family: $Roboto;
+            text-shadow:2px 2px 2px rgba(0, 0, 0, 0.5);
+            font-weight: $Light;
+            strong {
+                font-weight: $Bold;
+            }
+        }
+        .booking-mask {
+            background-color:rgba(0, 0, 0, 0.5);
+            padding: 20px 40px;
+            text-align: left;
+            margin-top: 30px;
+        }
+    }
+}
+
+
+
+.btn {
+    font-size: 12px;
+    font-family: $Roboto;
+    text-transform: uppercase;
+    line-height: 45px;
+    border:1px solid $PrimaryColor;
+    color: $PrimaryColor;
+    background: transparent;
+    display: inline-block;
+    min-width: 180px;
+    padding:0 20px;
+    text-decoration: none;
+    text-align: center;
+    position:relative;
+    border-radius:5px;
+    span {
+        position: relative;
+        z-index: 2;
+    }
+    &:before {
+        width:0;
+        position:absolute;
+        left:0;
+        top:0;
+        background: transparent;
+        content:'';
+        transition: all 0.2s ease-in;
+        display: block;
+        height: 100%;
+    }
+    &:after {
+        width:0;
+        position:absolute;
+        right:0;
+        top:0;
+        background: transparent;
+        content:'';
+        transition: all 0.2s ease-in;
+        display: block;
+        height: 100%;
+    }
+    &:hover {
+        color:#FFF;
+        transition: all 0.2s ease-in;
+        &:before {
+            width: 50%;
+            background: $PrimaryColor;
+        }
+        &:after {
+            width: 50%;
+            background: $PrimaryColor;
+        }
+    }
+}
