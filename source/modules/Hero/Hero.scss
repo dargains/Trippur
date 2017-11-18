@@ -44,6 +44,10 @@
     text-align: center;
     position:relative;
     border-radius:5px;
+    &.alternative {
+        border-color:#FFF;
+        color:#FFF;
+    }
     span {
         position: relative;
         z-index: 2;

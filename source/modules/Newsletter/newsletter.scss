@@ -1,0 +1,59 @@
+.newsletter {
+    width: 100%;
+    padding:40px 0;
+    background-image: linear-gradient(110deg, $PrimaryColor 0%, $PrimaryColorDark 100%);
+    text-align: center;
+    @include mq(0, 620px) {
+        .btn {
+            margin-top: 10px;
+            min-width: 120px;
+        }
+    }
+    .wrapper {
+        h4 {
+            font-family: $Roboto;
+            font-size: 20px;
+            color:#FFF;
+            display: block;
+            text-align: center;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        input {
+            background: #f09378;
+            color: #FFF;
+            font-family: $Roboto;
+            font-weight: $light;
+            border:none;
+            font-size: 12px;
+            line-height: 45px;
+            max-width: 390px;
+            width: 100%;
+            text-align: center;
+        }
+        p {
+            color: #FFF;
+            font-size: 11px;
+            font-family: $Roboto;
+            display: block;
+            margin-top: 10px;
+        }
+    }
+    ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #FFFFFF;
+      }
+      ::-moz-placeholder { /* Firefox 19+ */
+        color: #FFFFFF;
+      }
+      :-ms-input-placeholder { /* IE 10+ */
+        color: #FFFFFF;
+      }
+      :-moz-placeholder { /* Firefox 18- */
+        color: #FFFFFF;
+      }
+      :focus {
+        outline-color: transparent;
+        outline-style: none;
+      }
+}
+
