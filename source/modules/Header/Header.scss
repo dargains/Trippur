@@ -1,0 +1,60 @@
+header {
+    padding:20px;
+    background: #F7F7F7;
+    width: 100%;
+    text-align: right;
+    position:relative;
+    z-index: 10;
+    .trippur {
+        width: 105px;
+        height:23px;
+        display: inline-block;
+        overflow: hidden;
+        text-indent: -9999px;
+        position: absolute;
+        left:15px;
+        top:15px;
+        &:before {
+            content:url(/images/trippur-logo-orange.png);
+        }
+    }
+    &[data-position="fixed"]{
+        position:fixed;
+    }
+    &[data-position="absolute"]{
+        position:absolute;
+    }
+    &[data-theme="white"]{
+        background: none;
+        .trippur {
+            &:before {
+                content:url(/images/trippur-logo-white.png);
+            }
+        }
+        nav {
+            ul {
+                li {
+                    a {
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+    nav {
+        display: inline-block;
+        text-align: right;
+        ul {
+            li {
+                display: inline-block;
+                margin-right: 15px;
+                a {
+                    color: $PrimaryColor;
+                    text-decoration: none;
+                    font-family: $Roboto;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

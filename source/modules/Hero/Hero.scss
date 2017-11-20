@@ -2,8 +2,23 @@
     height: 100%;
     width:100%;
     overflow: hidden;
-    background-position: center center;
-    background-size:cover;
+    position:relative;
+    &:hover {
+        .inner-hero {
+            transform: scale(1.2);
+        }
+    }
+    .inner-hero {
+        width: 100%;
+        height:100%;
+        position: absolute;
+        left:0;
+        top:0;
+        background-position: center center;
+        background-size:cover;
+        transition:all 20s ease-out;
+        
+    }
     .wrapper {
         top:50%;
         transform: translateY(-50%);
@@ -17,12 +32,32 @@
             strong {
                 font-weight: $Bold;
             }
+            @include mq(0,600px){
+                font-size: 30px;
+            }
+            @include mq(0,400px){
+                font-size: 25px;
+            }
         }
         .booking-mask {
             background-color:rgba(0, 0, 0, 0.5);
             padding: 20px 40px;
             text-align: left;
             margin-top: 30px;
+        }
+    }
+    .arrow-down {
+        position: absolute;
+        left:50%;
+        bottom:3%;
+        transform: translateX(-50%);
+        font-size: 30px;
+        color: #FFF;
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+        text-decoration: none;
+        transition:all 0.4s ease-in;
+        &:hover {
+            transform: translate(-50%, 15%);
         }
     }
 }
@@ -44,6 +79,10 @@
     text-align: center;
     position:relative;
     border-radius:5px;
+    &.alternative {
+        border-color:#FFF;
+        color:#FFF;
+    }
     span {
         position: relative;
         z-index: 2;
