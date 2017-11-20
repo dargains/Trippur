@@ -4,9 +4,6 @@ import Axios from "axios";
 import Sidebar from "./components/Sidebar";
 import ResultsList from "./components/ResultsList";
 
-import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
-
 
 class App extends React.Component {
   constructor(props) {
@@ -40,10 +37,6 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Trippur</h1>
-          <Button raised color="primary">
-            <Icon color="accent">flight_land</Icon>
-            Primary
-          </Button>
         </header>
         <div>
           {
