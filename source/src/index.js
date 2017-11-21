@@ -1,24 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "./css/main.css";
+import "react-input-range/lib/css/index.css";
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-/*THEME*/
-import {orange, grey} from 'material-ui/colors';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-/*THEME*/
-
-const trippurTheme = createMuiTheme({
-  palette: {
-    primary: orange,
-    secondary:grey
-  }
-});
-
 ReactDOM.render(
-  <MuiThemeProvider theme={trippurTheme}>
-    <App />
-  </MuiThemeProvider>,
+  <App />,
   document.getElementById('root'));
 registerServiceWorker();

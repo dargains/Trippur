@@ -4,7 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently --kill-others \"react-scripts start\" \"gulp\"",
+    "reactStart": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

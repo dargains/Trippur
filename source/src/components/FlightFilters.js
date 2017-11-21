@@ -1,17 +1,10 @@
 import React from 'react';
 
 import InputRange from 'react-input-range';
-import "react-input-range/lib/css/index.css";
 
 function pad(n) {
   return (n < 10) ? ("0" + n) : n;
 }
-
-const styles = {
-  checked: {
-    color: "#FF5722",
-  },
-};
 
 class FlightFilters extends React.Component {
   constructor(props) {
@@ -29,22 +22,12 @@ class FlightFilters extends React.Component {
         min: 500,
         max: 700
       },
-      nonStop: true,
-      oneStop: false,
-      twoStops: true,
-      economy: false,
-      business: true,
-      firstClass: true,
     };
   }
-  handleChange = name => (event, checked) => {
-    this.setState({ [name]: checked });
-  };
   render() {
-    const { classes } = this.props;
     return (
       <div>
-        <div>
+        <article>
           <h2 className="sidebar__legend">Price</h2>
           <InputRange
             maxValue={500}
@@ -53,13 +36,25 @@ class FlightFilters extends React.Component {
             value={this.state.price}
             onChange={price => this.setState({ price })}
             onChangeComplete={value => console.log(value)} />
-        </div>
+        </article>
         <hr />
-        <div>
+        <article>
           <h2 className="sidebar__legend">Stops</h2>
-        </div>
+          <div className="checkField">
+            <input type="checkbox" name="stops" id="stop1" />
+            <label htmlFor="stop1">No stops</label>
+          </div>
+          <div className="checkField">
+            <input type="checkbox" name="stops" id="stop2" />
+            <label htmlFor="stop2">1 stop</label>
+          </div>
+          <div className="checkField">
+            <input type="checkbox" name="stops" id="stop3" />
+            <label htmlFor="stop3">+2 stops</label>
+          </div>
+        </article>
         <hr />
-        <div>
+        <article>
           <h2 className="sidebar__legend">Times</h2>
           <p className="flightLegend">Inbound - <span>LIS</span></p>
           <InputRange
@@ -77,16 +72,27 @@ class FlightFilters extends React.Component {
             value={this.state.outbound}
             onChange={outbound => this.setState({ outbound })}
             onChangeComplete={value => console.log(value)} />
-          </div>
+          </article>
           <hr />
-          <div>
+          <article>
             <h2 className="sidebar__legend">Cabin</h2>
-
-          </div>
+            <div className="checkField">
+              <input type="checkbox" name="cabin" id="cabin1" />
+              <label htmlFor="cabin1">Economy</label>
+            </div>
+            <div className="checkField half">
+              <input type="checkbox" name="cabin" id="cabin2" />
+              <label htmlFor="cabin2">Business</label>
+            </div>
+            <div className="checkField">
+              <input type="checkbox" name="cabin" id="cabin3" />
+              <label htmlFor="cabin3">First class</label>
+            </div>
+          </article>
           <hr />
-          <div>
+          <article>
             <h2 className="sidebar__legend">Airlines</h2>
-          </div>
+          </article>
       </div>
     );
   }

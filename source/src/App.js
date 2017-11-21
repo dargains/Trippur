@@ -14,6 +14,9 @@ class App extends React.Component {
     };
   }
   componentWillMount() {
+    this.getHotels();
+  }
+  getHotels() {
     var that = this;
     Axios.get('http://api.wego.com/hotels/api/locations/search', {
       params: {
@@ -40,7 +43,7 @@ class App extends React.Component {
         </header>
         <div>
           {
-            Object.keys(this.state.flights).length !== 0 && (
+            Object.keys(this.state.flights).length > 0 && (
               <div className="wrapper">
                 <p>Found {this.state.flights.count} hotels</p>
                 <Sidebar {...this.state.flights}/>
@@ -49,7 +52,7 @@ class App extends React.Component {
             )
           }
           {
-            Object.keys(this.state.hotels).length !== 0 && (
+            Object.keys(this.state.hotels).length > 0 && (
               <div className="wrapper">
                 <p>Found {this.state.hotels.count} hotels</p>
                 <Sidebar {...this.state.hotels}/>

@@ -2,27 +2,9 @@ import React from 'react';
 import FlightFilters from './FlightFilters';
 import HotelFilters from './HotelFilters';
 
-import InputRange from 'react-input-range';
-import Checkbox from 'material-ui/Checkbox';
-import { withStyles } from 'material-ui/styles';
-import {
-  FormLabel,
-  FormControl,
-  FormGroup,
-  FormControlLabel,
-  FormHelperText,
-} from 'material-ui/Form';
-import "react-input-range/lib/css/index.css";
-
 function pad(n) {
   return (n < 10) ? ("0" + n) : n;
 }
-
-const styles = {
-  checked: {
-    color: "#FF5722",
-  },
-};
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -54,7 +36,7 @@ class Sidebar extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <aside className="sideBar">
+      <aside className="sidebar">
         <FlightFilters />
       </aside>
     );
@@ -62,4 +44,4 @@ class Sidebar extends React.Component {
 }
 
 //export default Sidebar;
-export default withStyles(styles)(Sidebar);
+export default Sidebar;

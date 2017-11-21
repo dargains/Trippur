@@ -1,11 +1,12 @@
-.sideBar {
+.sidebar {
   width: 400px;
   margin: 20px auto;
   margin-right: 20px;
-  box-shadow: 5px 5px 10px rgba(0,0,0,.2);
+  box-shadow: 0px 0px 10px rgba(0,0,0,.2);
   display: inline-block;
   vertical-align: top;
   padding: 20px;
+  font-size: 1rem;
   fieldset {
     width: 100%;
     margin: 20px 0;
@@ -15,13 +16,15 @@
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 10px;
+    @include fontM;
   }
   .input-range {
-    margin: 30px auto 40px;
+    margin: 30px auto 50px;
   }
   hr {
     border-style: none;
     height: 1px;
+    margin: 20px 0;
     background-color: $GrayLight;
   }
   .flightLegend {
