@@ -10,24 +10,7 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      price: {
-        min: 150,
-        max: 300
-      },
-      inbound: {
-        min: 800,
-        max: 1200
-      },
-      outbound: {
-        min: 500,
-        max: 700
-      },
-      nonStop: true,
-      oneStop: false,
-      twoStops: true,
-      economy: false,
-      business: true,
-      firstClass: true,
+
     };
   }
   handleChange = name => (event, checked) => {
@@ -38,6 +21,7 @@ class Sidebar extends React.Component {
     return (
       <aside className="sidebar">
         <FlightFilters />
+        <HotelFilters />
       </aside>
     );
   }
