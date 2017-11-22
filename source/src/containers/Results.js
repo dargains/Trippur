@@ -1,15 +1,11 @@
 import React from 'react';
 import Axios from "axios";
-import api from "./api";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import api from "../api";
 
-import Home from "./containers/Home";
-import Results from "./containers/Results";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-// import Error404 from "./containers/Error404";
+import Sidebar from "../components/Sidebar";
+import ResultsList from "../components/ResultsList";
 
-class App extends React.Component {
+class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,19 +59,30 @@ class App extends React.Component {
   }
   render() {
     return (
-      <main>
-        <Header />
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/" render={() => <Home />} />
-            <Route path="/results" render={() => <Results />} />
-            {/* <Route component={Error404} /> */}
-          </Switch>
-        </BrowserRouter>
-        <Footer />
-      </main>
+      <div className="results">
+        <div>
+          {
+            Object.keys(this.state.flights).length > 0 && (
+              <div className="wrapper">
+                <p>Found {this.state.flights.count} flights</p>
+                <Sidebar {...this.state.flights}/>
+                <ResultsList {...this.state.flights}/>
+              </div>
+            )
+          }
+          {
+            Object.keys(this.state.hotels).length > 0 && (
+              <div className="wrapper">
+                <p>Found {this.state.hotels.count} hotels</p>
+                <Sidebar {...this.state.hotels}/>
+                <ResultsList {...this.state.hotels}/>
+              </div>
+            )
+          }
+        </div>
+      </div>
     );
   }
 }
 
-export default App;
+export default Results;
