@@ -7,7 +7,7 @@ import Home from "./containers/Home";
 import Results from "./containers/Results";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// import Error404 from "./containers/Error404";
+import Error404 from "./components/Error404";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class App extends React.Component {
   }
   getHotels() {
     var that = this;
-    Axios.get(api.getHotels, {
+    Axios.get(api.getLocations, {
       params: {
         q: "lisbon",
         lang: "EN",
@@ -64,12 +64,13 @@ class App extends React.Component {
   render() {
     return (
       <main>
-        <Header />
+        <Header theme="" position=""/>
+        {/* // NOTE: if home -> white, else nothing, absolute, else nothing */}
         <BrowserRouter>
           <Switch>
             <Route exact path="/" render={() => <Home />} />
-            <Route path="/results" render={() => <Results />} />
-            {/* <Route component={Error404} /> */}
+            <Route exact path="/results" render={() => <Results type="hotels"/>} />
+            <Route component={Error404} />
           </Switch>
         </BrowserRouter>
         <Footer />

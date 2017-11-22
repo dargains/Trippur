@@ -2,7 +2,11 @@ import React from 'react';
 
 const HotelItem = (props) => {
   return (
-    <p>{props.name}</p>
+    <article>
+      <p>{props.name}</p>
+      <p>{props.address}</p>
+      <p>{props.desc}</p>
+    </article>
   )
 }
 export default HotelItem;
