@@ -1,8 +1,8 @@
 import React from "react";
 
 export default(props) => (
-  <header data-theme="white" data-position="absolute">
-    <a to="/" className="trippur"></a>
+  <header data-theme={props.theme} data-position={props.position}>
+    <a href="/" className="trippur"></a>
     <nav>
       <ul>
         <li>
