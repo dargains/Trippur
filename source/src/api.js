@@ -19,7 +19,8 @@ const api = {
   getFlighs: config.baseUrl + config.flightEndpoints.search + config.flightEndpoints.clientInfo,
   getCurrency: config.baseUrl + config.flightEndpoints.currency + config.flightEndpoints.clientInfo,
   getFares: config.baseUrl + config.flightEndpoints.fares + config.flightEndpoints.clientInfo,
-  getHotels: config.baseUrl + config.hotelEndpoints.search + config.hotelEndpoints.clientInfo,
+  getLocations: config.baseUrl + config.hotelEndpoints.search + config.hotelEndpoints.clientInfo,
+  getHotels: config.baseUrl + config.hotelEndpoints.new + config.hotelEndpoints.clientInfo,
   getHotelId: config.baseUrl + config.hotelEndpoints.searchId + config.hotelEndpoints.clientInfo,
   redirectHotels: config.baseUrl + config.hotelEndpoints.redirect + config.hotelEndpoints.clientInfo
 }
