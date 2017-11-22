@@ -15,7 +15,7 @@
 }
 @mixin fontGiant($color:$GrayBold) {
   @include fontFix;
-  font-family: $MiradorBold;
+  font-family: $Roboto;
   font-size: 60px;
   line-height: 72px;
   color: $color;
@@ -24,9 +24,9 @@
     line-height: 44px;
   }
 }
-@mixin fontXXL($color:$BlueLight) {
+@mixin fontXXL($color:$GrayBold) {
   @include fontFix;
-  font-family: $MiradorBold;
+  font-family: $Roboto;
   font-size: 36px;
   line-height: 43px;
   color: $color;
