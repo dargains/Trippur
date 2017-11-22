@@ -15,7 +15,7 @@ header {
         left:15px;
         top:15px;
         &:before {
-            content:url(/images/trippur-logo-orange.png);
+            content:url(../images/trippur-logo-orange.png);
         }
     }
     &[data-position="fixed"]{
@@ -28,7 +28,7 @@ header {
         background: none;
         .trippur {
             &:before {
-                content:url(/images/trippur-logo-white.png);
+                content:url(../images/trippur-logo-white.png);
             }
         }
         nav {

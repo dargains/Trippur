@@ -2,7 +2,7 @@ import React from "react";
 
 export default(props) => (
   <footer>
-    <div class="wrapper">
+    <div className="wrapper">
       <ul>
         <li>
           <a href="#">About</a>
@@ -26,22 +26,22 @@ export default(props) => (
       <ul>
         <li>
           <a href="#">
-            <i class="icon-facebook"></i>
+            <i className="icon-facebook"></i>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="icon-instagram"></i>
+            <i className="icon-instagram"></i>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="icon-linkedin"></i>
+            <i className="icon-linkedin"></i>
           </a>
         </li>
         <li>
           <a href="#">
-            <i class="icon-twitter"></i>
+            <i className="icon-twitter"></i>
           </a>
         </li>
       </ul>

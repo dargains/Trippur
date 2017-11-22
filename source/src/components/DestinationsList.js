@@ -17,7 +17,7 @@ class DestinationsList extends React.Component {
     };
   }
   render() {
-    const destinations = this.state.destinations.map(destination => <Destination {...destination} />)
+    const destinations = this.state.destinations.map(destination => <Destination key={destination.caption} {...destination} />)
     return (
       <section className="destinations" data-margin-top="80" data-margin-bottom="80">
         <div className="wrapper">

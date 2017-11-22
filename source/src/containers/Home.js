@@ -20,7 +20,6 @@ class Home extends React.Component {
         <Hero />
         <DestinationsList />
         <Newsletter />
-        <Link to="/results">resultados</Link>
       </div>
     )
   }

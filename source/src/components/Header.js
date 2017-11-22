@@ -2,7 +2,7 @@ import React from "react";
 
 export default(props) => (
   <header data-theme="white" data-position="absolute">
-    <a href="#" class="trippur"></a>
+    <a to="/" className="trippur"></a>
     <nav>
       <ul>
         <li>

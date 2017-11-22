@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default(props) => (
   <section className="hero">
@@ -6,7 +7,7 @@ export default(props) => (
     <div className="wrapper">
       <h1><strong>Explore.</strong>Compare. Book.</h1>
       <div className="booking-mask">
-        Filter
+        <Link to="/results">results</Link>
       </div>
     </div>
     <a href="#" className="arrow-down">
