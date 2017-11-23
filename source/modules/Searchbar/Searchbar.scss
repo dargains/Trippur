@@ -1,0 +1,17 @@
+.searchbar {
+  &__types {
+    li {
+      display: inline-block;
+      @include fontM($White);
+      cursor: pointer;
+      transition: color .2s ease-in;
+      &:hover,
+      &.active {
+        color: $PrimaryColor;
+      }
+    }
+    li + li {
+      margin-left: 10px;
+    }
+  }
+}

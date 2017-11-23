@@ -17,7 +17,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <Hero />
+        <Hero changeType={this.props.changeType}/>
         <DestinationsList />
         <Newsletter />
       </div>

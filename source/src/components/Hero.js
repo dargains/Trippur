@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Searchbar from "./Searchbar";
 
 export default(props) => (
   <section className="hero">
@@ -7,7 +7,7 @@ export default(props) => (
     <div className="wrapper">
       <h1><strong>Explore.</strong>Compare. Book.</h1>
       <div className="booking-mask">
-        <Link to="/results">results</Link>
+        <Searchbar handleChangeType={props.changeType}/>
       </div>
     </div>
     <a href="#" className="arrow-down">

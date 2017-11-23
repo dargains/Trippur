@@ -14,29 +14,14 @@ class App extends React.Component {
     super(props);
     this.state = {
       hotels: {},
-      flights: {}
+      flights: {},
+      type: "flights"
     };
+    this.changeType = this.changeType.bind(this);
   }
   componentWillMount() {
-    this.getHotels();
+    //this.getHotels();
     //this.getFlights();
-  }
-  getHotels() {
-    var that = this;
-    Axios.get(api.getLocations, {
-      params: {
-        q: "lisbon",
-        lang: "EN",
-        currency_code: "USD"
-      },
-      crossdomain: true
-    })
-    .then(function (response) {
-      that.setState({hotels: response.data});
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
   }
   getFlights() {
     var that = this;
@@ -61,6 +46,9 @@ class App extends React.Component {
       console.log(error);
     });
   }
+  changeType(type) {
+    this.setState({type});
+  }
   render() {
     return (
       <main>
@@ -68,8 +56,8 @@ class App extends React.Component {
         {/* // NOTE: if home -> white, else nothing, absolute, else nothing */}
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" render={() => <Home />} />
-            <Route exact path="/results" render={() => <Results type="hotels"/>} />
+            <Route exact path="/" render={() => <Home changeType={this.changeType}/>} />
+            <Route exact path="/results" render={() => <Results type={this.state.type}/>} />
             <Route component={Error404} />
           </Switch>
         </BrowserRouter>
