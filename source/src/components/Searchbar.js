@@ -11,11 +11,14 @@ class Searchbar extends Component {
     super(props);
     this.state = {
       type: "flights",
+      chosenHotel:{},
+      chosenFlight:{},
       hotels: [],
       flights: []
     }
     this.onTypeChange = this.onTypeChange.bind(this);
     this.getHotels = this.getHotels.bind(this);
+    this.chooseHotel = this.chooseHotel.bind(this);
   }
   onTypeChange(event) {
     let type = event.target.dataset.type;
@@ -23,23 +26,23 @@ class Searchbar extends Component {
     this.setState({
       type,
       hotels:[],
+      chosenHotel:{},
+      chosenFlight:{},
       flights:[]
     });
   }
-  onHotelType() {
+  getInboundAirports() {
+
+  }
+  getOutboundAirports() {
 
   }
   getHotels(event) {
     var that = this;
-    let text = this.refs.hotelFrom.value;
-
-    if (cancel != undefined) {
-      cancel();
-    }
-
+    if (cancel != undefined) cancel();
     Axios.get(api.getLocations, {
       params: {
-        q: text,
+        q: that.refs.hotelFrom.value,
         lang: "EN",
         currency_code: "USD"
       },
@@ -55,8 +58,20 @@ class Searchbar extends Component {
       console.log(error);
     });
   }
+  chooseHotel(event) {
+    var that = this;
+    const hotel = event.target.dataset,
+          chosenHotel = {
+            id: hotel.hotelid,
+            country_name: hotel.countryname,
+            country_code: hotel.countrycode
+          };
+    this.setState({chosenHotel})
+
+  }
   render() {
-    const hotelFromList = this.state.hotels.length && this.state.hotels.map(hotel => <li>{hotel.name}</li>)
+    const that = this;
+    const hotelFromList = this.state.hotels.length && this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} onClick={that.chooseHotel}>{hotel.name}</li>)
     return (
       <div className="searchbar">
         <ul className="searchbar__types">
@@ -83,7 +98,7 @@ class Searchbar extends Component {
                </div>
                <input type="text" placeholder="insert datepicker" ref="hotelDate"/>
                <input type="text" placeholder="insert personpicker" ref="hotelPeople"/>
-               <Link to="/results" className="btn primary">
+               <Link to='/results' className="btn primary">
                  <span>Search</span>
                </Link>
              </div>
