@@ -14,4 +14,23 @@
       margin-left: 10px;
     }
   }
+  &__container {
+    display: inline-block;
+    position: relative;
+  }
+  &__results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    li {
+      background-color: $White;
+      @include fontS;
+      padding: 5px 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: $GrayLight;
+        color:$GrayBold;
+      }
+    }
+  }
 }

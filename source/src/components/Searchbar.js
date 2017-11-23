@@ -10,7 +10,9 @@ class Searchbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "flights"
+      type: "flights",
+      hotels: [],
+      flights: []
     }
     this.onTypeChange = this.onTypeChange.bind(this);
     this.getHotels = this.getHotels.bind(this);
@@ -18,7 +20,11 @@ class Searchbar extends Component {
   onTypeChange(event) {
     let type = event.target.dataset.type;
     this.props.handleChangeType(type)
-    this.setState({type},() => console.log(this.state.type));
+    this.setState({
+      type,
+      hotels:[],
+      flights:[]
+    });
   }
   onHotelType() {
 
@@ -38,19 +44,19 @@ class Searchbar extends Component {
         currency_code: "USD"
       },
       cancelToken: new CancelToken(function executor(c) {
-        // An executor function receives a cancel function as a parameter
         cancel = c;
       }),
       crossdomain: true
     })
     .then(function (response) {
-      that.setState({hotels: response.data},()=>console.log(that.state.hotels));
+      that.setState({hotels: response.data.locations});
     })
     .catch(function (error) {
       console.log(error);
     });
   }
   render() {
+    const hotelFromList = this.state.hotels.length && this.state.hotels.map(hotel => <li>{hotel.name}</li>)
     return (
       <div className="searchbar">
         <ul className="searchbar__types">
@@ -71,7 +77,10 @@ class Searchbar extends Component {
              </div>
            ) : (
              <div className="searchbar__filters">
-               <input type="text" placeholder="Where do you want to go?" onKeyUp={this.getHotels} ref="hotelFrom"/>
+               <div className="searchbar__container">
+                 <input type="text" placeholder="Where do you want to go?" onKeyUp={this.getHotels} ref="hotelFrom"/>
+                 <ul className="searchbar__results">{hotelFromList}</ul>
+               </div>
                <input type="text" placeholder="insert datepicker" ref="hotelDate"/>
                <input type="text" placeholder="insert personpicker" ref="hotelPeople"/>
                <Link to="/results" className="btn primary">
