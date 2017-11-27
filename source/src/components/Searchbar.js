@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import api from "../api";
 
+import Select from 'react-select';
+import '../css/select.css';
+
 var CancelToken = Axios.CancelToken;
 var cancel;
 
@@ -14,11 +17,14 @@ class Searchbar extends Component {
       chosenHotel:{},
       chosenFlight:{},
       hotels: [],
-      flights: []
+      flights: [],
+      selectedOption: '',
     }
     this.onTypeChange = this.onTypeChange.bind(this);
     this.getHotels = this.getHotels.bind(this);
     this.chooseHotel = this.chooseHotel.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   onTypeChange(event) {
     let type = event.target.dataset.type;
@@ -26,9 +32,12 @@ class Searchbar extends Component {
     this.setState({
       type,
       hotels:[],
+      flights:[],
       chosenHotel:{},
       chosenFlight:{},
-      flights:[]
+      arriveDate:"",
+      leaveDate:"",
+      people: 1
     });
   }
   getInboundAirports() {
@@ -66,8 +75,31 @@ class Searchbar extends Component {
             country_name: hotel.countryname,
             country_code: hotel.countrycode
           };
-    this.setState({chosenHotel})
+    this.setState({chosenHotel},()=> console.log(that.state.chosenHotel))
 
+  }
+  onSearch() {
+    const state = this.state;
+    const info = this.state.type === "flights"
+      ? {
+        flightFrom: state.chosenFlight.flightFrom,
+        flightTo: state.chosenFlight.flightTo,
+        arriveDate: state.arriveDate,
+        leaveDate:state.leaveDate,
+        people: state.people
+      }
+      : {
+        id: state.chosenHotel.id,
+        countryCode: state.chosenHotel.country_code,
+        countryName: state.chosenHotel.country_name,
+        arriveDate: state.arriveDate,
+        leaveDate:state.leaveDate,
+        people: state.people
+      }
+    this.props.sendData(info)
+  }
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
   }
   render() {
     const that = this;
@@ -86,7 +118,7 @@ class Searchbar extends Component {
                <input type="text" placeholder="Where to" ref="flightTo"/>
                <input type="text" placeholder="insert datepicker" ref="flightDate"/>
                <input type="text" placeholder="insert personpicker" ref="flightPeople"/>
-               <Link to="/results" className="btn primary">
+               <Link to="/results" className="btn primary" onClick={this.onSearch}>
                  <span>Search</span>
                </Link>
              </div>
@@ -95,10 +127,19 @@ class Searchbar extends Component {
                <div className="searchbar__container">
                  <input type="text" placeholder="Where do you want to go?" onKeyUp={this.getHotels} ref="hotelFrom"/>
                  <ul className="searchbar__results">{hotelFromList}</ul>
+                 <Select
+                   name="form-field-name"
+                   value={this.state.selectedOption}
+                   onChange={this.handleChange}
+                   options={[
+                     { value: 'one', label: 'One' },
+                     { value: 'two', label: 'Two' },
+                   ]}
+                 />
                </div>
                <input type="text" placeholder="insert datepicker" ref="hotelDate"/>
                <input type="text" placeholder="insert personpicker" ref="hotelPeople"/>
-               <Link to='/results' className="btn primary">
+               <Link to='/results' className="btn primary" onClick={this.onSearch}>
                  <span>Search</span>
                </Link>
              </div>

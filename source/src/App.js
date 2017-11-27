@@ -49,6 +49,10 @@ class App extends React.Component {
   changeType(type) {
     this.setState({type});
   }
+  getData(data){
+    console.log(data);
+    debugger
+  }
   render() {
     return (
       <main>
@@ -56,8 +60,8 @@ class App extends React.Component {
         {/* // NOTE: if home -> white, else nothing, absolute, else nothing */}
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" render={() => <Home changeType={this.changeType}/>} />
-            <Route exact path="/results" render={() => <Results type={this.state.type}/>} />
+            <Route exact path="/" render={() => <Home changeType={this.changeType} sendData={this.getData}/>} />
+            <Route exact path="/results" render={() => <Results type={this.state.type} query={this.state.query}/>} />
             <Route component={Error404} />
           </Switch>
         </BrowserRouter>
