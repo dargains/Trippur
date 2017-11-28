@@ -4,9 +4,6 @@ import Axios from "axios";
 import Sidebar from "./components/Sidebar";
 import ResultsList from "./components/ResultsList";
 
-import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
-
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +14,9 @@ class App extends React.Component {
     };
   }
   componentWillMount() {
+    this.getHotels();
+  }
+  getHotels() {
     var that = this;
     Axios.get('http://api.wego.com/hotels/api/locations/search', {
       params: {
@@ -40,14 +40,10 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Trippur</h1>
-          <Button raised color="primary">
-            <Icon color="accent">flight_land</Icon>
-            Primary
-          </Button>
         </header>
         <div>
           {
-            Object.keys(this.state.flights).length !== 0 && (
+            Object.keys(this.state.flights).length > 0 && (
               <div className="wrapper">
                 <p>Found {this.state.flights.count} hotels</p>
                 <Sidebar {...this.state.flights}/>
@@ -56,7 +52,7 @@ class App extends React.Component {
             )
           }
           {
-            Object.keys(this.state.hotels).length !== 0 && (
+            Object.keys(this.state.hotels).length > 0 && (
               <div className="wrapper">
                 <p>Found {this.state.hotels.count} hotels</p>
                 <Sidebar {...this.state.hotels}/>
