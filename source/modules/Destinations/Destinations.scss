@@ -34,7 +34,6 @@
           max-width: 30%;
           width: 100%;
           margin: 1.5%;
-
           figure {
             border: 20px solid #FFF;
             -webkit-box-shadow: 0 5px 25px -4px rgba(0,0,0,0.40);
@@ -42,7 +41,7 @@
             box-shadow: 0 5px 25px -4px rgba(0,0,0,0.40);
             position: relative;
             transition: all 0.3s ease-in;
-
+            border-radius: 5px;
             &:hover {
               //transform: scale(1.05);
               transform: translateY(-5px);

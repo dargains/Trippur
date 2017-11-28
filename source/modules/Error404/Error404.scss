@@ -1,0 +1,9 @@
+.error404 {
+  text-align: center;
+  h1 {
+    @include fontGiant;
+  }
+  h2 {
+    @include fontXXL;
+  }
+}

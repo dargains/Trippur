@@ -1,67 +1,72 @@
 import React from 'react';
 import Axios from "axios";
+import api from "./api";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-import Sidebar from "./components/Sidebar";
-import ResultsList from "./components/ResultsList";
-
+import Home from "./containers/Home";
+import Results from "./containers/Results";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Error404 from "./components/Error404";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       hotels: {},
-      flights: {}
+      flights: {},
+      type: "flights"
     };
+    this.changeType = this.changeType.bind(this);
   }
   componentWillMount() {
-    this.getHotels();
+    //this.getHotels();
+    //this.getFlights();
   }
-  getHotels() {
+  getFlights() {
     var that = this;
-    Axios.get('http://api.wego.com/hotels/api/locations/search', {
-      params: {
-        key: "047fca814736a1a95010",
-        ts_code: "18109",
-        q: "lisbon",
-        lang: "EN",
-        currency_code: "USD"
-      },
-      crossdomain: true
+    Axios({
+      method: "post",
+      url: api.getFlights,
+      data: {
+        "trips": [{
+          "departure_code": "RGN",
+          "arrival_code": "NYU",
+          "outbound_date": "2017-12-04"
+        }],
+        "adults_count": 1,
+        "user_country_code": "PT",
+        "country_site_code": "pt"
+      }
     })
     .then(function (response) {
-      that.setState({hotels: response.data});
+      that.setState({flights: response.data});
     })
     .catch(function (error) {
       console.log(error);
     });
   }
+  changeType(type) {
+    this.setState({type});
+  }
+  getData(data){
+    console.log(data);
+    debugger
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Trippur</h1>
-        </header>
-        <div>
-          {
-            Object.keys(this.state.flights).length > 0 && (
-              <div className="wrapper">
-                <p>Found {this.state.flights.count} hotels</p>
-                <Sidebar {...this.state.flights}/>
-                <ResultsList {...this.state.flights}/>
-              </div>
-            )
-          }
-          {
-            Object.keys(this.state.hotels).length > 0 && (
-              <div className="wrapper">
-                <p>Found {this.state.hotels.count} hotels</p>
-                <Sidebar {...this.state.hotels}/>
-                <ResultsList {...this.state.hotels}/>
-              </div>
-            )
-          }
-        </div>
-      </div>
+      <main>
+        <Header theme="" position=""/>
+        {/* // NOTE: if home -> white, else nothing, absolute, else nothing */}
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" render={() => <Home changeType={this.changeType} sendData={this.getData}/>} />
+            <Route exact path="/results" render={() => <Results type={this.state.type} query={this.state.query}/>} />
+            <Route component={Error404} />
+          </Switch>
+        </BrowserRouter>
+        <Footer />
+      </main>
     );
   }
 }

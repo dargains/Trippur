@@ -1,6 +1,6 @@
 # dependencies
 /source/node_modules
-
+/src/build
 # misc
 .DS_Store
 .env.local
