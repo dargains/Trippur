@@ -3,4 +3,10 @@ input[type=text] {
   padding: 13px;
   border: 1px solid $GrayLight;
   @include fontS;
+  &[disabled] {
+    background-color: $White;
+  }
+}
+.disabledLink {
+  pointer-events: none;
 }

@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import api from "../api";
-
 import moment from "moment";
-import InfiniteCalendar, {withRange, Calendar} from 'react-infinite-calendar';
-import 'react-infinite-calendar/styles.css'; // Make sure to import the default stylesheet
+
+import Calendar from "./Calendar";
 
 var CancelToken = Axios.CancelToken;
 var cancel;
@@ -19,15 +18,17 @@ class Searchbar extends Component {
       chosenFlight:{},
       hotels: [],
       flights: [],
+      arriveDate:"",
+      leaveDate:"",
       selectedOption: '',
+      showDate:false
     }
     this.onTypeChange = this.onTypeChange.bind(this);
     this.getHotels = this.getHotels.bind(this);
     this.chooseHotel = this.chooseHotel.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.closeList = this.closeList.bind(this);
-    this.getHotelDate = this.getHotelDate.bind(this);
-    this.getFlightDate = this.getFlightDate.bind(this);
+    this.getDate = this.getDate.bind(this);
   }
   onTypeChange(event) {
     let type = event.target.dataset.type;
@@ -39,8 +40,10 @@ class Searchbar extends Component {
       chosenFlight:{},
       arriveDate:"",
       leaveDate:"",
+      showDate:false,
       people: 1
     });
+    document.querySelectorAll("input").forEach(input => input.value = "");
   }
   getInboundAirports() {
 
@@ -77,7 +80,7 @@ class Searchbar extends Component {
             country_name: hotel.countryname,
             country_code: hotel.countrycode
           };
-    this.setState({chosenHotel},()=> console.log(that.state.chosenHotel));
+    this.setState({chosenHotel});
     this.refs.hotelFrom.value = event.target.innerText;
   }
   onSearch(event) {
@@ -109,49 +112,22 @@ class Searchbar extends Component {
   showList(event) {
     event.target.nextElementSibling.style.display = "block";
   }
-  getHotelDate(event) {
-    if (event.eventType === 2) return;
-    console.log(event.start);
-    console.log(moment().format("YYYY-MM-DD"));
-    //console.log(event.start.format("YYYY-MM-DD HH:mm:ss"));
-    const startMonth = event.start.getUTCMonth() + 1;
-    const startDay = event.start.getUTCDate();
-    const startYear = event.start.getUTCFullYear();
-    const startDate = `${startDay}/${startMonth}/${startYear}`;
-    const arriveDate = `${startYear}/${startMonth}/${startDay}`;
+  getDate(event) {
+    if (event.eventType !== 3) return;
+    const startDate = moment(event.start).format("D[/]M[/]YYYY");
+    const arriveDate = moment(event.start).format("YYYY[/]M[/]D");
 
-    const endMonth = event.end.getUTCMonth() + 1;
-    const endDay = event.end.getUTCDate();
-    const endYear = event.end.getUTCFullYear();
-    const endDate = `${endDay}/${endMonth}/${endYear}`
-    const leaveDate = `${endYear}/${endMonth}/${endDay}`;
+    const endDate = moment(event.end).format("D[/]M[/]YYYY");
+    const leaveDate = moment(event.end).format("YYYY[/]M[/]D");
 
-    this.refs.hotelDate.value = `${startDate} to ${endDate}`;
-    // this.setState({
-    //   arriveDate,
-    //   leaveDate
-    // });
-  }
-  getFlightDate(event) {
-    if (event.eventType === 2) return;
-    console.log(event);
-    const startMonth = event.start.getUTCMonth() + 1;
-    const startDay = event.start.getUTCDate();
-    const startYear = event.start.getUTCFullYear();
-    const startDate = `${startDay}/${startMonth}/${startYear}`
-    const arriveDate = `${startYear}/${startMonth}/${startDay}`;
-
-    const endMonth = event.end.getUTCMonth() + 1;
-    const endDay = event.end.getUTCDate();
-    const endYear = event.end.getUTCFullYear();
-    const endDate = `${endDay}/${endMonth}/${endYear}`
-    const leaveDate = `${endYear}/${endMonth}/${endDay}`;
-
-    this.refs.flightDate.value = `${startDate} to ${endDate}`;
-    // this.setState({
-    //   arriveDate,
-    //   leaveDate
-    // });
+    const dateInput = this.state.type === "flights"
+      ? this.refs.flightDate
+      : this.refs.hotelDate;
+    dateInput.value = `${startDate} to ${endDate}`;
+    this.setState({
+      arriveDate,
+      leaveDate
+    });
   }
   render() {
     const that = this;
@@ -174,36 +150,9 @@ class Searchbar extends Component {
                  <input type="text" placeholder="Where to" ref="flightTo"/>
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder="insert datepicker" ref="flightDate"/>
-                 <InfiniteCalendar
-                   className="datePicker"
-                   width={"100%"}
-                   height={300}
-                   Component={withRange(Calendar)}
-                   selected={{
-                     start: moment(),
-                     end: moment().add(3, "days"),
-                   }}
-                   minDate={moment().toDate()}
-                   displayOptions={{
-                     showHeader: false
-                   }}
-                   onSelect= {this.getFlightDate}
-                   theme={{
-                     selectionColor: '#FFA726',
-                     accentColor: '#FF8706',
-                     textColor: {
-                       default: '#333',
-                       active: '#FFF'
-                     },
-                     weekdayColor: '#FFA726',
-                     floatingNav: {
-                       background: '#FF8706',
-                       color: '#FFF',
-                       chevron: '#FFA726'
-                     }
-                  }}
-                 />
+                 <input type="text" placeholder="Depart to Return" ref="flightDate" disabled/>
+                 <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showDate: !this.state.showDate})}/>
+                 { this.state.showDate && <Calendar onSelect={this.getDate} selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/> }
                </div>
                  <div className="searchbar__container">
                  <input type="text" placeholder="insert personpicker" ref="flightPeople"/>
@@ -219,41 +168,14 @@ class Searchbar extends Component {
                  <ul className="searchbar__results">{hotelFromList}</ul>
                </div>
                <div className="searchbar__container">
-                 <input type="text" placeholder="insert datepicker" ref="hotelDate"/>
-                 <InfiniteCalendar
-                   className="datePicker"
-                   width={"100%"}
-                   height={300}
-                   Component={withRange(Calendar)}
-                   selected={{
-                     start: moment(),
-                     end: moment().add(3, "days"),
-                   }}
-                   minDate={moment().toDate()}
-                   displayOptions={{
-                     showHeader: false
-                   }}
-                   onSelect= {this.getHotelDate}
-                   theme={{
-                     selectionColor: '#FFA726',
-                     accentColor: '#FF8706',
-                     textColor: {
-                       default: '#333',
-                       active: '#FFF'
-                     },
-                     weekdayColor: '#FFA726',
-                     floatingNav: {
-                       background: '#FF8706',
-                       color: '#FFF',
-                       chevron: '#FFA726'
-                     }
-                  }}
-                 />
+                 <input type="text" placeholder="Checkin to Checkout" ref="hotelDate" disabled/>
+                 <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showDate: !this.state.showDate})}/>
+                 { this.state.showDate && <Calendar onSelect={this.getDate} selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/> }
                </div>
                  <div className="searchbar__container">
                  <input type="text" placeholder="insert personpicker" ref="hotelPeople"/>
                </div>
-               <Link to='/results' onClick={this.onSearch} className={Object.keys(this.state.chosenHotel).length === 0 ? "btn primary disabledLink" : "btn primary"}>
+               <Link to='/results' onClick={this.onSearch} className={(Object.keys(this.state.chosenHotel).length !== 0 && this.state.arriveDate !== "") ? "btn primary" : "btn primary disabledLink"}>
                  <span>Search</span>
                </Link>
              </div>
