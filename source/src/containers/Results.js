@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from "react";
 import Axios from "axios";
 import api from "../api";
 
 import Sidebar from "../components/Sidebar";
 import ResultsList from "../components/ResultsList";
 
-class Results extends React.Component {
+class Results extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,13 +15,14 @@ class Results extends React.Component {
   }
   componentWillMount() {
     if (this.props.type === "hotels") this.getHotelsId();
-    if (this.props.type === "flights")  this.getFlights();
+    if (this.props.type === "flights") this.getFlights();
   }
   getHotelsId() {
     var that = this;
+    //debugger
     Axios.get(api.getHotels, {
       params: {
-        location_id: "4156",
+        location_id: "5806",
         check_in: "2018-01-01",
         check_out: "2018-01-10",
         user_ip: "direct"
@@ -44,7 +45,7 @@ class Results extends React.Component {
       crossdomain: true
     })
     .then(function (response) {
-      that.setState({hotels:response.data.hotels});
+      that.setState({hotels:response.data.hotels},()=>console.log(that.state.hotels));
     })
     .catch(function (error) {
       console.log(error);
@@ -59,7 +60,7 @@ class Results extends React.Component {
         "trips": [{
           "departure_code": "RGN",
           "arrival_code": "NYU",
-          "outbound_date": "2017-12-04"
+          "outbound_date": "2017-12-08"
         }],
         "adults_count": 1,
         "user_country_code": "PT",

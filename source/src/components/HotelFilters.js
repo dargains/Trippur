@@ -111,5 +111,4 @@ class HotelFilters extends React.Component {
   }
 }
 
-//export default Sidebar;
 export default HotelFilters;

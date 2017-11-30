@@ -1,1 +1,6 @@
 /*Generic Components*/
+input[type=text] {
+  padding: 13px;
+  border: 1px solid $GrayLight;
+  @include fontS;
+}

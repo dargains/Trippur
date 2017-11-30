@@ -10,7 +10,7 @@ export default(props) => (
         <Searchbar handleChangeType={props.changeType} sendData={props.sendData}/>
       </div>
     </div>
-    <a href="#" className="arrow-down">
+    <a href="" className="arrow-down">
       <i className="icon-chevron-thin-down"></i>
     </a>
   </section>

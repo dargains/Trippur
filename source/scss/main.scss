@@ -1,4 +1,9 @@
 /* Generic imports */
-@import "core/*.scss";
+@import "core/reset.scss";
+@import "core/config.scss";
+@import "core/mixins.scss";
+@import "core/components.scss";
+@import "core/skeleton.scss";
+@import "core/icon-font.scss";
 /* Module imports */
-@import "../modules/*/*.scss"; 
+@import "../modules/*/*.scss";

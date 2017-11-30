@@ -1,13 +1,10 @@
-import React from 'react';
-import Axios from "axios";
-import api from "../api";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 
 import Hero from "../components/Hero";
 import DestinationsList from "../components/DestinationsList";
 import Newsletter from "../components/Newsletter";
 
-class Home extends React.Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Axios from "axios";
 import api from "./api";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import Home from "./containers/Home";
 import Results from "./containers/Results";
@@ -9,7 +9,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Error404 from "./components/Error404";
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +51,6 @@ class App extends React.Component {
   }
   getData(data){
     console.log(data);
-    debugger
   }
   render() {
     return (
