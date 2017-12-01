@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {withRouter} from 'react-router-dom';
 
 import Hero from "../components/Hero";
 import DestinationsList from "../components/DestinationsList";
@@ -11,6 +12,9 @@ class Home extends Component {
 
     };
   }
+  componentWillMount() {
+    this.props.getLocation("home")
+  }
   render() {
     return (
       <div>
@@ -22,4 +26,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

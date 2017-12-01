@@ -6,10 +6,10 @@ export default(props) => (
     <nav>
       <ul>
         <li>
-          <a href="#">Help</a>
+          <a href="">Help</a>
         </li>
         <li>
-          <a href="#"><img src="http://www.geonames.org/flags/s/pt.png"/></a>
+          <a href=""><img src="http://www.geonames.org/flags/s/pt.png" alt="Portugues"/></a>
         </li>
       </ul>
     </nav>

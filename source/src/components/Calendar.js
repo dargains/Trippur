@@ -23,7 +23,7 @@ export default (props) => (
   <InfiniteCalendar
     className="datePicker"
     width={"100%"}
-    height={300}
+    height={305}
     Component={withRange(Calendar)}
     selected={props.selected}
     minDate={moment().toDate()}

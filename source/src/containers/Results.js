@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {withRouter} from 'react-router-dom';
 import Axios from "axios";
 import api from "../api";
 
@@ -16,6 +17,7 @@ class Results extends Component {
   componentWillMount() {
     if (this.props.type === "hotels") this.getHotelsId();
     if (this.props.type === "flights") this.getFlights();
+    this.props.getLocation("results")
   }
   getHotelsId() {
     var that = this;
@@ -101,4 +103,4 @@ class Results extends Component {
   }
 }
 
-export default Results;
+export default withRouter(Results);

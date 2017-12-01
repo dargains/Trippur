@@ -5,6 +5,7 @@ import api from "../api";
 import moment from "moment";
 
 import Calendar from "./Calendar";
+import Radiobutton from "./Radiobutton";
 
 var CancelToken = Axios.CancelToken;
 var cancel;
@@ -21,7 +22,14 @@ class Searchbar extends Component {
       arriveDate:"",
       leaveDate:"",
       selectedOption: '',
-      showDate:false
+      passengers: {
+        adults:0,
+        children:0,
+        babies:0
+      },
+      cabin:"business",
+      showDate:false,
+      showPersonPicker:false
     }
     this.onTypeChange = this.onTypeChange.bind(this);
     this.getHotels = this.getHotels.bind(this);
@@ -29,6 +37,7 @@ class Searchbar extends Component {
     this.onSearch = this.onSearch.bind(this);
     this.closeList = this.closeList.bind(this);
     this.getDate = this.getDate.bind(this);
+    this.classSelect = this.classSelect.bind(this);
   }
   onTypeChange(event) {
     let type = event.target.dataset.type;
@@ -40,8 +49,14 @@ class Searchbar extends Component {
       chosenFlight:{},
       arriveDate:"",
       leaveDate:"",
+      passengers: {
+        adults:0,
+        children:0,
+        babies:0
+      },
+      cabin:"business",
       showDate:false,
-      people: 1
+      showPersonPicker:false
     });
     document.querySelectorAll("input").forEach(input => input.value = "");
   }
@@ -103,14 +118,17 @@ class Searchbar extends Component {
       }
     this.props.sendData(info)
   }
+  showList(event) {
+    event.target.nextElementSibling.style.display = "block";
+  }
   closeList(event) {
     var list = event.target.nextElementSibling;
     setTimeout(() => {
       list.style.display = "none";
     },100)
   }
-  showList(event) {
-    event.target.nextElementSibling.style.display = "block";
+  showPersonPicker() {
+    document.querySelector(".personPicker").style.display = "block";
   }
   getDate(event) {
     if (event.eventType !== 3) return;
@@ -128,6 +146,14 @@ class Searchbar extends Component {
       arriveDate,
       leaveDate
     });
+  }
+  changePassengers(type, operation) {
+    const passengers = this.state.passengers;
+    passengers[type] = operation ? this.state.passengers[type]+1 : this.state.passengers[type] <= 0 ? 0 : this.state.passengers[type]-1;
+    this.setState({passengers},()=>console.log(this.state.passengers));
+  }
+  classSelect(event) {
+    this.setState({cabin:event.target.id},()=>console.log(this.state));
   }
   render() {
     const that = this;
@@ -155,7 +181,39 @@ class Searchbar extends Component {
                  { this.state.showDate && <Calendar onSelect={this.getDate} selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/> }
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder="insert personpicker" ref="flightPeople"/>
+                 <input type="text" placeholder={`${this.state.passengers.adults + this.state.passengers.children + this.state.passengers.babies} passengers`} ref="flightPeople" disabled/>
+                 <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
+                 {
+                   this.state.showPersonPicker &&
+                   (<div className="personPicker">
+                     <p>Passengers</p>
+                     <div className="personPicker__container">
+                       <p className="personPicker__title">Adults: </p>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"adults",true)}>+</i>
+                       <span>{this.state.passengers.adults}</span>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"adults",false)}>-</i>
+                     </div>
+                     <div className="personPicker__container">
+                       <p className="personPicker__title">Children: </p>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"children",true)}>+</i>
+                       <span>{this.state.passengers.children}</span>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"children",false)}>-</i>
+                     </div>
+                     <div className="personPicker__container">
+                       <p className="personPicker__title">Babies: </p>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"babies",true)}>+</i>
+                       <span>{this.state.passengers.babies}</span>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"babies",false)}>-</i>
+                     </div>
+                     <p>Class</p>
+                     <div className="personPicker__container">
+                       <Radiobutton id="first" group="class" label="First Class" handleClick={this.classSelect} selected={this.state.cabin === "first"}/>
+                       <Radiobutton id="business" group="class" label="Business" handleClick={this.classSelect} selected={this.state.cabin === "business"}/>
+                       <Radiobutton id="economy" group="class" label="Economy" handleClick={this.classSelect} selected={this.state.cabin === "economy"}/>
+                     </div>
+                   </div>)
+
+                 }
                </div>
                <Link to="/results" onClick={this.onSearch} className={Object.keys(this.state.chosenFlight).length === 0 ? "btn primary disabledLink" : "btn primary"}>
                  <span>Search</span>
@@ -173,7 +231,33 @@ class Searchbar extends Component {
                  { this.state.showDate && <Calendar onSelect={this.getDate} selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/> }
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder="insert personpicker" ref="hotelPeople"/>
+                 <input type="text" placeholder="insert personpicker" ref="hotelPeople" disabled/>
+                 <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
+                 {
+                   this.state.showPersonPicker &&
+                   (<div className="personPicker">
+                     <p>Guests</p>
+                     <div className="personPicker__container">
+                       <p className="personPicker__title">Adults: </p>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"adults",true)}>+</i>
+                       <span>{this.state.passengers.adults}</span>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"adults",false)}>-</i>
+                     </div>
+                     <div className="personPicker__container">
+                       <p className="personPicker__title">Children: </p>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"children",true)}>+</i>
+                       <span>{this.state.passengers.children}</span>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"children",false)}>-</i>
+                     </div>
+                     <div className="personPicker__container">
+                       <p className="personPicker__title">Babies: </p>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"babies",true)}>+</i>
+                       <span>{this.state.passengers.babies}</span>
+                       <i className="personPicker__icon" onClick={this.changePassengers.bind(this,"babies",false)}>-</i>
+                     </div>
+                   </div>)
+
+                 }
                </div>
                <Link to='/results' onClick={this.onSearch} className={(Object.keys(this.state.chosenHotel).length !== 0 && this.state.arriveDate !== "") ? "btn primary" : "btn primary disabledLink"}>
                  <span>Search</span>

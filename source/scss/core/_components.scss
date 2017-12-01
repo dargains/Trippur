@@ -10,3 +10,60 @@ input[type=text] {
 .disabledLink {
   pointer-events: none;
 }
+.personPicker {
+  background-color: $White;
+  padding: 20px;
+  padding-top: 0;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  @include fontS;
+  > p {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  &__container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px auto;
+  }
+  &__title {
+    min-width: 60px;
+    text-align: left;
+  }
+  &__icon {
+    border: 1px solid $GrayLight;
+    background-color: $GrayThin;
+    line-height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: block;
+    cursor: pointer;
+    transition: all .1s ease-in;
+    @include fontM;
+    &:hover {
+      background-color: $PrimaryColorLight;
+      color: $White;
+    }
+  }
+  .radioField {
+    padding: 5px;
+    padding-left: 0;
+    text-align: left;
+    label {
+      padding-left: 30px;
+      font-size: 14px;
+      &:before {
+        top: 8px;
+      }
+      &:after {
+        left: 5px;
+        top: 13px;
+      }
+    }
+  }
+}
