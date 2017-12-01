@@ -12,11 +12,11 @@ class ResultsList extends React.Component {
   }
   render() {
 
-    // const flightItems = this.props.map((trip, index) =>
-    //   <FlightItem key={index} {...trip}/>
+    // const flightItems = this.props.flights.map(flight =>
+    //   <HotelItem key={flight.id} {...flight}/>
     // );
-    const hotelItems = Object.keys(this.props).map(key =>
-      <HotelItem key={key} {...this.props[key]}/>
+    const hotelItems = this.props.hotels.map(hotel =>
+      <HotelItem key={hotel.id} {...hotel}/>
     );
     return (
       <section className="resultsList">

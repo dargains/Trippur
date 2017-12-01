@@ -11,22 +11,25 @@ class Results extends Component {
     super(props);
     this.state = {
       hotels: {},
-      flights: {}
+      flights: {},
+      gotResponse: ""
     };
   }
   componentWillMount() {
+    this.setState({type:this.props.type})
     if (this.props.type === "hotels") this.getHotelsId();
     if (this.props.type === "flights") this.getFlights();
     this.props.getLocation("results")
   }
   getHotelsId() {
-    var that = this;
-    //debugger
+    var that = this,
+        info = this.props.info;
     Axios.get(api.getHotels, {
       params: {
-        location_id: "5806",
-        check_in: "2018-01-01",
-        check_out: "2018-01-10",
+        location_id: info.id,
+        check_in: info.arriveDate,
+        check_out: info.leaveDate,
+        guests: info.people.adults_count,
         user_ip: "direct"
       },
       crossdomain: true
@@ -42,12 +45,12 @@ class Results extends Component {
     var that = this;
     Axios.get("http://api.wego.com/hotels/api/search/" + id + "?key=047fca814736a1a95010&ts_code=18109", {
       params: {
-
+        currency_code: "EUR"
       },
       crossdomain: true
     })
     .then(function (response) {
-      that.setState({hotels:response.data.hotels},()=>console.log(that.state.hotels));
+      that.setState({hotels:response.data,gotResponse:"hotel"});
     })
     .catch(function (error) {
       console.log(error);
@@ -79,25 +82,22 @@ class Results extends Component {
   render() {
     return (
       <div className="results">
-        <div>
           {
-            this.state.flights.length && (
+            this.state.gotResponse === "flight" && (
               <div className="wrapper">
-                <p>Found {this.state.flights.count} flights</p>
+                <p className="results__foundItems">Found {this.state.flights.count} flights</p>
                 <Sidebar {...this.state.flights}/>
                 <ResultsList {...this.state.flights}/>
-              </div>
-            )}
+              </div>)
+            }
             {
-            this.state.hotels.length && (
+            this.state.gotResponse === "hotel" && (
               <div className="wrapper">
-                <p>Found {this.state.hotels.count} hotels</p>
+                <p className="results__foundItems">Found {this.state.hotels.total_count} hotels</p>
                 <Sidebar {...this.state.hotels}/>
                 <ResultsList {...this.state.hotels}/>
-              </div>
-            )
+              </div>)
           }
-        </div>
       </div>
     );
   }

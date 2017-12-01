@@ -2,10 +2,6 @@ import React from 'react';
 import FlightFilters from './FlightFilters';
 import HotelFilters from './HotelFilters';
 
-function pad(n) {
-  return (n < 10) ? ("0" + n) : n;
-}
-
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -20,8 +16,11 @@ class Sidebar extends React.Component {
     const { classes } = this.props;
     return (
       <aside className="sidebar">
-        <FlightFilters />
-        <HotelFilters />
+        {
+          this.props.type === "flights"
+            ? <FlightFilters {...this.props}/>
+            : <HotelFilters {...this.props}/>
+        }
       </aside>
     );
   }

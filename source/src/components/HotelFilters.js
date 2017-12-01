@@ -23,38 +23,53 @@ class HotelFilters extends React.Component {
         min: 500,
         max: 700
       },
-      stops: [
+      stars: [
         {
-          id: "stop0",
-          name: "stops",
-          label: "No stops"
+          name: "stars",
+          label: "five stars"
         }, {
-          id: "stop1",
-          name: "stops",
-          label: "1 stop"
+          name: "stars",
+          label: "four stars"
         }, {
-          id: "stop2",
-          name: "stops",
-          label: "+2 stops"
-        }
-      ],
-      cabin: [
-        {
-          id: "cabin0",
-          name: "cabin",
-          label: "Economy"
-        }, {
-          id: "cabin1",
-          name: "cabin",
-          label: "Business"
-        }, {
-          id: "cabin2",
-          name: "cabin",
-          label: "First class"
+          name: "stars",
+          label: "three stars"
         }
       ]
     };
     this.checkboxClick = this.checkboxClick.bind(this);
+  }
+  componentWillMount() {
+    this.getAmenities();
+    this.getDistricts();
+    this.getRooms();
+  }
+  getAmenities() {
+    let rawAmenities = [];
+    this.props.hotels.map(hotel => {
+      hotel.room_rates.forEach(room => {
+        for(let amenity in room.amenities[""]) {
+          rawAmenities.push({name:amenity, label:room.amenities[""][amenity]});
+        }
+      });
+    });
+    const amenities = Array.from(new Set(rawAmenities.map(JSON.stringify))).map(JSON.parse);
+    this.setState({amenities});
+  }
+  getDistricts() {
+    let rawDistricts = [];
+    this.props.districts.map(district => rawDistricts.push({name: district.id, label: district.name}));
+    let districts = Array.from(new Set(rawDistricts.map(JSON.stringify))).map(JSON.parse);
+    this.setState({districts});
+  }
+  getRooms() {
+    let rawRooms = [];
+    this.props.hotels.map(hotel => {
+      hotel.room_rates.forEach(room => {
+        rawRooms.push(room.description);
+      });
+    });
+    let rooms = [...new Set(rawRooms)];
+    this.setState({rooms})
   }
   checkboxClick(event) {
     console.log(event.target)
@@ -67,44 +82,23 @@ class HotelFilters extends React.Component {
         </article>
         <hr />
         <article>
-          <h2 className="sidebar__legend">Price</h2>
-          <InputRange
-            maxValue={500}
-            minValue={100}
-            formatLabel={value => `${value}€`}
-            value={this.state.price}
-            onChange={price => this.setState({price})}
-            onChangeComplete={value => console.log(value)}
-          />
+          <h2 className="sidebar__legend">Star Rating</h2>
+          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
         </article>
         <hr/>
         <article>
-          <h2 className="sidebar__legend">Stops</h2>
-          {this.state.stops.map(checkbox => <Checkbox key={checkbox.id} id={checkbox.id} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
+          <h2 className="sidebar__legend">Accomodation Type</h2>
+          {this.state.rooms.map((checkbox,index) => <Checkbox key={`room${index}`} id={`room${index}`} name={checkbox} label={checkbox} handleClick={this.checkboxClick}/>)}
         </article>
         <hr/>
         <article>
-          <h2 className="sidebar__legend">Times</h2>
-          <p className="flightLegend">Inbound - <span>LIS</span></p>
-          <InputRange
-            maxValue={1440}
-            minValue={0}
-            formatLabel={value => `${pad(Math.floor(value / 60))}:${pad(value % 60)}`}
-            value={this.state.inbound}
-            onChange={inbound => this.setState({inbound})}
-            onChangeComplete={value => console.log(value)}
-          />
-          <p className="flightLegend">Outbound - <span>LON</span></p>
-          <InputRange maxValue={1440} minValue={0} formatLabel={value => `${pad(Math.floor(value / 60))}:${pad(value % 60)}`} value={this.state.outbound} onChange={outbound => this.setState({outbound})} onChangeComplete={value => console.log(value)}/>
+          <h2 className="sidebar__legend">District Areas</h2>
+          {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
         </article>
         <hr/>
         <article>
-          <h2 className="sidebar__legend">Cabin</h2>
-          {this.state.cabin.map(checkbox => <Checkbox key={checkbox.id} id={checkbox.id} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
-        </article>
-        <hr/>
-        <article>
-          <h2 className="sidebar__legend">Airlines</h2>
+          <h2 className="sidebar__legend">Hotel Amenities</h2>
+          {this.state.amenities.map((checkbox,index) => <Checkbox key={`amenity${index}`} id={`amenity${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
         </article>
       </div>
     );
