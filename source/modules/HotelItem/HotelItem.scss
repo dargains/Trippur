@@ -1,0 +1,276 @@
+.results {
+    padding:20px;
+    font-size: 0;
+    position:relative;
+    overflow: hidden;
+    @include mq(0, 600px){
+        padding:10px;
+    }
+    aside {
+        font-size: 20px;
+        display: inline-block;
+        width: 25%;
+        vertical-align: top;
+       @include mq(0, 980px){
+            width: 100%;
+        }
+    }
+    .result-list {
+        font-size: 20px;
+        display: inline-block;
+        width: 100%;
+        max-width: 840px;
+        border:1px solid #f1f3f4;
+        border-top:none;
+        position:relative;
+        vertical-align: top;
+        @include mq(0, 1180px){
+            width: 100%;
+            max-width: 100%;
+        }
+        
+    }
+    .ads {
+        font-size: 20px;
+        background:green;
+        display: inline-block;
+        width: 25%;
+        vertical-align: top;
+        @include mq(0, 980px){
+            width: 100%;
+        }
+    }
+}
+
+.hotel-item {
+    border-top:1px solid #f1f3f4;
+    padding: 40px;
+    overflow: hidden;
+    @include mq(0, 1280px){
+        padding:20px;
+    }
+    figure {
+        position:relative;
+        width: 190px;
+        height:120px;
+        overflow:hidden;
+        display: inline-block;
+        vertical-align: top;
+        img {
+            width: 100%;
+            position:relative;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+
+        }
+    }
+    .center {
+        display: inline-block;
+        margin-left: 40px;
+        max-width: 350px;
+        width: 100%;
+        @include mq(0, 1280px) {
+            max-width: 300px;
+            margin-top: 20px;
+        }
+        @include mq(0, 768px) {
+            max-width: 100%;
+            margin-left:0;
+            margin-top: 20px;
+        }
+        .hotel-header {
+            border-bottom: 1px solid #f1f3f4;
+            padding-bottom: 5px;
+            h2 {
+                font-family: $Roboto;
+                font-size: 16px;
+                line-height: 17px;
+                color:$PrimaryColor;
+                font-weight: 400;
+            }
+            p{
+                color:$SecondaryColor;
+                font-size: 12px;
+                display: inline-block;
+                font-family: $Roboto;
+                margin-left: 10px;
+                font-weight: 400;
+            }
+            ul {
+                display: inline-block;
+                &[data-rating="1"]{
+                    li {
+                        &:nth-child(1){
+                            color:#ecd726;
+                        }
+                    }
+                }
+                &[data-rating="2"]{
+                    li {
+                        &:nth-child(1){
+                            color:#ecd726;
+                        }
+                        &:nth-child(2){
+                            color:#ecd726;
+                        }
+                    }
+                }
+                &[data-rating="3"]{
+                    li {
+                        &:nth-child(1){
+                            color:#ecd726;
+                        }
+                        &:nth-child(2){
+                            color:#ecd726;
+                        }
+                        &:nth-child(3){
+                            color:#ecd726;
+                        }
+                    }
+                }
+                &[data-rating="4"]{
+                    li {
+                        &:nth-child(1){
+                            color:#ecd726;
+                        }
+                        &:nth-child(2){
+                            color:#ecd726;
+                        }
+                        &:nth-child(3){
+                            color:#ecd726;
+                        }
+                        &:nth-child(4){
+                            color:#ecd726;
+                        }
+                    }
+                }
+                &[data-rating="5"]{
+                    li {
+                        &:nth-child(1){
+                            color:#ecd726;
+                        }
+                        &:nth-child(2){
+                            color:#ecd726;
+                        }
+                        &:nth-child(3){
+                            color:#ecd726;
+                        }
+                        &:nth-child(4){
+                            color:#ecd726;
+                        }
+                        &:nth-child(5){
+                            color:#ecd726;
+                        }
+                    }
+                }
+                li {
+                    font-size: 12px;
+                    color:#efebad;
+                    display: inline-block;
+                    opacity: 0.8;
+                }
+            }
+        }
+        .hotel-list {
+            display: inline-block;
+            margin-top:30px;
+            @include mq(0, 1280px) {
+                margin-top:15px;
+            }
+            ul {
+                li {
+                    color:$SecondaryColor;
+                    font-family: $Roboto;
+                    font-size: 12px;
+                    display: inline-block;
+                    margin-right: 5px;
+                    width: 30%;
+                    @include mq(0, 600px) {
+                        display:block;
+                        line-height: 18px;
+                    }
+                    a {
+                        color:$SecondaryColor;
+                        text-decoration: none;
+                        span {
+                            color:#4b5862;
+                            font-weight: 700;
+                            margin-right: 4px;
+                        }
+                        &:hover {
+                            span {
+                                color:$PrimaryColor;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    aside {
+        &.right {
+            vertical-align: top;
+            text-align: right;
+            float:right;
+            max-width: 22%;
+            @include mq(0, 768px) {
+               float:none;
+               margin-top: 20px;
+               text-align: left;
+               max-width:100%;
+
+            }
+            .hotel-price {
+                p {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color:$PrimaryColor;
+                    font-family: $Roboto;
+                    margin-bottom: 40px;
+                    @include mq(0, 1280px) {
+                        margin-bottom: 20px;
+                     }
+                    span {
+                        display: block;
+                        font-size: 12px;
+                        color:#b4bbc2;
+                        font-weight: 300;
+                        font-family: $Roboto;
+                        margin-top: 5px;
+                    }
+                }
+                .btn {
+                    min-width: 120px;
+                    line-height: 35px;
+                    &:hover {
+                        color:#FFF;
+                    }
+                }
+            }
+        }
+    }
+}
+.no-result {
+    padding:40px;
+    position:relative;
+    border-top:1px solid #CCC;
+    font-family: $Roboto;
+    font-size: 14px;
+    line-height: 17px;
+    p {
+        display: block;
+        text-align: center;
+        color:$SecondaryColor;
+    }
+    span {
+        position:absolute;
+        right:20px;
+        bottom:20px;
+        font-size: 12px;
+        @include mq(0, 600px){
+            right:10px;
+            bottom:10px;
+        }
+    }
+}
