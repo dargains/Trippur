@@ -11,17 +11,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hotels: {},
-      flights: {},
+      hotel: {},
+      flight: {},
       type: "flights"
     };
     this.changeType = this.changeType.bind(this);
-    this.changeLocation = this.changeLocation.bind(this);
+    this.onRouteChange = this.onRouteChange.bind(this);
+    this.getData = this.getData.bind(this);
   }
   changeType(type) {
     this.setState({type});
   }
-  changeLocation(location) {
+  onRouteChange(location) {
     let header = {};
     if (location === "home") header = {
         theme:"white",
@@ -34,7 +35,9 @@ class App extends Component {
     this.setState({header})
   }
   getData(data){
-    console.log(data);
+    this.state.type === "flights"
+      ? this.setState({flight: data})
+      : this.setState({hotel: data});
   }
   render() {
     return (
@@ -42,8 +45,8 @@ class App extends Component {
         <Header {...this.state.header}/>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" render={() => <Home changeType={this.changeType} sendData={this.getData} getLocation={this.changeLocation}/>} />
-            <Route exact path="/results" render={() => <Results type={this.state.type} query={this.state.query} getLocation={this.changeLocation}/>} />
+            <Route exact path="/" render={() => <Home changeType={this.changeType} sendData={this.getData} getLocation={this.onRouteChange}/>} />
+            <Route exact path="/results" render={() => <Results type={this.state.type} info={this.state.type === "flights" ? this.state.flight : this.state.hotel} getLocation={this.onRouteChange}/>} />
             <Route component={Error404} />
           </Switch>
         </BrowserRouter>
