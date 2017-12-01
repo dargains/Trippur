@@ -23,6 +23,11 @@
     input {
       width: 100%;
     }
+    .loading {
+      position: absolute;
+      right: 5px;
+      top: 15px;
+    }
   }
   &__results {
     position: absolute;
