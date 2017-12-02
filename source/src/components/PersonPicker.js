@@ -1,4 +1,5 @@
 import React from "react";
+import Radiobutton from "./Radiobutton";
 
 export default (props) => (
   <div className="personPicker">
@@ -21,5 +22,14 @@ export default (props) => (
       <span>{props.infants_count}</span>
       <i className="personPicker__icon" onClick={props.changePeople.bind(this,"infants_count",false)}>-</i>
     </div>
+    {
+      props.class &&
+      (<div className="personPicker__container">
+        <p>Class</p>
+        <Radiobutton id="first" group="class" label="First Class" selected={props.cabin === "first"} handleClick={props.classSelect}/>
+        <Radiobutton id="business" group="class" label="Business" selected={props.cabin === "business"} handleClick={props.classSelect}/>
+        <Radiobutton id="economy" group="class" label="Economy" selected={props.cabin === "economy"} handleClick={props.classSelect}/>
+      </div>)
+    }
   </div>
 )

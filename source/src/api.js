@@ -1,5 +1,6 @@
 const config = {
   baseUrl: "http://api.wego.com",
+  getAirports: "https://www.air-port-codes.com/api/v1/autocomplete",
   flightEndpoints: {
     clientInfo: "?api_key=047fca814736a1a95010&ts_code=18109",
     search: "/flights/api/k/2/searches",
@@ -16,7 +17,8 @@ const config = {
 }
 
 const api = {
-  getFlighs: config.baseUrl + config.flightEndpoints.search + config.flightEndpoints.clientInfo,
+  getAirports: config.getAirports,
+  getFlights: config.baseUrl + config.flightEndpoints.search + config.flightEndpoints.clientInfo,
   getCurrency: config.baseUrl + config.flightEndpoints.currency + config.flightEndpoints.clientInfo,
   getFares: config.baseUrl + config.flightEndpoints.fares + config.flightEndpoints.clientInfo,
   getLocations: config.baseUrl + config.hotelEndpoints.search + config.hotelEndpoints.clientInfo,
