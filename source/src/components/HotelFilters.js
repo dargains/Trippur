@@ -1,11 +1,6 @@
 import React from 'react';
 
-import InputRange from 'react-input-range';
 import Checkbox from './Checkbox';
-
-function pad(n) {
-  return (n < 10) ? ("0" + n) : n;
-}
 
 class HotelFilters extends React.Component {
   constructor(props) {
@@ -25,14 +20,20 @@ class HotelFilters extends React.Component {
       },
       stars: [
         {
-          name: "stars",
+          name: "5",
           label: "five stars"
         }, {
-          name: "stars",
+          name: "4",
           label: "four stars"
         }, {
-          name: "stars",
+          name: "3",
           label: "three stars"
+        }, {
+          name: "2",
+          label: "two stars"
+        }, {
+          name: "1",
+          label: "one star"
         }
       ]
     };
@@ -41,11 +42,11 @@ class HotelFilters extends React.Component {
   componentWillMount() {
     this.getAmenities();
     this.getDistricts();
-    this.getRooms();
+    this.getPropType();
   }
   getAmenities() {
     let rawAmenities = [];
-    this.props.hotels.map(hotel => {
+    this.props.hotels.forEach(hotel => {
       hotel.room_rates.forEach(room => {
         for(let amenity in room.amenities[""]) {
           rawAmenities.push({name:amenity, label:room.amenities[""][amenity]});
@@ -61,20 +62,17 @@ class HotelFilters extends React.Component {
     let districts = Array.from(new Set(rawDistricts.map(JSON.stringify))).map(JSON.parse);
     this.setState({districts});
   }
-  getRooms() {
-    let rawRooms = [];
-    this.props.hotels.map(hotel => {
-      hotel.room_rates.forEach(room => {
-        rawRooms.push(room.description);
-      });
-    });
-    let rooms = [...new Set(rawRooms)];
-    this.setState({rooms})
+  getPropType() {
+    let rawProp = [];
+    this.props.hotels.forEach(hotel => rawProp.push(hotel.property_type));
+    let propTypes = [...new Set(rawProp)];
+    this.setState({propTypes})
   }
   checkboxClick(event) {
     console.log(event.target)
   }
   render() {
+    const proptypes = ["Hotel","Hostel","Bed and Breakfast","Apartment","Resort","Villa","Motel"];
     return (
       <div>
         <article>
@@ -83,17 +81,17 @@ class HotelFilters extends React.Component {
         <hr />
         <article>
           <h2 className="sidebar__legend">Star Rating</h2>
-          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
+          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.props.changeStar}/>)}
         </article>
         <hr/>
         <article>
           <h2 className="sidebar__legend">Accomodation Type</h2>
-          {this.state.rooms.map((checkbox,index) => <Checkbox key={`room${index}`} id={`room${index}`} name={checkbox} label={checkbox} handleClick={this.checkboxClick}/>)}
+          {this.state.propTypes.map((checkbox,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={checkbox} label={proptypes[checkbox]} handleClick={this.props.changePropType}/>)}
         </article>
         <hr/>
         <article>
           <h2 className="sidebar__legend">District Areas</h2>
-          {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
+          {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.props.changeDistrict}/>)}
         </article>
         <hr/>
         <article>
