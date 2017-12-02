@@ -13,7 +13,6 @@ class Sidebar extends React.Component {
     this.setState({ [name]: checked });
   };
   render() {
-    const { classes } = this.props;
     return (
       <aside className="sidebar">
         {

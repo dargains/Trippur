@@ -18,9 +18,6 @@
     margin-bottom: 10px;
     @include fontM;
   }
-  .input-range {
-    margin: 30px auto 50px;
-  }
   hr {
     border-style: none;
     height: 1px;
@@ -37,6 +34,8 @@
     }
   }
   .input-range {
+    margin: 30px auto 50px;
+    width: 90%;
     &__slider {
       background-color: $PrimaryColor;
       border-color: $PrimaryColorDark;
