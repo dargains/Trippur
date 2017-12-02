@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from "moment";
 
+const stops = ["No stops", "1 stop", "2+ stops"];
+
 export default(props) => (
   <article className="flightItem">
     <div className="price">
@@ -15,7 +17,7 @@ export default(props) => (
         {props.outbound_segments.map(route => (
           <li key={route.designator_code} data-detail>
             <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong>{route.departure_name}</p>
-            <p><span>3h 10m</span><span>non-stop</span></p>
+            <p><span>3h 10m</span><span>X stops</span></p>
             <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong>{route.arrival_name}</p>
           </li>
         ))}
@@ -24,7 +26,7 @@ export default(props) => (
         {props.inbound_segments.map(route => (
           <li key={route.designator_code} data-detail>
             <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong>{route.departure_name}</p>
-            <p><span>3h 10m</span><span>non-stop</span></p>
+            <p><span>3h 10m</span><span>X stops</span></p>
             <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong>{route.arrival_name}</p>
           </li>
         ))}

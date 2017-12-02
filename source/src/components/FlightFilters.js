@@ -90,7 +90,7 @@ class FlightFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">Stops</h2>
-          {this.state.stops.map(checkbox => <Checkbox key={checkbox.id} id={checkbox.id} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
+          {this.props.stop_type_filters.map(stop => <Checkbox key={stop.code} id={stop.code} name={stop.code} label={stop.name} handleClick={this.props.changeStops}/>)}
         </article>
 
         <hr/>
@@ -99,8 +99,8 @@ class FlightFilters extends React.Component {
           <h2 className="sidebar__legend">Times</h2>
           <p className="flightLegend">Origin - <span>{this.props.departure_airport_filters[0].code}</span></p>
           <InputRange
-            maxValue={1440}
-            minValue={0}
+            maxValue={this.props.departure_day_time_filter.max}
+            minValue={this.props.departure_day_time_filter.min}
             formatLabel={value => `${pad(Math.floor(value / 60))}:${pad(value % 60)}`}
             value={this.state.inbound}
             onChange={inbound => this.setState({inbound})}

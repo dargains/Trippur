@@ -6,43 +6,20 @@ class HotelFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      price: {
-        min: 150,
-        max: 300
-      },
-      inbound: {
-        min: 800,
-        max: 1200
-      },
-      outbound: {
-        min: 500,
-        max: 700
-      },
-      stars: [
-        {
-          name: "5",
-          label: "five stars"
-        }, {
-          name: "4",
-          label: "four stars"
-        }, {
-          name: "3",
-          label: "three stars"
-        }, {
-          name: "2",
-          label: "two stars"
-        }, {
-          name: "1",
-          label: "one star"
-        }
-      ]
     };
     this.checkboxClick = this.checkboxClick.bind(this);
   }
   componentWillMount() {
+    this.getStars();
     this.getAmenities();
     this.getDistricts();
     this.getPropType();
+  }
+  getStars() {
+    let rawStars = [];
+    this.props.hotels.forEach(hotel => rawStars.push(hotel.stars));
+    let stars = [...new Set(rawStars)].sort().reverse();
+    this.setState({stars});
   }
   getAmenities() {
     let rawAmenities = [];
@@ -66,13 +43,14 @@ class HotelFilters extends React.Component {
     let rawProp = [];
     this.props.hotels.forEach(hotel => rawProp.push(hotel.property_type));
     let propTypes = [...new Set(rawProp)];
-    this.setState({propTypes})
+    this.setState({propTypes});
   }
   checkboxClick(event) {
     console.log(event.target)
   }
   render() {
     const proptypes = ["Hotel","Hostel","Bed and Breakfast","Apartment","Resort","Villa","Motel"];
+    const stars = ["One star","Two stars","Three stars","Four stars","Five stars"];
     return (
       <div>
         <article>
@@ -81,7 +59,7 @@ class HotelFilters extends React.Component {
         <hr />
         <article>
           <h2 className="sidebar__legend">Star Rating</h2>
-          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.props.changeStar}/>)}
+          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox-1]} handleClick={this.props.changeStar}/>)}
         </article>
         <hr/>
         <article>

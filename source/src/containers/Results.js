@@ -6,21 +6,27 @@ import queryString from "query-string";
 
 import Sidebar from "../components/Sidebar";
 import ResultsList from "../components/ResultsList";
+import Overlay from "../components/Overlay";
 
 class Results extends Component {
   constructor(props) {
     super(props);
     this.state = {
       noResults: false,
+      loading: true,
+      currentPage: 1,
       hotels: {},
       flights: {},
       districts:[],
       stars:[],
-      property_types:[]
+      property_types:[],
+      stop_types:[],
+      airline_codes :[]
     };
     this.updateDistricts = this.updateDistricts.bind(this);
     this.updateStars = this.updateStars.bind(this);
     this.updatePropType = this.updatePropType.bind(this);
+    this.updateStops = this.updateStops.bind(this);
   }
   componentWillMount() {
     const params = queryString.parse(this.props.history.location.search);
@@ -52,8 +58,9 @@ class Results extends Component {
     });
   }
   getHotels() {
+    this.setState({loading:true});
     var that = this;
-    console.log(this.state);
+
     Axios.get("http://api.wego.com/hotels/api/search/" + that.state.hotelId + "?key=047fca814736a1a95010&ts_code=18109", {
       params: {
         districts: that.state.districts,
@@ -64,7 +71,7 @@ class Results extends Component {
       crossdomain: true
     })
     .then(function (response) {
-      that.setState({hotels:response.data,gotResponse:"hotels"});
+      that.setState({hotels:response.data,gotResponse:"hotels",loading:false});
     })
     .catch(function (error) {
       console.log(error);
@@ -89,30 +96,31 @@ class Results extends Component {
     Axios.post(api.getFlights, JSON.stringify(params))
     .then(function (response) {
       setTimeout(()=>{
-        that.getFares(response.data.id,response.data.trips[0].id)
-
+        that.setState({search_id:response.data.id,trip_id:response.data.trips[0].id},that.getFares)
       },10000);
     })
     .catch(function (error) {
       console.log(error);
     });
   }
-  getFares(search_id, trip_id) {
+  getFares() {
+    this.setState({loading:true});
     const that = this,
           id = Math.floor(Math.random() * 1000000000);
     const params = {
       "id": id,
-      "search_id": search_id,
-      "trip_id": trip_id,
+      "search_id": that.state.search_id,
+      "trip_id": that.state.trip_id,
+      "stop_types": that.state.stop_types,
       "fares_query_type": "route",
-      "page": 1,
+      "page": that.state.currentPage,
       "per_page": 10,
       "currency_code": "EUR"
     }
     Axios.post(api.getFares, JSON.stringify(params))
     .then(function(response) {
       let data = response.data;
-      data.routes_count > 0 ? that.setState({flights:data,gotResponse:"flights"}) : that.setState({noResults:true});
+      data.routes_count > 0 ? that.setState({flights:data,gotResponse:"flights",loading:false}) : that.setState({noResults:true,loading:false});
     })
     .catch(function (error) {
       console.log(error);
@@ -143,16 +151,25 @@ class Results extends Component {
     index === -1 ? property_types.push(newValue) : property_types.splice(index, 1);
     this.setState({property_types},that.getHotels);
   }
+  updateStops(event) {
+    const that = this;
+    let newValue = event.target.name;
+    let stop_types = this.state.stop_types;
+    let index = stop_types.indexOf(newValue);
+    index === -1 ? stop_types.push(newValue) : stop_types.splice(index, 1);
+    this.setState({stop_types},that.getFares);
+  }
   render() {
     return (
       <div className="results">
         {this.state.noResults && <p className="results__foundItems">No Results</p>}
+        {this.state.loading && <Overlay />}
         {/* // NOTE: acertar isto */}
           {
             this.state.gotResponse === "flights" && !this.state.noResults && (
               <div className="wrapper">
                 <p className="results__foundItems">Found {this.state.flights.routes_count} flights</p>
-                <Sidebar {...this.state.flights} type={this.props.type}/>
+                <Sidebar {...this.state.flights} type={this.props.type} changeStops={this.updateStops}/>
                 <ResultsList {...this.state.flights} type={this.props.type}/>
               </div>)
             }
