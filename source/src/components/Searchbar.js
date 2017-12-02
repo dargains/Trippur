@@ -205,7 +205,8 @@ class Searchbar extends Component {
     dateInput.value = `${startDate} to ${endDate}`;
     this.setState({
       arriveDate,
-      leaveDate
+      leaveDate,
+      showDate: false
     });
   }
   classSelect(event) {
