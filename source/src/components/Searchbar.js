@@ -231,6 +231,7 @@ class Searchbar extends Component {
                <div className="searchbar__container">
                  <input type="text" placeholder="From" ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList}/>
                  {!this.state.gotResponse && <i className="loading">O</i>}
+                 {/* // TODO: loading decente */}
                  <ul className="searchbar__results">{inboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
