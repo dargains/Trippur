@@ -5,7 +5,7 @@ header {
   text-align: right;
   position: relative;
   z-index: 10;
-
+  box-shadow: 2px 2px 10px rgba(0,0,0,.2);
   .trippur {
     width: 105px;
     height: 23px;
@@ -31,7 +31,7 @@ header {
 
   &[data-theme="white"] {
     background: none;
-
+    box-shadow: none;
     .trippur {
       &:before {
         content: url("../images/trippur-logo-white.png");
