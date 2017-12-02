@@ -1,15 +1,23 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Axios from "axios";
 import api from "../api";
 import moment from "moment";
 
 import Calendar from "./Calendar";
-import Radiobutton from "./Radiobutton";
 import PersonPicker from "./PersonPicker";
 
 var CancelToken = Axios.CancelToken;
 var cancel;
+
+function serialize(obj) {
+  var str = [];
+  for(var p in obj)
+    if (obj.hasOwnProperty(p)) {
+      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    }
+  return str.join("&");
+}
 
 class Searchbar extends Component {
   constructor(props) {
@@ -80,7 +88,7 @@ class Searchbar extends Component {
     if (cancel !== undefined) cancel();
     let term = type === "inbound" ? this.refs.inboundAirport.value : this.refs.outboundAirport.value;
     this.setState({gotResponse:false})
-    Axios.get("https://www.air-port-codes.com/api/v1/autocomplete", {
+    Axios.get(api.getAirports, {
       params: {
         key: "d089ae75a4",
         term: term
@@ -91,7 +99,7 @@ class Searchbar extends Component {
       crossdomain: true
     })
     .then(function (response) {
-      console.log(response);
+      // NOTE: respostas pequenas sem data
       response.data.airports.length &&
       type === "inbound"
         ? that.setState({inboundAirports: response.data.airports,gotResponse:true})
@@ -110,7 +118,7 @@ class Searchbar extends Component {
           };
     let chosenFlight = this.state.chosenFlight;
     chosenFlight[type] = flightInfo
-    this.setState({chosenFlight},()=>console.log(this.state));
+    this.setState({chosenFlight});
     type === "inbound"
       ? this.refs.inboundAirport.value = event.target.innerText
       : this.refs.outboundAirport.value = event.target.innerText
@@ -151,10 +159,11 @@ class Searchbar extends Component {
     const state = this.state;
     const info = this.state.type === "flights"
       ? {
-        flightFrom: state.chosenFlight.flightFrom,
-        flightTo: state.chosenFlight.flightTo,
+        outbound: state.chosenFlight.outbound,
+        inbound: state.chosenFlight.inbound,
         arriveDate: state.arriveDate,
-        leaveDate:state.leaveDate,
+        leaveDate: state.leaveDate,
+        cabin: state.cabin,
         people: state.people
       }
       : {
@@ -162,9 +171,10 @@ class Searchbar extends Component {
         countryCode: state.chosenHotel.country_code,
         countryName: state.chosenHotel.country_name,
         arriveDate: state.arriveDate,
-        leaveDate:state.leaveDate,
+        leaveDate: state.leaveDate,
         people: state.people
       }
+    //this.props.history.push(`/results?${serialize(info)}`);
     this.props.sendData(info)
   }
   showList(event) {
@@ -176,9 +186,6 @@ class Searchbar extends Component {
       list.style.display = "none";
     },100)
   }
-  showPersonPicker() {
-    document.querySelector(".personPicker").style.display = "block";
-  }
   changePeople(type, operation) {
     const people = this.state.people;
     people[type] = operation ? this.state.people[type]+1 : this.state.people[type] <= 0 ? 0 : this.state.people[type]-1;
@@ -187,10 +194,10 @@ class Searchbar extends Component {
   getDate(event) {
     if (event.eventType !== 3) return;
     const startDate = moment(event.start).format("D[/]M[/]YYYY");
-    const arriveDate = moment(event.start).format("YYYY[/]M[/]D");
+    const arriveDate = moment(event.start).format("YYYY[-]M[-]D");
 
     const endDate = moment(event.end).format("D[/]M[/]YYYY");
-    const leaveDate = moment(event.end).format("YYYY[/]M[/]D");
+    const leaveDate = moment(event.end).format("YYYY[-]M[-]D");
 
     const dateInput = this.state.type === "flights"
       ? this.refs.flightDate
@@ -222,12 +229,12 @@ class Searchbar extends Component {
            ? (
              <div className="searchbar__filters">
                <div className="searchbar__container">
-                 <input type="text" placeholder="From" ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onBlur={this.closeList}/>
+                 <input type="text" placeholder="From" ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList}/>
                  {!this.state.gotResponse && <i className="loading">O</i>}
                  <ul className="searchbar__results">{inboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder="Where to" ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onBlur={this.closeList}/>
+                 <input type="text" placeholder="Where to" ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList}/>
                  {!this.state.gotResponse && <i className="loading">O</i>}
                  <ul className="searchbar__results">{outboundAirports}</ul>
                </div>
@@ -239,9 +246,9 @@ class Searchbar extends Component {
                  <div className="searchbar__container">
                  <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} passengers`} ref="flightPeople" disabled/>
                  <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
-                 { this.state.showPersonPicker && <PersonPicker label="Passengers" changePeople={this.changePeople} {...this.state.people}/> }
+                 { this.state.showPersonPicker && <PersonPicker label="Passengers" changePeople={this.changePeople} {...this.state.people} class={true} cabin={this.state.cabin} classSelect={this.classSelect}/> }
                </div>
-               <Link to="/results" onClick={this.onSearch} className={Object.keys(this.state.chosenFlight).length === 0 ? "btn primary disabledLink" : "btn primary"}>
+               <Link to="/results" onClick={this.onSearch} className={Object.keys(this.state.chosenFlight.inbound).length !== 0 && Object.keys(this.state.chosenFlight.outbound).length !== 0 && this.state.arriveDate !== "" ? "btn primary" : "btn primary disabledLink"}>
                  <span>Search</span>
                </Link>
              </div>
@@ -273,4 +280,4 @@ class Searchbar extends Component {
   }
 }
 
-export default Searchbar;
+export default withRouter(Searchbar);
