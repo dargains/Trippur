@@ -27,7 +27,7 @@ class DestinationsList extends React.Component {
               {destinations}
             </ul>
           </div>
-          <a href="#" className="btn">
+          <a href="" className="btn">
             <span>see more</span>
           </a>
         </div>
