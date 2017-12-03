@@ -6,6 +6,7 @@ import moment from "moment";
 
 import Calendar from "./Calendar";
 import PersonPicker from "./PersonPicker";
+import Spinner from "./Spinner";
 
 var CancelToken = Axios.CancelToken;
 var cancel;
@@ -131,7 +132,7 @@ class Searchbar extends Component {
       params: {
         q: that.refs.hotel.value,
         lang: "EN",
-        currency_code: "USD"
+        currency_code: "EUR"
       },
       cancelToken: new CancelToken(function executor(c) {
         cancel = c;
@@ -231,13 +232,13 @@ class Searchbar extends Component {
              <div className="searchbar__filters">
                <div className="searchbar__container">
                  <input type="text" placeholder="From" ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList}/>
-                 {!this.state.gotResponse && <i className="loading">O</i>}
+                 {!this.state.gotResponse && <Spinner />}
                  {/* // TODO: loading decente */}
                  <ul className="searchbar__results">{inboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
                  <input type="text" placeholder="Where to" ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList}/>
-                 {!this.state.gotResponse && <i className="loading">O</i>}
+                 {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{outboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
@@ -258,7 +259,7 @@ class Searchbar extends Component {
              <div className="searchbar__filters">
                <div className="searchbar__container">
                  <input type="text" placeholder="Where do you want to go?" onKeyUp={this.getHotels} onBlur={this.closeList} onFocus={this.showList} ref="hotel"/>
-                 {!this.state.gotResponse && <i className="loading">O</i>}
+                 {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{hotels}</ul>
                </div>
                <div className="searchbar__container">
