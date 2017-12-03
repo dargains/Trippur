@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default(props) => (
-  <article className="hotelItem">
+  <article className="hotelItem" id={props.id}>
     <figure>
       <img src={props.image} alt={props.name}/>
     </figure>
@@ -19,17 +19,18 @@ export default(props) => (
       </div>
       <div className="hotelList">
         <ul>
-          {props.room_rates.map(rate => <li key={rate.id}><a href="" target="_blank"><span>€{rate.price_str}</span>{rate.provider_name}</a></li>)}
+          {props.room_rates.map(rate => <li key={rate.id}><p onClick={props.onRateClick.bind(this,props.id,rate.id)} ><span>€{rate.price_str}</span>{rate.provider_name}</p></li>)}
+          {/* // TODO: getRoomRates */}
         </ul>
       </div>
     </div>
     <aside className="right">
-      <div className="hotelPrice">
-        <p>
+      <div className="hotelPriceContainer">
+        <p className="hotelPrice">
           {props.room_rate_min.currency_sym}{props.room_rate_min.price_str}
           <span>{props.room_rate_min.provider_name}</span>
         </p>
-        <a href={`http://${props.url}`} className="btn" target="_blank"><span>VIEW DEAL</span></a>
+        <p className="btn" onClick={props.onRateClick.bind(this,props.id,props.room_rate_min.id)}><span>VIEW DEAL</span></p>
       </div>
     </aside>
   </article>

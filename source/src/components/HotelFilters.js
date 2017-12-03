@@ -50,16 +50,12 @@ class HotelFilters extends React.Component {
   }
   render() {
     const proptypes = ["Hotel","Hostel","Bed and Breakfast","Apartment","Resort","Villa","Motel"];
-    const stars = ["One star","Two stars","Three stars","Four stars","Five stars"];
+    const stars = ["Not specified","One star","Two stars","Three stars","Four stars","Five stars"];
     return (
       <div>
         <article>
-          <h2 className="sidebar__legend">Hotel Name</h2>
-        </article>
-        <hr />
-        <article>
           <h2 className="sidebar__legend">Star Rating</h2>
-          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox-1]} handleClick={this.props.changeStar}/>)}
+          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox]} handleClick={this.props.changeStar}/>)}
         </article>
         <hr/>
         <article>

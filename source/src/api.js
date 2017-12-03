@@ -24,7 +24,7 @@ const api = {
   getLocations: config.baseUrl + config.hotelEndpoints.search + config.hotelEndpoints.clientInfo,
   getHotels: config.baseUrl + config.hotelEndpoints.new + config.hotelEndpoints.clientInfo,
   getHotelId: config.baseUrl + config.hotelEndpoints.searchId + config.hotelEndpoints.clientInfo,
-  redirectHotels: config.baseUrl + config.hotelEndpoints.redirect + config.hotelEndpoints.clientInfo
+  getRoomRates: config.baseUrl + config.hotelEndpoints.redirect + config.hotelEndpoints.clientInfo
 }
 
 export default api;
