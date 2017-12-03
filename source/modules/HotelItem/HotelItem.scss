@@ -157,15 +157,16 @@
         li {
           @include fontXS;
           display: inline-block;
+          margin: 5px;
           @include mq(0, 600px) {
             display: block;
             line-height: 18px;
           }
 
-          a {
+          p {
             color: $SecondaryColor;
             text-decoration: none;
-
+            cursor: pointer;
             span {
               color: #4b5862;
               font-weight: 700;
@@ -178,9 +179,6 @@
               }
             }
           }
-        }
-        li + li {
-          margin-left: 10px;
         }
       }
     }
@@ -199,8 +197,8 @@
         max-width: 100%;
       }
 
-      .hotelPrice {
-        p {
+      .hotelPriceContainer {
+        .hotelPrice {
           @include fontM($PrimaryColor);
           margin-bottom: 40px;
           @include mq(0, 1280px) {
