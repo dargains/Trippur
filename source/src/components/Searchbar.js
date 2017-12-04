@@ -160,23 +160,29 @@ class Searchbar extends Component {
     const state = this.state;
     const info = this.state.type === "flights"
       ? {
-        outbound: state.chosenFlight.outbound,
-        inbound: state.chosenFlight.inbound,
+        type: "flights",
+        outbound: state.chosenFlight.outbound.id,
+        inbound: state.chosenFlight.inbound.id,
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
         cabin: state.cabin,
-        people: state.people
+        adults_count: parseInt(state.people.adults_count),
+        children_count: parseInt(state.people.children_count),
+        infants_count: parseInt(state.people.infants_count)
       }
       : {
+        type: "hotels",
         id: state.chosenHotel.id,
         countryCode: state.chosenHotel.country_code,
         countryName: state.chosenHotel.country_name,
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
-        people: state.people
+        adults_count: parseInt(state.people.adults_count),
+        children_count: parseInt(state.people.children_count),
+        infants_count: parseInt(state.people.infants_count)
       }
-    //this.props.history.push(`/results?${serialize(info)}`);
-    this.props.sendData(info)
+    //this.props.sendData(info)
+    this.props.history.push(`/results?${serialize(info)}`);
   }
   showList(event) {
     event.target.nextElementSibling.style.display = "block";
@@ -233,7 +239,6 @@ class Searchbar extends Component {
                <div className="searchbar__container">
                  <input type="text" placeholder="From" ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList}/>
                  {!this.state.gotResponse && <Spinner />}
-                 {/* // TODO: loading decente */}
                  <ul className="searchbar__results">{inboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
@@ -251,9 +256,9 @@ class Searchbar extends Component {
                  <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
                  { this.state.showPersonPicker && <PersonPicker label="Passengers" changePeople={this.changePeople} {...this.state.people} class={true} cabin={this.state.cabin} classSelect={this.classSelect}/> }
                </div>
-               <Link to="/results" onClick={this.onSearch} className={Object.keys(this.state.chosenFlight.inbound).length !== 0 && Object.keys(this.state.chosenFlight.outbound).length !== 0 && this.state.arriveDate !== "" ? "btn primary" : "btn primary disabledLink"}>
+               <button onClick={this.onSearch} className={Object.keys(this.state.chosenFlight.inbound).length !== 0 && Object.keys(this.state.chosenFlight.outbound).length !== 0 && this.state.arriveDate !== "" ? "btn primary" : "btn primary disabledLink"}>
                  <span>Search</span>
-               </Link>
+               </button>
              </div>
            ) : (
              <div className="searchbar__filters">
@@ -272,9 +277,9 @@ class Searchbar extends Component {
                  <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
                  { this.state.showPersonPicker && <PersonPicker label="Guests" changePeople={this.changePeople} {...this.state.people}/> }
                </div>
-               <Link to='/results' onClick={this.onSearch} className={(Object.keys(this.state.chosenHotel).length !== 0 && this.state.arriveDate !== "") ? "btn primary" : "btn primary disabledLink"}>
+               <button onClick={this.onSearch} className={(Object.keys(this.state.chosenHotel).length !== 0 && this.state.arriveDate !== "") ? "btn primary" : "btn primary disabledLink"}>
                  <span>Search</span>
-               </Link>
+               </button>
              </div>
            )
         }
