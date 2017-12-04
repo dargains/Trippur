@@ -1,17 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default(props) => (
   <footer>
     <div className="wrapper">
       <ul>
         <li>
-          <a href="">About</a>
+          <Link to="/pages/about">About</Link>
         </li>
         <li>
           <a href="">Privacy</a>
         </li>
         <li>
-          <a href="">Terms & Conditions</a>
+          <Link to="/pages/terms">Terms & Conditions</Link>
         </li>
         <li>
           <a href="">
