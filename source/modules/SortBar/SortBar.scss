@@ -1,0 +1,43 @@
+.sort {
+  background: #adadad;
+  color: #FFF;
+  margin: 10px 0 20px;
+  .wrapper {
+    @include mq(0, 768px) {
+      padding: 0;
+    }
+    ul {
+      text-align: center;
+      font-size: 0;
+      li {
+        text-transform: uppercase;
+        padding: 10px 20px;
+        text-align: center;
+        display: inline-block;
+        cursor: pointer;
+        width: 16.666%;
+        font-family: $Roboto;
+        font-size: 14px;
+        @include mq(0, 768px) {
+          width: 100%;
+        }
+        &.selected {
+          background: #878787;
+          color:#FFF;
+        }
+        &:hover {
+          background: #878787;
+        }
+       span {
+         margin:0 0 0 5px;
+         position: relative;
+         top:1px;
+         &.icon-triangle-up{
+          transform:rotate(180deg);
+          display: inline-block;
+         }       
+       } 
+      }
+    }
+  }
+}
