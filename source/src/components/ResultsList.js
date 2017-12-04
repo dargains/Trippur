@@ -11,12 +11,10 @@ class ResultsList extends React.Component {
     };
   }
   render() {
-    let items,
-    that = this;
-    console.log(this.props);
+    let items;
     this.props.type === "flights"
       ? items = this.props.routes.map(flight => <FlightItem key={flight.id} {...flight}/> )
-      : items = this.props.hotels.map(hotel => <HotelItem key={hotel.id} {...hotel} onRateClick={that.props.onRateClick}/> );
+      : items = this.props.hotels.map(hotel => <HotelItem key={hotel.id} {...hotel} onRateClick={this.props.onRateClick} currency={this.props.actualCurrencySymbol}/> );
     return (
       <section className="resultsList">
         {items}

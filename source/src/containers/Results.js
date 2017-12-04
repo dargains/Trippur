@@ -16,6 +16,8 @@ class Results extends Component {
       firstLoad: true,
       noResults: false,
       loading: true,
+      actualCurrency:"EUR",
+      actualCurrencySymbol: "€",
       currentPage: 1,
       hotels: {},
       flights: {},
@@ -23,36 +25,43 @@ class Results extends Component {
       stars:[],
       property_types:[],
       stop_types:[],
-      airline_codes :[]
+      airline_codes :[],
+      cabin:""
     };
-    this.updateDistricts = this.updateDistricts.bind(this);
     this.updateStars = this.updateStars.bind(this);
-    this.updatePropType = this.updatePropType.bind(this);
     this.updateStops = this.updateStops.bind(this);
-    this.getRoomRates = this.getRoomRates.bind(this);
+    this.updateCabin = this.updateCabin.bind(this);
+    this.updatePriceF = this.updatePriceF.bind(this);
+    this.updatePriceH = this.updatePriceH.bind(this);
+    this.redirectHotel = this.redirectHotel.bind(this);
+    this.updatePropType = this.updatePropType.bind(this);
+    this.updateAirlines = this.updateAirlines.bind(this);
+    this.updateDistricts = this.updateDistricts.bind(this);
     this.updatePagination = this.updatePagination.bind(this);
   }
   componentWillMount() {
     const params = queryString.parse(this.props.history.location.search);
-    if (this.props.type === "hotels") this.getHotelsId();
-    if (this.props.type === "flights") this.getFlights();
+    this.setState({info:params,cabin:params.cabin},() => {
+      if (this.state.info.type === "hotels") this.getHotelsId();
+      if (this.state.info.type === "flights") this.getFlights();
+    });
+    this.getCurrency();
     this.props.getLocation("results");
   }
   updateCalls() {
-    if (this.props.type === "hotels") this.getHotels();
-    if (this.props.type === "flights") this.getFares();
+    if (this.state.info.type === "hotels") this.getHotels();
+    if (this.state.info.type === "flights") this.getFares();
   }
   // TODO: cancel das chamadas
-  // TODO: loading
   getHotelsId() {
     var that = this,
-        info = this.props.info;
+        info = this.state.info;
     Axios.get(api.getHotels, {
       params: {
         location_id: info.id,
         check_in: info.arriveDate,
         check_out: info.leaveDate,
-        guests: info.people.adults_count,
+        guests: info.adults_count,
         user_ip: "direct"
       },
       crossdomain: true
@@ -69,15 +78,16 @@ class Results extends Component {
   getHotels() {
     this.setState({loading:true});
     var that = this;
-
     Axios.get("http://api.wego.com/hotels/api/search/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109", {
       params: {
         districts: that.state.districts,
         stars: that.state.stars,
         property_types: that.state.property_types,
         currency_code: "EUR",
-        "page": that.state.currentPage,
-        "per_page": 10
+        price_max: that.state.price_max,
+        price_min: that.state.price_min,
+        page: that.state.currentPage,
+        per_page: 10
       },
       crossdomain: true
     })
@@ -94,7 +104,7 @@ class Results extends Component {
       console.log(error);
     });
   }
-  getRoomRates(hotelId,roomId, event) {
+  redirectHotel(hotelId,roomId, event) {
     const that = this;
     Axios.get("http://api.wego.com/hotels/api/search/redirect/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109",{
       params: {
@@ -102,30 +112,29 @@ class Results extends Component {
         hotel_id: hotelId,
         room_rate_id: roomId,
         locale:"en",
-        currency_code: "EUR"
+        currency_code: that.state.actualCurrency
       }
     })
     .then(function (response) {
-      var newWin = window.open('url','windowName','height=300,width=300');
-      newWin.document.write(response.data);
+      window.open().document.write(response.data)
     })
     .catch(function (error) {
       console.log(error);
     });
   }
   getFlights() {
-    const info = this.props.info,
+    const info = this.state.info,
           that = this;
     let params = {
       "trips": [{
-        "departure_code": info.inbound.id,
-        "arrival_code": info.outbound.id,
+        "departure_code": info.inbound,
+        "arrival_code": info.outbound,
         "inbound_date": info.leaveDate,
         "outbound_date": info.arriveDate
       }],
-      "adults_count": info.people.adults_count,
-      "children_count": info.people.children_count,
-      "infants_count": info.people.infants_count,
+      "adults_count": info.adults_count,
+      "children_count": info.children_count,
+      "infants_count": info.infants_count,
       "cabin": info.cabin,
       "currency_code": "EUR"
     }
@@ -148,7 +157,11 @@ class Results extends Component {
       "search_id": that.state.search_id,
       "trip_id": that.state.trip_id,
       "stop_types": that.state.stop_types,
+      "cabin": that.state.cabin,
       "fares_query_type": "route",
+      "price_max_usd": that.state.price_max_usd,
+      "price_min_usd": that.state.price_min_usd,
+      "airline_codes": that.state.airline_codes,
       "page": that.state.currentPage,
       "per_page": 10,
       "currency_code": "EUR"
@@ -161,12 +174,22 @@ class Results extends Component {
         gotResponse:"flights",
         loading:false,
         firstLoad:false,
-        totalCount:data.total_count
+        totalCount:data.filtered_routes_count
       }) : that.setState({noResults:true,loading:false});
     })
     .catch(function (error) {
       console.log(error);
       that.props.history.push("/");
+    });
+  }
+  getCurrency() {
+    const that = this;
+    Axios.get(api.getCurrency)
+    .then(function (response) {
+      that.setState({currencies:response.data.currencies.currencies});
+    })
+    .catch(function (error) {
+      console.log(error);
     });
   }
   updateDistricts(event) {
@@ -201,14 +224,46 @@ class Results extends Component {
     index === -1 ? stop_types.push(newValue) : stop_types.splice(index, 1);
     this.setState({stop_types},that.updateCalls);
   }
+  updateCabin(event) {
+    const that = this;
+    let cabin = event.target.name;
+    this.setState({cabin},that.updateCalls);
+  }
+  updatePriceF(event) {
+    const that = this;
+    let maxUSD = event.max,
+        minUSD = event.min,
+        exchangeRate = this.state.currencies[this.state.actualCurrency].exchange_rate,
+        maxAC = Math.floor(maxUSD/exchangeRate),
+        minAC = Math.floor(minUSD/exchangeRate);
+    this.setState({
+      price_min_usd: minAC,
+      price_max_usd: maxAC
+    },that.updateCalls);
+  }
+  updatePriceH(event) {
+    const that = this;
+    let max = event.max,
+        min = event.min;
+    this.setState({
+      price_min: min,
+      price_max: max
+    },that.updateCalls);
+  }
+  updateAirlines(event) {
+    const that = this;
+    let newValue = event.target.name;
+    let airline_codes = this.state.airline_codes;
+    let index = airline_codes.indexOf(newValue);
+    index === -1 ? airline_codes.push(newValue) : airline_codes.splice(index, 1);
+    this.setState({airline_codes},that.updateCalls);
+  }
   updatePagination(event) {
-    console.log(event.selected + 1);
     this.setState({currentPage:event.selected + 1},this.updateCalls)
   }
   render() {
     return (
       <div className="results">
-        {this.state.noResults && <p className="results__foundItems">No Results</p>}
         {this.state.loading && <Overlay />}
         {this.state.firstLoad && <PleaseWait />}
         {/* flights */}
@@ -218,15 +273,20 @@ class Results extends Component {
                 <p className="results__foundItems">Found {this.state.flights.routes_count} flights</p>
                 <Sidebar
                   {...this.state.flights}
-                  type={this.props.type}
+                  type={this.state.info.type}
                   changeStops={this.updateStops}
+                  changeCabin={this.updateCabin}
+                  changePrice={this.updatePriceF}
+                  changeAirlines={this.updateAirlines}
+                  currency={this.state.actualCurrencySymbol}
                 />
+                {this.state.noResults && <p className="results__foundItems">No Results</p>}
                 <ResultsList
                   {...this.state.flights}
-                  type={this.props.type}
+                  type={this.state.info.type}
+                  currentPage={this.state.currentPage}
                   handlePagination={this.updatePagination}
                   pageCount={Math.ceil(this.state.totalCount/10)}
-                  currentPage={this.state.currentPage}
                 />
               </div>)
             }
@@ -237,22 +297,24 @@ class Results extends Component {
                 <p className="results__foundItems">Found {this.state.hotels.filtered_count} hotels</p>
                 <Sidebar
                   {...this.state.hotels}
-                  type={this.props.type}
-                  changeDistrict={this.updateDistricts}
+                  type={this.state.info.type}
                   changeStar={this.updateStars}
+                  changePrice={this.updatePriceH}
                   changePropType={this.updatePropType}
+                  changeDistrict={this.updateDistricts}
+                  currency={this.state.actualCurrencySymbol}
                 />
+                {this.state.noResults && <p className="results__foundItems">No Results</p>}
                 <ResultsList
                   {...this.state.hotels}
-                  type={this.props.type}
-                  onRateClick={this.getRoomRates}
+                  type={this.state.info.type}
+                  onRateClick={this.redirectHotel}
+                  currentPage={this.state.currentPage}
                   handlePagination={this.updatePagination}
                   pageCount={Math.ceil(this.state.totalCount/10)}
-                  currentPage={this.state.currentPage}
                 />
               </div>)
           }
-          {/* // TODO: paginação */}
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Checkbox from './Checkbox';
+import InputRange from 'react-input-range';
 
 class HotelFilters extends React.Component {
   constructor(props) {
@@ -10,10 +11,18 @@ class HotelFilters extends React.Component {
     this.checkboxClick = this.checkboxClick.bind(this);
   }
   componentWillMount() {
+    this.getPrices();
     this.getStars();
     this.getAmenities();
     this.getDistricts();
     this.getPropType();
+  }
+  getPrices() {
+    let initialPrice = {
+      min: this.props.rates.min.price,
+      max: this.props.rates.max.price
+    }
+    this.setState({initialPrice,price:initialPrice});
   }
   getStars() {
     let rawStars = [];
@@ -53,6 +62,17 @@ class HotelFilters extends React.Component {
     const stars = ["Not specified","One star","Two stars","Three stars","Four stars","Five stars"];
     return (
       <div>
+        <article>
+          <h2 className="sidebar__legend">Price</h2>
+          <InputRange
+            maxValue={this.state.initialPrice.max}
+            minValue={this.state.initialPrice.min}
+            formatLabel={value => `${value}${this.props.currency}`}
+            value={this.state.price}
+            onChange={price => this.setState({price})}
+            onChangeComplete={value => this.props.changePrice(value)}
+          />
+        </article>
         <article>
           <h2 className="sidebar__legend">Star Rating</h2>
           {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox]} handleClick={this.props.changeStar}/>)}

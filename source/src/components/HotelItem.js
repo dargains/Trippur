@@ -15,12 +15,11 @@ export default(props) => (
           <li className="icon-star-full"></li>
           <li className="icon-star-full"></li>
         </ul>
-        <p>{props.satisfaction_description} ({props.total_reviews} reviews)</p>
+        <p>{props.satisfaction_description} ({props.total_reviews !== null ? props.total_reviews : "No"} reviews)</p>
       </div>
       <div className="hotelList">
         <ul>
           {props.room_rates.map(rate => <li key={rate.id}><p onClick={props.onRateClick.bind(this,props.id,rate.id)} ><span>€{rate.price_str}</span>{rate.provider_name}</p></li>)}
-          {/* // TODO: getRoomRates */}
         </ul>
       </div>
     </div>
