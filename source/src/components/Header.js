@@ -1,7 +1,7 @@
 import React from "react";
 
 export default(props) => (
-  <header data-theme={props.theme} data-position={props.position}>
+  <header data-theme={props.history.location.pathname === "/" ? "white" : ""} data-position={props.history.location.pathname === "/" ? "absolute" : ""}>
     <a href="/" className="trippur"></a>
     <nav>
       <ul>

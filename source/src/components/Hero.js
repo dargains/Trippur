@@ -7,7 +7,7 @@ export default(props) => (
     <div className="wrapper">
       <h1><strong>Explore.</strong> Compare. Book.</h1>
       <div className="booking-mask">
-        <Searchbar changeType={props.changeType} sendData={props.sendData}/>
+        <Searchbar />
       </div>
     </div>
     <a href="" className="arrow-down">

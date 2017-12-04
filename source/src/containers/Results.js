@@ -46,7 +46,6 @@ class Results extends Component {
       if (this.state.info.type === "flights") this.getFlights();
     });
     this.getCurrency();
-    this.props.getLocation("results");
   }
   updateCalls() {
     if (this.state.info.type === "hotels") this.getHotels();

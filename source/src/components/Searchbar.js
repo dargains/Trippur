@@ -59,7 +59,6 @@ class Searchbar extends Component {
   }
   onTypeChange(event) {
     let type = event.target.dataset.type;
-    this.props.changeType(type);
     this.setState({
       type,
       hotels:[],
