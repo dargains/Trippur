@@ -13,7 +13,7 @@ class HotelFilters extends React.Component {
   componentWillMount() {
     this.getPrices();
     this.getStars();
-    this.getAmenities();
+    //this.getAmenities();
     this.getDistricts();
     this.getPropType();
   }
@@ -30,18 +30,18 @@ class HotelFilters extends React.Component {
     let stars = [...new Set(rawStars)].sort().reverse();
     this.setState({stars});
   }
-  getAmenities() {
-    let rawAmenities = [];
-    this.props.hotels.forEach(hotel => {
-      hotel.room_rates.forEach(room => {
-        for(let amenity in room.amenities[""]) {
-          rawAmenities.push({name:amenity, label:room.amenities[""][amenity]});
-        }
-      });
-    });
-    const amenities = Array.from(new Set(rawAmenities.map(JSON.stringify))).map(JSON.parse);
-    this.setState({amenities});
-  }
+  // getAmenities() {
+  //   let rawAmenities = [];
+  //   this.props.hotels.forEach(hotel => {
+  //     hotel.room_rates.forEach(room => {
+  //       for(let amenity in room.amenities[""]) {
+  //         rawAmenities.push({name:amenity, label:room.amenities[""][amenity]});
+  //       }
+  //     });
+  //   });
+  //   const amenities = Array.from(new Set(rawAmenities.map(JSON.stringify))).map(JSON.parse);
+  //   this.setState({amenities});
+  // }
   getDistricts() {
     let rawDistricts = [];
     this.props.districts.map(district => rawDistricts.push({name: district.id, label: district.name}));
@@ -87,11 +87,11 @@ class HotelFilters extends React.Component {
           <h2 className="sidebar__legend">District Areas</h2>
           {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.props.changeDistrict}/>)}
         </article>
-        <hr/>
+        {/* <hr/>
         <article>
           <h2 className="sidebar__legend">Hotel Amenities</h2>
           {this.state.amenities.map((checkbox,index) => <Checkbox key={`amenity${index}`} id={`amenity${index}`} name={checkbox.name} label={checkbox.label} handleClick={this.checkboxClick}/>)}
-        </article>
+        </article> */}
       </div>
     );
   }
