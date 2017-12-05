@@ -6,13 +6,13 @@ export default(props) => (
     <div className="wrapper">
       <ul>
         <li>
-          <Link to="/pages/about">About</Link>
+          <Link to="/Pages/About">About</Link>
         </li>
         <li>
-          <a href="">Privacy</a>
+          <Link to="/Pages/Privacy">Privacy</Link>
         </li>
         <li>
-          <Link to="/pages/terms">Terms & Conditions</Link>
+          <Link to="/Pages/Terms">Terms & Conditions</Link>
         </li>
         <li>
           <a href="">

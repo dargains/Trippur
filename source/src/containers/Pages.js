@@ -1,7 +1,9 @@
 import React from "react";
 
 export default (props) => (
-  <div>
-    {props.children}
-  </div>
+  <section className="wot">
+    <div className="wrapper">
+      {props.children}
+    </div>
+  </section>
 )

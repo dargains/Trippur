@@ -5,7 +5,7 @@ export default(props) => (
     <div className="wrapper">
       <h4>Subscribe to our Newsletter</h4>
       <input type="text" id="nlemail" placeholder="Enter your email here" />
-      <a href="#" className="btn alternative">
+      <a href="" className="btn alternative">
         <span>Send</span>
       </a>
       <p>* Subscription sucess message</p>

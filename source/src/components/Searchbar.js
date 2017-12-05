@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Axios from "axios";
 import api from "../api";
 import moment from "moment";
@@ -165,9 +165,9 @@ class Searchbar extends Component {
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
         cabin: state.cabin,
-        adults_count: parseInt(state.people.adults_count),
-        children_count: parseInt(state.people.children_count),
-        infants_count: parseInt(state.people.infants_count)
+        adults_count: parseInt(state.people.adults_count, 10),
+        children_count: parseInt(state.people.children_count, 10),
+        infants_count: parseInt(state.people.infants_count, 10)
       }
       : {
         type: "hotels",
@@ -176,12 +176,12 @@ class Searchbar extends Component {
         countryName: state.chosenHotel.country_name,
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
-        adults_count: parseInt(state.people.adults_count),
-        children_count: parseInt(state.people.children_count),
-        infants_count: parseInt(state.people.infants_count)
+        adults_count: parseInt(state.people.adults_count, 10),
+        children_count: parseInt(state.people.children_count, 10),
+        infants_count: parseInt(state.people.infants_count, 10)
       }
     //this.props.sendData(info)
-    this.props.history.push(`/results?${serialize(info)}`);
+    this.props.history.push(`/Results?${serialize(info)}`);
   }
   showList(event) {
     event.target.nextElementSibling.style.display = "block";

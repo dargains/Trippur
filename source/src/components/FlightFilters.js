@@ -32,7 +32,6 @@ class FlightFilters extends React.Component {
     this.checkboxClick = this.checkboxClick.bind(this);
   }
   componentWillMount() {
-    const that = this;
     this.setState({
       price: {
         min:this.props.price_filter.min,

@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from "moment";
 
-const stops = ["No stops", "1 stop", "2+ stops"];
+//const stops = ["No stops", "1 stop", "2+ stops"];
 
 export default(props) => (
   <article className="flightItem">
@@ -37,7 +37,7 @@ export default(props) => (
       <a href={props.best_fare.deeplink} className="btn" target="_BLANK">
         <span>SELECT</span>
       </a>
-      <a href="#">+ more details</a>
+      <a href="">+ more details</a>
     </div>
   </article>
 )
