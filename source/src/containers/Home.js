@@ -8,11 +8,11 @@ import Newsletter from "../components/Newsletter";
 class Home extends Component {
   render() {
     return (
-      <div>
+      <main>
         <Hero />
         <DestinationsList />
         <Newsletter />
-      </div>
+      </main>
     )
   }
 }

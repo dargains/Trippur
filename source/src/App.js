@@ -15,7 +15,7 @@ import Terms from "./components/Terms";
 
 export default (props) => (
     <BrowserRouter>
-      <main>
+      <div>
         <Route component={Header} />
         <Switch>
           <Route exact path="/" component={Home} />
@@ -30,6 +30,6 @@ export default (props) => (
           <Route component={Error404} />
         </Switch>
         <Route component={Footer} />
-    </main>
+    </div>
   </BrowserRouter>
 );

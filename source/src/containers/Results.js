@@ -7,6 +7,8 @@ import queryString from "query-string";
 import Sidebar from "../components/Sidebar";
 import ResultsList from "../components/ResultsList";
 import Overlay from "../components/Overlay";
+import HotelSort from "../components/HotelSort";
+import FlightSort from "../components/FlightSort";
 import PleaseWait from "../components/PleaseWait";
 
 class Results extends Component {
@@ -28,6 +30,7 @@ class Results extends Component {
       airline_codes :[],
       cabin:""
     };
+    this.updateCalls = this.updateCalls.bind(this);
     this.updateStars = this.updateStars.bind(this);
     this.updateStops = this.updateStops.bind(this);
     this.updateCabin = this.updateCabin.bind(this);
@@ -38,6 +41,9 @@ class Results extends Component {
     this.updateAirlines = this.updateAirlines.bind(this);
     this.updateDistricts = this.updateDistricts.bind(this);
     this.updatePagination = this.updatePagination.bind(this);
+    this.sortHotelRating = this.sortHotelRating.bind(this);
+    this.sortHotelPopularity = this.sortHotelPopularity.bind(this);
+    this.sortHotelPrice = this.sortHotelPrice.bind(this);
   }
   componentWillMount() {
     const params = queryString.parse(this.props.history.location.search);
@@ -47,9 +53,13 @@ class Results extends Component {
     });
     this.getCurrency();
   }
-  updateCalls() {
-    if (this.state.info.type === "hotels") this.getHotels();
-    if (this.state.info.type === "flights") this.getFares();
+  updateCalls(isNew) {
+    if (isNew === undefined) {
+      this.setState({currentPage:1},() => {this.updateCalls(true)})
+    } else {
+      if (this.state.info.type === "hotels") this.getHotels();
+      if (this.state.info.type === "flights") this.getFares();
+    }
   }
   // TODO: cancel das chamadas
   getHotelsId() {
@@ -258,63 +268,81 @@ class Results extends Component {
     this.setState({airline_codes},that.updateCalls);
   }
   updatePagination(event) {
-    this.setState({currentPage:event.selected + 1},this.updateCalls)
+    this.setState({currentPage:event.selected + 1},() => {this.updateCalls(true)})
   }
+  sortHotelRating(event) {
+    console.log(event.target);
+  }
+  sortHotelPopularity(event) {
+    console.log(event.target);
+  }
+  sortHotelPrice(event) {
+    console.log(event.target);
+  }
+
   render() {
     return (
-      <div className="results">
+      <main>
         {this.state.loading && <Overlay />}
         {this.state.firstLoad && <PleaseWait />}
         {/* flights */}
           {
             this.state.gotResponse === "flights" && !this.state.noResults && (
-              <div className="wrapper">
-                <p className="results__foundItems">Found {this.state.flights.routes_count} flights</p>
-                <Sidebar
-                  {...this.state.flights}
-                  type={this.state.info.type}
-                  changeStops={this.updateStops}
-                  changeCabin={this.updateCabin}
-                  changePrice={this.updatePriceF}
-                  changeAirlines={this.updateAirlines}
-                  currency={this.state.actualCurrencySymbol}
-                />
-                {this.state.noResults && <p className="results__foundItems">No Results</p>}
-                <ResultsList
-                  {...this.state.flights}
-                  type={this.state.info.type}
-                  currentPage={this.state.currentPage}
-                  handlePagination={this.updatePagination}
-                  pageCount={Math.ceil(this.state.totalCount/10)}
-                />
-              </div>)
-            }
-            {/* hotels */}
-            {
-            this.state.gotResponse === "hotels" && !this.state.noResults && (
-              <div className="wrapper">
-                <p className="results__foundItems">Found {this.state.hotels.filtered_count} hotels</p>
-                <Sidebar
-                  {...this.state.hotels}
-                  type={this.state.info.type}
-                  changeStar={this.updateStars}
-                  changePrice={this.updatePriceH}
-                  changePropType={this.updatePropType}
-                  changeDistrict={this.updateDistricts}
-                  currency={this.state.actualCurrencySymbol}
-                />
-                {this.state.noResults && <p className="results__foundItems">No Results</p>}
-                <ResultsList
-                  {...this.state.hotels}
-                  type={this.state.info.type}
-                  onRateClick={this.redirectHotel}
-                  currentPage={this.state.currentPage}
-                  handlePagination={this.updatePagination}
-                  pageCount={Math.ceil(this.state.totalCount/10)}
-                />
-              </div>)
+              <div className="results">
+                <FlightSort />
+                <div className="wrapper">
+                  <p className="results__foundItems">Found {this.state.flights.routes_count} flights</p>
+                  <Sidebar
+                    {...this.state.flights}
+                    type={this.state.info.type}
+                    changeStops={this.updateStops}
+                    changeCabin={this.updateCabin}
+                    changePrice={this.updatePriceF}
+                    changeAirlines={this.updateAirlines}
+                    currency={this.state.actualCurrencySymbol}
+                  />
+                  {this.state.noResults && <p className="results__foundItems">No Results</p>}
+                  <ResultsList
+                    {...this.state.flights}
+                    type={this.state.info.type}
+                    currentPage={this.state.currentPage}
+                    handlePagination={this.updatePagination}
+                    pageCount={Math.ceil(this.state.totalCount/10)}
+                  />
+                </div>
+              </div>
+            )
           }
-      </div>
+          {/* hotels */}
+          {
+            this.state.gotResponse === "hotels" && !this.state.noResults && (
+              <div className="results">
+                <HotelSort handleRating={this.sortHotelRating} handlePopularity={this.sortHotelPopularity} handlePrice={this.sortHotelPrice}/>
+                <div className="wrapper">
+                  <p className="results__foundItems">Found {this.state.hotels.filtered_count} hotels</p>
+                  <Sidebar
+                    {...this.state.hotels}
+                    type={this.state.info.type}
+                    changeStar={this.updateStars}
+                    changePrice={this.updatePriceH}
+                    changePropType={this.updatePropType}
+                    changeDistrict={this.updateDistricts}
+                    currency={this.state.actualCurrencySymbol}
+                  />
+                  {this.state.noResults && <p className="results__foundItems">No Results</p>}
+                  <ResultsList
+                    {...this.state.hotels}
+                    type={this.state.info.type}
+                    onRateClick={this.redirectHotel}
+                    currentPage={this.state.currentPage}
+                    handlePagination={this.updatePagination}
+                    pageCount={Math.ceil(this.state.totalCount/10)}
+                  />
+                </div>
+              </div>
+            )
+          }
+      </main>
     );
   }
 }
