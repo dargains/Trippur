@@ -1,42 +1,55 @@
 .sort {
-  background: #adadad;
-  color: #FFF;
+  background: $GrayLight;
   margin: 10px 0 20px;
   .wrapper {
     @include mq(0, 768px) {
       padding: 0;
     }
     ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    li {
+      @include fontS;
       text-align: center;
-      font-size: 0;
-      li {
-        text-transform: uppercase;
-        padding: 10px 20px;
-        text-align: center;
+      text-transform: uppercase;
+      padding: 10px 36px;
+      cursor: pointer;
+      transition: all .2s ease-in;
+      &.selected,
+      &:hover {
+        background: $GrayRegular;
+        color:$White;
+      }
+      &:after {
+        margin-left: 5px;
         display: inline-block;
-        cursor: pointer;
-        width: 16.666%;
-        font-family: $Roboto;
-        font-size: 14px;
-        @include mq(0, 768px) {
-          width: 100%;
-        }
-        &.selected {
-          background: #878787;
-          color:#FFF;
-        }
-        &:hover {
-          background: #878787;
-        }
-       span {
-         margin:0 0 0 5px;
-         position: relative;
-         top:1px;
-         &.icon-triangle-up{
-          transform:rotate(180deg);
-          display: inline-block;
-         }       
-       } 
+        font-family: 'icomoon' !important;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      &.asc:after {
+        content: "\e907";
+        transform: rotate(180deg);
+        transform-origin: center;
+        position: relative;
+        top: 2px;
+      }
+      &.desc:after {
+        content: "\e907";
+      }
+      @include mq(0, 768px) {
+        flex: 0 0 100%;
       }
     }
   }

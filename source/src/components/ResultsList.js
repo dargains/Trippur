@@ -13,8 +13,8 @@ class ResultsList extends React.Component {
   render() {
     let items;
     this.props.type === "flights"
-      ? items = this.props.routes.map(flight => <FlightItem key={flight.id} {...flight}/> )
-      : items = this.props.hotels.map(hotel => <HotelItem key={hotel.id} {...hotel} onRateClick={this.props.onRateClick} currency={this.props.actualCurrencySymbol}/> );
+      ? items = this.props.routes.map(flight => <FlightItem key={flight.id} {...flight} currency={this.props.currency}/> )
+      : items = this.props.hotels.map(hotel => <HotelItem key={hotel.id} {...hotel} onRateClick={this.props.onRateClick} currency={this.props.currency}/> );
     return (
       <section className="resultsList">
         {items}

@@ -4,12 +4,11 @@ export default (props) => (
   <section className="sort">
     <div className="wrapper">
       <ul>
-        <li>Departure</li>
-        <li className="selected">Duration</li>
-        <li>Arrival</li>
-        <li>Airlines</li>
-        <li>Price<span className="icon-triangle-down" /></li>
+        <li onClick={props.handleClick} data-sort="price" className="selected asc">Price</li>
+        <li onClick={props.handleClick} data-sort="duration">Duration</li>
+        <li onClick={props.handleClick} data-sort="outbound_departure_time ">Departure</li>
+        <li onClick={props.handleClick} data-sort="inbound_departure_time ">Arrival</li>
       </ul>
     </div>
   </section>
-)
+);

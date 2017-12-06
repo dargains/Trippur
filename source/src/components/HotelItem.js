@@ -26,7 +26,7 @@ export default(props) => (
     <aside className="right">
       <div className="hotelPriceContainer">
         <p className="hotelPrice">
-          {props.room_rate_min.currency_sym}{props.room_rate_min.price_str}
+          {props.currency}{props.room_rate_min.price_str}
           <span>{props.room_rate_min.provider_name}</span>
         </p>
         <p className="btn" onClick={props.onRateClick.bind(this,props.id,props.room_rate_min.id)}><span>VIEW DEAL</span></p>

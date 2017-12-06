@@ -40,6 +40,10 @@ class FlightFilters extends React.Component {
       inbound: {
         min:this.props.departure_day_time_filter.min,
         max:this.props.departure_day_time_filter.max
+      },
+      duration: {
+        min:this.props.duration_filter.min,
+        max:this.props.duration_filter.max
       }
     })
   }
@@ -55,7 +59,7 @@ class FlightFilters extends React.Component {
           <InputRange
             maxValue={this.props.price_filter.max}
             minValue={this.props.price_filter.min}
-            formatLabel={value => `${value}${this.props.currency.symbol}`}
+            formatLabel={value => `${value}${this.props.currency}`}
             value={this.state.price}
             onChange={price => this.setState({price})}
             onChangeComplete={value => this.props.changePrice(value)}
@@ -73,7 +77,7 @@ class FlightFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">Times</h2>
-          <p className="flightLegend">Origin - <span>{this.props.departure_airport_filters[0].code}</span></p>
+          <p className="flightLegend">Departure time</p>
           <InputRange
             maxValue={this.props.departure_day_time_filter.max}
             minValue={this.props.departure_day_time_filter.min}
@@ -82,15 +86,15 @@ class FlightFilters extends React.Component {
             onChange={inbound => this.setState({inbound})}
             onChangeComplete={value => console.log(value)}
           />
-          <p className="flightLegend">Destination - <span>{this.props.arrival_airport_filters[0].code}</span></p>
-          {/* <InputRange
-            maxValue={this.props.departure_day_time_filter.max}
-            minValue={this.props.departure_day_time_filter.min}
+          <p className="flightLegend">Duration</p>
+          <InputRange
+            maxValue={this.props.duration_filter.max}
+            minValue={this.props.duration_filter.min}
             formatLabel={value => `${pad(Math.floor(value / 60))}:${pad(value % 60)}`}
-            value={this.state.inbound}
-            onChange={inbound => this.setState({inbound})}
+            value={this.state.duration}
+            onChange={duration => this.setState({duration})}
             onChangeComplete={value => console.log(value)}
-          /> */}
+          />
         </article>
 
         <hr/>
