@@ -24,6 +24,9 @@
         margin: 0 0 5px;
       }
     }
+    li {
+      margin: 5px 0;
+    }
     a {
       @include fontS($SecondaryColor);
       text-decoration: none;

@@ -12,6 +12,9 @@ import Error404 from "./components/Error404";
 import PagesNav from "./components/PagesNav";
 import About from "./components/About";
 import Terms from "./components/Terms";
+import Help from "./components/Help";
+import Cookies from "./components/Cookies";
+import Partnerships from "./components/Partnerships";
 
 export default (props) => (
     <BrowserRouter>
@@ -25,6 +28,9 @@ export default (props) => (
               <article>
                 <Route exact path="/Pages/About" component={About}/>
                 <Route exact path="/Pages/Terms" component={Terms}/>
+                <Route exact path="/Pages/Help" component={Help}/>
+                <Route exact path="/Pages/Cookies" component={Cookies}/>
+                <Route exact path="/Pages/Partnerships" component={Partnerships}/>
               </article>
           </Pages>
           <Route component={Error404} />

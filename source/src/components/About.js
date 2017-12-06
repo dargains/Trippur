@@ -9,37 +9,9 @@ export default(props) => (
     <p>Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ for some further travel inspiration. You can also leave comments and questions too, we’re always listening.</p>
 
     <ul>
-      <li>Facebook</li>
-      <li>Twitter</li>
-      <li>Instagram</li>
+        <li>Facebook</li>
+        <li>Twitter</li>
+        <li>Instagram</li>
     </ul>
-
-    <p className="title">If you're an airline, or an online travel agency that wants to be listed on Trippur:</p>
-    <p>
-      <a href="mailto:partners@trippur.com">partners@trippur.com</a>
-    </p>
-
-    <p className="title">If you're a hotel chain/owner:</p>
-    <p>
-      <a href="mailto:partners@trippur.com">partners@trippur.com</a>
-    </p>
-
-    <p className="title">Advertising inquiries:</p>
-    <p>
-      <a href="mailto:advertising@trippur.com">advertising@trippur.com</a>
-    </p>
-
-    <dl>
-      <dt>DOES TRIPPUR SELL TICKETS?</dt>
-      <dd>No, we don’t sell tickets and you don’t book directly on our site. You book your flight, hotel, or holiday deal on the company’s site which we’ve directed you to.</dd>
-
-      <dt>DOES TRIPPUR SELL TICKETS?</dt>
-      <dd>No, we don’t sell tickets and you don’t book directly on our site. You book your flight, hotel, or holiday deal on the company’s site which we’ve directed you to.</dd>
-
-      <dt>DOES TRIPPUR SELL TICKETS?</dt>
-      <dd>No, we don’t sell tickets and you don’t book directly on our site. You book your flight, hotel, or holiday deal on the company’s site which we’ve directed you to.</dd>
-    </dl>
-
-    <p>Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ for some further travel inspiration. You can also leave comments and questions too, we’re always listening.</p>
   </div>
 )

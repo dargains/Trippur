@@ -9,7 +9,7 @@ export default(props) => (
           <Link to="/Pages/About">About</Link>
         </li>
         <li>
-          <Link to="/Pages/Privacy">Privacy</Link>
+          <Link to="/Pages/Partnerships">Partnerships</Link>
         </li>
         <li>
           <Link to="/Pages/Terms">Terms & Conditions</Link>

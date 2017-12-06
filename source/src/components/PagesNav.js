@@ -11,24 +11,8 @@ const links = [
     label: "Help"
   },
   {
-    href: "/Pages/Jobs",
-    label: "Jobs"
-  },
-  {
-    href: "/Pages/Blog",
-    label: "Blog"
-  },
-  {
     href: "/Pages/Partnerships",
     label: "Partnerships"
-  },
-  {
-    href: "/Pages/Press",
-    label: "Press"
-  },
-  {
-    href: "/Pages/Privacy",
-    label: "Privacy"
   },
   {
     href: "/Pages/Terms",
