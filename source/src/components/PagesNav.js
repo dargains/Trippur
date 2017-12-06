@@ -3,25 +3,29 @@ import { NavLink } from "react-router-dom";
 
 const links = [
   {
+    href: "/Pages/Help",
+    label: "Help"
+  },
+  {
     href: "/Pages/About",
     label: "About"
   },
   {
-    href: "/Pages/Help",
-    label: "Help"
+    href: "/Pages/Privacy",
+    label: "Privacy"
   },
   {
     href: "/Pages/Partnerships",
     label: "Partnerships"
   },
   {
-    href: "/Pages/Terms",
-    label: "Terms & Conditions"
-  },
-  {
     href: "/Pages/Cookies",
     label: "Cookies Policy"
   },
+  {
+    href: "/Pages/Terms",
+    label: "Terms & Conditions"
+  }
 ]
 
 export default (props) => (

@@ -15,6 +15,7 @@ import Terms from "./components/Terms";
 import Help from "./components/Help";
 import Cookies from "./components/Cookies";
 import Partnerships from "./components/Partnerships";
+import Privacy from "./components/Privacy";
 
 export default (props) => (
     <BrowserRouter>
@@ -30,6 +31,7 @@ export default (props) => (
                 <Route exact path="/Pages/Terms" component={Terms}/>
                 <Route exact path="/Pages/Help" component={Help}/>
                 <Route exact path="/Pages/Cookies" component={Cookies}/>
+                <Route exact path="/Pages/Privacy" component={Privacy}/>
                 <Route exact path="/Pages/Partnerships" component={Partnerships}/>
               </article>
           </Pages>
