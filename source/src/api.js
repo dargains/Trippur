@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: "http://api.wego.com",
+  baseUrl: "https://cors-anywhere.herokuapp.com/http://api.wego.com",
   getAirports: "https://www.air-port-codes.com/api/v1/autocomplete",
   flightEndpoints: {
     clientInfo: "?api_key=047fca814736a1a95010&ts_code=18109",

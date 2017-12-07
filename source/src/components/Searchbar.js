@@ -155,34 +155,6 @@ class Searchbar extends Component {
     this.setState({chosenHotel});
     this.refs.hotel.value = event.target.innerText;
   }
-  onSearch(event) {
-    const state = this.state;
-    const info = this.state.type === "flights"
-      ? {
-        type: "flights",
-        outbound: state.chosenFlight.outbound.id,
-        inbound: state.chosenFlight.inbound.id,
-        arriveDate: state.arriveDate,
-        leaveDate: state.leaveDate,
-        cabin: state.cabin,
-        adults_count: parseInt(state.people.adults_count, 10),
-        children_count: parseInt(state.people.children_count, 10),
-        infants_count: parseInt(state.people.infants_count, 10)
-      }
-      : {
-        type: "hotels",
-        id: state.chosenHotel.id,
-        countryCode: state.chosenHotel.country_code,
-        countryName: state.chosenHotel.country_name,
-        arriveDate: state.arriveDate,
-        leaveDate: state.leaveDate,
-        adults_count: parseInt(state.people.adults_count, 10),
-        children_count: parseInt(state.people.children_count, 10),
-        infants_count: parseInt(state.people.infants_count, 10)
-      }
-    //this.props.sendData(info)
-    this.props.history.push(`/Results?${serialize(info)}`);
-  }
   showList(event) {
     event.target.nextElementSibling.style.display = "block";
   }
@@ -218,6 +190,34 @@ class Searchbar extends Component {
   classSelect(event) {
     this.setState({cabin:event.target.id});
   }
+  onSearch(event) {
+    const state = this.state;
+    const info = this.state.type === "flights"
+      ? {
+        type: "flights",
+        outbound: state.chosenFlight.outbound.id,
+        inbound: state.chosenFlight.inbound.id,
+        arriveDate: state.arriveDate,
+        leaveDate: state.leaveDate,
+        cabin: state.cabin,
+        adults_count: parseInt(state.people.adults_count, 10),
+        children_count: parseInt(state.people.children_count, 10),
+        infants_count: parseInt(state.people.infants_count, 10)
+      }
+      : {
+        type: "hotels",
+        id: state.chosenHotel.id,
+        countryCode: state.chosenHotel.country_code,
+        countryName: state.chosenHotel.country_name,
+        arriveDate: state.arriveDate,
+        leaveDate: state.leaveDate,
+        adults_count: parseInt(state.people.adults_count, 10),
+        children_count: parseInt(state.people.children_count, 10),
+        infants_count: parseInt(state.people.infants_count, 10)
+      }
+    this.props.history.push(`/Results?${serialize(info)}`);
+    this.props.context === "results" && this.props.handleSearch();
+  }
   render() {
     const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} onClick={this.chooseHotel}>{hotel.name}</li>);
 
@@ -226,10 +226,10 @@ class Searchbar extends Component {
     const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} onClick={this.chooseAirport.bind(this,"outbound")}>{airport.name}</li>);
 
     return (
-      <div className="searchbar">
+      <div className={this.props.context === "results" ? "searchbar secondary" : "searchbar"}>
         <ul className="searchbar__types">
-          <li onClick={this.onTypeChange} data-type="flights" className={this.state.type === "flights" ? "active" : ""}>Flights</li>
-          <li onClick={this.onTypeChange} data-type="hotels" className={this.state.type === "hotels" ? "active" : ""}>Hotels</li>
+          <li onClick={this.onTypeChange} data-type="flights" className={this.state.type === "flights" ? "active" : ""}><i className="icon-airplane"></i>Flights</li>
+          <li onClick={this.onTypeChange} data-type="hotels" className={this.state.type === "hotels" ? "active" : ""}><i className="icon-briefcase"></i>Hotels</li>
         </ul>
         {
           this.state.type === "flights"

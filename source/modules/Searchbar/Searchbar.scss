@@ -1,5 +1,21 @@
 .searchbar {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  &.secondary {
+    margin: 40px auto;
+    padding: 0 20px;
+    .searchbar__types li {
+      color: $GrayLight;
+      &:hover,
+      &.active {
+        color: $PrimaryColor;
+      }
+    }
+  }
   &__types {
+    margin: 10px;
     li {
       display: inline-block;
       @include fontM($White);
@@ -9,9 +25,14 @@
       &.active {
         color: $PrimaryColor;
       }
+      i {
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: baseline;
+      }
     }
     li + li {
-      margin-left: 10px;
+      margin-left: 20px;
     }
   }
   &__filters {
@@ -38,6 +59,7 @@
     top: 100%;
     left: 0;
     width: 100%;
+    box-shadow: 2px 2px 10px rgba(0,0,0,.2);
     li {
       background-color: $White;
       @include fontS;

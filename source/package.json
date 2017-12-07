@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Trippur project by Andre Dargains and Ricardo Melo.",
   "repository": "https://github.com/dargains/Trippur.git",
-  "main": "gulpfile.js",
   "scripts": {
     "start": "concurrently --kill-others \"react-scripts start\" \"gulp\"",
     "reactStart": "react-scripts start",

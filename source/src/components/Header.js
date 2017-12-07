@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default(props) => (
   <header data-theme={props.history.location.pathname === "/" ? "white" : ""} data-position={props.history.location.pathname === "/" ? "absolute" : ""}>
-    <a href="/" className="trippur"></a>
+    <Link to="/" className="trippur"></Link>
     <nav>
       <ul>
         <li>

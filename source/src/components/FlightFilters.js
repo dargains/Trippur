@@ -101,7 +101,7 @@ class FlightFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">Cabin</h2>
-          {this.state.cabin.map(checkbox => <Checkbox key={checkbox.id} id={checkbox.id} name={checkbox.name} label={checkbox.label} handleClick={this.props.changeStops}/>)}
+          {this.state.cabin.map(checkbox => <Checkbox key={checkbox.id} id={checkbox.id} name={checkbox.name} label={checkbox.label} handleClick={this.props.changeStops} />)}
         </article>
 
         <hr/>

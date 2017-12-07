@@ -4,6 +4,7 @@ import Axios from "axios";
 import api from "../api";
 import queryString from "query-string";
 
+import Searchbar from "../components/Searchbar";
 import Sidebar from "../components/Sidebar";
 import ResultsList from "../components/ResultsList";
 import Overlay from "../components/Overlay";
@@ -30,8 +31,9 @@ class Results extends Component {
       airline_codes :[],
       cabin:""
     };
+    this.newSearch = this.newSearch.bind(this);
+    this.updateView = this.updateView.bind(this);
     this.sortResults = this.sortResults.bind(this);
-    this.updateCalls = this.updateCalls.bind(this);
     this.updateStars = this.updateStars.bind(this);
     this.updateStops = this.updateStops.bind(this);
     this.updateCabin = this.updateCabin.bind(this);
@@ -45,22 +47,63 @@ class Results extends Component {
 
   }
   componentWillMount() {
+    this.getParams()
+  }
+  getParams() {
     const params = queryString.parse(this.props.history.location.search);
-    this.setState({info:params,cabin:params.cabin},() => {
-      if (this.state.info.type === "hotels") this.getHotelsId();
-      if (this.state.info.type === "flights") this.getFlights();
+    this.setState({...params,loading:true},() => {
+      console.log(this.state);
+      if (this.state.type === "hotels") this.getHotelsId();
+      if (this.state.type === "flights") this.getFlights();
     });
     this.getCurrency();
   }
-  updateCalls(isNew) {
+  newSearch() {
+// TODO: clean filters
+    this.getParams();
+  }
+  updateView(isNew) {
     if (isNew === undefined) {
-      this.setState({currentPage:1},() => {this.updateCalls(true)})
+      this.setState({currentPage:1},() => {this.updateView(true)})
     } else {
-      if (this.state.info.type === "hotels") this.getHotels();
-      if (this.state.info.type === "flights") this.getFares();
+
+      if (this.state.type === "hotels") {
+        this.updateQS("hotels");
+        this.getHotels();
+      }
+      if (this.state.type === "flights") {
+        this.updateQS("flights");
+        this.getFares();
+      }
     }
   }
-  // TODO: cancel das chamadas
+  updateQS(type) {
+    const qs = {};
+    if (type === "flights") {
+      qs.type = this.state.type;
+      qs.inbound = this.state.inbound;
+      qs.outbound = this.state.outbound;
+      qs.arriveDate = this.state.arriveDate;
+      qs.leaveDate = this.state.leaveDate;
+      qs.cabin = this.state.cabin;
+      qs.adults_count = this.state.adults_count;
+      qs.children_count = this.state.children_count;
+      qs.infants_count = this.state.infants_count;
+      qs.currency_code = this.state.actualCurrency;
+      qs.stop_types = this.state.stop_types;
+      qs.price_max_usd = this.state.price_max_usd;
+      qs.price_min_usd = this.state.price_min_usd;
+      qs.airline_codes = this.state.airline_codes;
+      qs.sort = this.state.sort;
+      qs.order = this.state.order;
+      qs.currentPage = this.state.currentPage;
+    } else {
+
+    }
+    const newQs = queryString.stringify(qs);
+    this.props.history.push("/Results?" + newQs);
+  }
+  // TODO: update da qs
   getHotelsId() {
     var that = this,
         info = this.state.info;
@@ -86,7 +129,7 @@ class Results extends Component {
   getHotels() {
     this.setState({loading:true});
     var that = this;
-    Axios.get("http://api.wego.com/hotels/api/search/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109", {
+    Axios.get("https://cors-anywhere.herokuapp.com/http://api.wego.com/hotels/api/search/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109", {
       params: {
         districts: that.state.districts,
         stars: that.state.stars,
@@ -116,7 +159,7 @@ class Results extends Component {
   }
   redirectHotel(hotelId,roomId, event) {
     const that = this;
-    Axios.get("http://api.wego.com/hotels/api/search/redirect/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109",{
+    Axios.get("https://cors-anywhere.herokuapp.com/http://api.wego.com/hotels/api/search/redirect/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109",{
       params: {
         search_id: that.state.search_id,
         hotel_id: hotelId,
@@ -133,20 +176,19 @@ class Results extends Component {
     });
   }
   getFlights() {
-    const info = this.state.info,
-          that = this;
+    const that = this;
     let params = {
       "trips": [{
-        "departure_code": info.inbound,
-        "arrival_code": info.outbound,
-        "inbound_date": info.leaveDate,
-        "outbound_date": info.arriveDate
+        "departure_code": this.state.inbound,
+        "arrival_code": this.state.outbound,
+        "inbound_date": this.state.leaveDate,
+        "outbound_date": this.state.arriveDate
       }],
-      "adults_count": info.adults_count,
-      "children_count": info.children_count,
-      "infants_count": info.infants_count,
-      "cabin": info.cabin,
-      "currency_code": "EUR"
+      "adults_count": this.state.adults_count,
+      "children_count": this.state.children_count,
+      "infants_count": this.state.infants_count,
+      "cabin": this.state.cabin,
+      "currency_code": this.state.actualCurrency
     }
     Axios.post(api.getFlights, JSON.stringify(params))
     .then(function (response) {
@@ -210,7 +252,7 @@ class Results extends Component {
     let districts = this.state.districts;
     let index = districts.indexOf(newValue);
     index === -1 ? districts.push(newValue) : districts.splice(index, 1);
-    this.setState({districts},that.updateCalls);
+    this.setState({districts},that.updateView);
   }
   updateStars(event) {
     const that = this;
@@ -218,7 +260,7 @@ class Results extends Component {
     let stars = this.state.stars;
     let index = stars.indexOf(newValue);
     index === -1 ? stars.push(newValue) : stars.splice(index, 1);
-    this.setState({stars},that.updateCalls);
+    this.setState({stars},that.updateView);
   }
   updatePropType(event) {
     const that = this;
@@ -226,7 +268,7 @@ class Results extends Component {
     let property_types = this.state.property_types;
     let index = property_types.indexOf(newValue);
     index === -1 ? property_types.push(newValue) : property_types.splice(index, 1);
-    this.setState({property_types},that.updateCalls);
+    this.setState({property_types},that.updateView);
   }
   updateStops(event) {
     const that = this;
@@ -234,12 +276,12 @@ class Results extends Component {
     let stop_types = this.state.stop_types;
     let index = stop_types.indexOf(newValue);
     index === -1 ? stop_types.push(newValue) : stop_types.splice(index, 1);
-    this.setState({stop_types},that.updateCalls);
+    this.setState({stop_types},that.updateView);
   }
   updateCabin(event) {
     const that = this;
     let cabin = event.target.name;
-    this.setState({cabin},that.updateCalls);
+    this.setState({cabin},that.updateView);
   }
   updatePriceF(event) {
     const that = this;
@@ -251,7 +293,7 @@ class Results extends Component {
     this.setState({
       price_min_usd: minAC,
       price_max_usd: maxAC
-    },that.updateCalls);
+    },that.updateView);
   }
   updatePriceH(event) {
     const that = this;
@@ -260,7 +302,7 @@ class Results extends Component {
     this.setState({
       price_min: min,
       price_max: max
-    },that.updateCalls);
+    },that.updateView);
   }
   updateAirlines(event) {
     const that = this;
@@ -268,25 +310,25 @@ class Results extends Component {
     let airline_codes = this.state.airline_codes;
     let index = airline_codes.indexOf(newValue);
     index === -1 ? airline_codes.push(newValue) : airline_codes.splice(index, 1);
-    this.setState({airline_codes},that.updateCalls);
+    this.setState({airline_codes},that.updateView);
   }
   updatePagination(event) {
-    this.setState({currentPage:event.selected + 1},() => {this.updateCalls(true)})
+    this.setState({currentPage:event.selected + 1},() => {this.updateView(true)})
   }
   sortResults(event) {
     const target = event.target;
     if (target.classList.contains("asc")) {
       target.classList.remove("asc");
       target.classList.add("desc");
-      this.setState({sort:target.dataset.sort,order:"desc"},() => {this.updateCalls(true)});
+      this.setState({sort:target.dataset.sort,order:"desc"},() => {this.updateView(true)});
     } else if (target.classList.contains("desc")) {
       target.classList.remove("desc");
       target.classList.add("asc");
-      this.setState({sort:target.dataset.sort,order:"asc"},() => {this.updateCalls(true)});
+      this.setState({sort:target.dataset.sort,order:"asc"},() => {this.updateView(true)});
     } else {
       target.parentElement.querySelectorAll("li").forEach(element => { element.classList.remove("selected","asc","desc"); });
       target.classList.add("selected", "asc");
-      this.setState({sort:target.dataset.sort,order:"asc"},() => {this.updateCalls(true)});
+      this.setState({sort:target.dataset.sort,order:"asc"},() => {this.updateView(true)});
     }
   }
 
@@ -294,7 +336,9 @@ class Results extends Component {
     return (
       <main>
         {this.state.loading && <Overlay />}
+        <Searchbar context="results" handleSearch={this.newSearch}/>
         {this.state.firstLoad && !this.state.noResults && <PleaseWait />}
+        {this.state.noResults && <h1 className="noResults">We found no results for this search.</h1>}
         {/* flights */}
           {
             this.state.gotResponse === "flights" && !this.state.noResults && (
@@ -304,7 +348,7 @@ class Results extends Component {
                   <p className="results__foundItems">Found {this.state.flights.routes_count} flights</p>
                   <Sidebar
                     {...this.state.flights}
-                    type={this.state.info.type}
+                    type={this.state.type}
                     changeStops={this.updateStops}
                     changeCabin={this.updateCabin}
                     changePrice={this.updatePriceF}
@@ -314,7 +358,7 @@ class Results extends Component {
                   {this.state.noResults && <p className="results__foundItems">No Results</p>}
                   <ResultsList
                     {...this.state.flights}
-                    type={this.state.info.type}
+                    type={this.state.type}
                     currentPage={this.state.currentPage}
                     handlePagination={this.updatePagination}
                     currency={this.state.actualCurrencySymbol}
@@ -333,7 +377,7 @@ class Results extends Component {
                   <p className="results__foundItems">Found {this.state.hotels.filtered_count} hotels</p>
                   <Sidebar
                     {...this.state.hotels}
-                    type={this.state.info.type}
+                    type={this.state.type}
                     changeStar={this.updateStars}
                     changePrice={this.updatePriceH}
                     changePropType={this.updatePropType}
@@ -343,7 +387,7 @@ class Results extends Component {
                   {this.state.noResults && <p className="results__foundItems">No Results</p>}
                   <ResultsList
                     {...this.state.hotels}
-                    type={this.state.info.type}
+                    type={this.state.type}
                     onRateClick={this.redirectHotel}
                     currentPage={this.state.currentPage}
                     handlePagination={this.updatePagination}
