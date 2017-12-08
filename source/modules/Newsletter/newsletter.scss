@@ -37,6 +37,13 @@
             display: block;
             margin-top: 10px;
         }
+        button {
+          color: $White;
+          border-color: $White;
+        }
+        input,.btn {
+          vertical-align: middle;
+        }
     }
     ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
         color: #FFFFFF;
