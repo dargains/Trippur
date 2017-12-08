@@ -1,6 +1,7 @@
 /*Generic Components*/
 
-input[type=text] {
+input[type=text],
+input[type=email] {
   padding: 13px;
   border: 1px solid $GrayLight;
   @include fontS;
@@ -10,17 +11,19 @@ input[type=text] {
   }
 }
 
-.btn {
+.btn,
+button {
   font-size: 12px;
   font-family: $Roboto;
   text-transform: uppercase;
   line-height: 45px;
-  border: 1px solid currentColor;
+  border: 1px solid $PrimaryColor;
   color: $PrimaryColor;
   background: transparent;
   display: inline-block;
   min-width: 180px;
   padding: 0 20px;
+  transition: all .1s ease-in;
   text-decoration: none;
   text-align: center;
   position: relative;
@@ -29,7 +32,8 @@ input[type=text] {
   outline: none;
   overflow: hidden;
   &.alternative {
-    color: #FFF;
+    color: $White;
+    border-color: $White;
   }
 
   span {
@@ -63,24 +67,21 @@ input[type=text] {
   &.disabled {
     pointer-events: none;
     color: $GrayLight;
+    border-color: $GrayLight;
   }
   &:hover {
     color: #FFF;
-    transition: all 0.2s ease-in;
-
-    &:before {
-      width: 50%;
-      background: $PrimaryColor;
-    }
-
-    &:after {
-      width: 50%;
-      background: $PrimaryColor;
-    }
+    background-color: $PrimaryColor;
+    // &:before {
+    //   width: 50%;
+    //   background: $PrimaryColor;
+    // }
+    //
+    // &:after {
+    //   width: 50%;
+    //   background: $PrimaryColor;
+    // }
   }
-}
-
-.disabledLink {
 }
 
 .personPicker {

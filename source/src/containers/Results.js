@@ -77,7 +77,7 @@ class Results extends Component {
     this.getCurrency();
   }
   newSearch() {
-    this.getParams();
+    this.setState({gotResponse: false},this.getParams);
   }
   updateView(isNew) {
     if (isNew === undefined) {
@@ -116,12 +116,27 @@ class Results extends Component {
       qs.order = this.state.order;
       qs.currentPage = this.state.currentPage;
     } else {
-
+      qs.type = this.state.type;
+      qs.id = this.state.id;
+      qs.location_id = this.state.id;
+      qs.arriveDate = this.state.arriveDate;
+      qs.leaveDate = this.state.leaveDate;
+      qs.adults_count = this.state.adults_count;
+      qs.children_count = this.state.children_count;
+      qs.infants_count = this.state.infants_count;
+      qs.currency_code = this.state.actualCurrency;
+      qs.price_min = this.state.price_min_usd;
+      qs.price_max = this.state.price_max_usd;
+      qs.districts = this.state.districts;
+      qs.stars = this.state.stars;
+      qs.property_types = this.state.property_types;
+      qs.sort = this.state.sort;
+      qs.order = this.state.order;
+      qs.currentPage = this.state.currentPage;
     }
     const newQs = queryString.stringify(qs);
     this.props.history.push("/Results?" + newQs);
   }
-  // TODO: update da qs
   getHotelsId() {
     var that = this,
         state = this.state;
@@ -138,7 +153,7 @@ class Results extends Component {
     .then(function (response) {
       setTimeout(()=>{
         that.setState({hotelsId:response.data.search_id},that.getHotels)
-      },5000);
+      },10000);
     })
     .catch(function (error) {
       console.log(error);
@@ -199,8 +214,8 @@ class Results extends Component {
       trips: [{
         departure_code: this.state.inbound,
         arrival_code: this.state.outbound,
-        inbound_date: this.state.leaveDate,
-        outbound_date: this.state.arriveDate
+        outbound_date: this.state.arriveDate,
+        inbound_date: this.state.leaveDate
       }],
       adults_count: this.state.adults_count,
       cabin: that.state.cabin,
@@ -210,7 +225,7 @@ class Results extends Component {
     .then(function (response) {
       setTimeout(()=>{
         that.setState({search_id:response.data.id,trip_id:response.data.trips[0].id},that.getFares)
-      },5000);
+      },10000);
     })
     .catch(function (error) {
       console.log(error);
@@ -226,9 +241,9 @@ class Results extends Component {
       trip_id: that.state.trip_id,
       stop_types: that.state.stop_types,
       cabin: that.state.cabin,
-      adults_count: this.state.adults_count,
-      children_count: this.state.children_count,
-      infants_count: this.state.infants_count,
+      adults_count: that.state.adults_count,
+      children_count: that.state.children_count,
+      infants_count: that.state.infants_count,
       fares_query_type: "route",
       inbound_departure_day_time_min: that.state.inbound_departure_day_time_min,
       inbound_departure_day_time_max: that.state.inbound_departure_day_time_max,
@@ -397,7 +412,6 @@ class Results extends Component {
                     changeDuration={this.updateDuration}
                     changeAirlines={this.updateAirlines}
                     changeInboudTime={this.updateInboundTime}
-                    currency={this.state.actualCurrencySymbol}
                   />
                   {this.state.noResults && <p className="results__foundItems">No Results</p>}
                   <ResultsList
@@ -426,7 +440,6 @@ class Results extends Component {
                     changePrice={this.updatePriceH}
                     changePropType={this.updatePropertyType}
                     changeDistrict={this.updateDistricts}
-                    currency={this.state.actualCurrencySymbol}
                   />
                   {this.state.noResults && <p className="results__foundItems">No Results</p>}
                   <ResultsList

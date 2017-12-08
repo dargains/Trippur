@@ -35,19 +35,22 @@ export default(props) => (
       )}
       <span className="flightDuration">{props.outbound_segments.length > 2 ? stops[2] : stops[props.outbound_segments.length - 1]}</span>
       </ul>
-      <ul>
-        {props.inbound_segments.map(route => (
-          <li key={route.designator_code}>
-            <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong> {route.departure_name}</p>
-            <p>
-              <span>{getTimeDiff(route.departure_time,route.arrival_time)}</span>
-            </p>
-            <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong> {route.arrival_name}</p>
-          </li>
-        )
-      )}
-      <span className="flightDuration">{props.inbound_segments.length > 2 ? stops[2] : stops[props.inbound_segments.length - 1]}</span>
-      </ul>
+      {
+        props.inbound_segments &&
+        <ul>
+          {props.inbound_segments.map(route => (
+            <li key={route.designator_code}>
+              <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong> {route.departure_name}</p>
+              <p>
+                <span>{getTimeDiff(route.departure_time,route.arrival_time)}</span>
+              </p>
+              <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong> {route.arrival_name}</p>
+            </li>
+          )
+        )}
+        <span className="flightDuration">{props.inbound_segments.length > 2 ? stops[2] : stops[props.inbound_segments.length - 1]}</span>
+        </ul>
+      }
     </div>
     <div className="flightType">
       <em>{props.best_fare.description}</em>

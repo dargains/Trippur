@@ -3,15 +3,8 @@ import React from 'react';
 import Checkbox from "./Checkbox";
 import InputRange from 'react-input-range';
 
-function pad(n) {
-  return (n < 10)
-    ? ("0" + n)
-    : n;
-}
-function thereIs(value,array) {
-  if (typeof(array) === "string") return value === array;
-  else return array.find(element => element === value);
-}
+const pad = n => n < 10 ? "0" + n : n;
+const thereIs = (value,array) => array.find(element => element == value);
 
 class FlightFilters extends React.Component {
   constructor(props) {
@@ -66,7 +59,7 @@ class FlightFilters extends React.Component {
           <InputRange
             maxValue={this.state.initialPrice.max}
             minValue={this.state.initialPrice.min}
-            formatLabel={value => `${value}${this.props.currency}`}
+            formatLabel={value => `${value}${this.props.actualCurrencySymbol}`}
             value={this.state.price}
             onChange={price => this.setState({price})}
             onChangeComplete={value => this.props.changePrice(value)}

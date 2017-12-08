@@ -13,6 +13,13 @@
         color: $PrimaryColor;
       }
     }
+    .checkField {
+      padding-top: 15px;
+      color: $GrayRegular;
+      label {
+        color: $GrayRegular;
+      }
+    }
   }
   &__types {
     margin: 10px;
@@ -37,12 +44,21 @@
   }
   &__filters {
     display: flex;
+    align-items: baseline;
   }
   &__container {
     flex-grow: 1;
     position: relative;
     input {
       width: 100%;
+    }
+    .placeholder {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      cursor: pointer;
+      height: 48px;
     }
     .loading {
       position: absolute;
@@ -76,5 +92,18 @@
   }
   .btn {
     margin-left: 10px;
+  }
+  .checkField {
+    padding: 0;
+    padding-left: 10px;
+    margin-left: 10px;
+    color: $GrayLight;
+    label {
+      @include fontS($GrayLight);
+      vertical-align: baseline;
+      &:after {
+        top: 13px;
+      }
+    }
   }
 }
