@@ -46,28 +46,8 @@
     }
   }
 }
-.noResult {
-  padding: 40px;
-  position: relative;
-  border-top: 1px solid #CCC;
-  font-family: $Roboto;
-  font-size: 14px;
-  line-height: 17px;
-
-  p {
-    display: block;
-    text-align: center;
-    color: $SecondaryColor;
-  }
-
-  span {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    font-size: 12px;
-    @include mq(0, 600px) {
-      right: 10px;
-      bottom: 10px;
-    }
-  }
+.noResults {
+  @include fontL;
+  text-align: center;
+  margin: 40px auto;
 }

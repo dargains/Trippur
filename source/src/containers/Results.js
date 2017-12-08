@@ -12,6 +12,13 @@ import HotelSort from "../components/HotelSort";
 import FlightSort from "../components/FlightSort";
 import PleaseWait from "../components/PleaseWait";
 
+const putIntoArray = element => {
+  let buffer = element;
+  element = [];
+  element.push(buffer);
+  return element;
+}
+
 class Results extends Component {
   constructor(props) {
     super(props);
@@ -40,10 +47,12 @@ class Results extends Component {
     this.updatePriceF = this.updatePriceF.bind(this);
     this.updatePriceH = this.updatePriceH.bind(this);
     this.redirectHotel = this.redirectHotel.bind(this);
-    this.updatePropType = this.updatePropType.bind(this);
+    this.updateDuration = this.updateDuration.bind(this);
     this.updateAirlines = this.updateAirlines.bind(this);
     this.updateDistricts = this.updateDistricts.bind(this);
     this.updatePagination = this.updatePagination.bind(this);
+    this.updatePropertyType = this.updatePropertyType.bind(this);
+    this.updateInboundTime = this.updateInboundTime.bind(this);
 
   }
   componentWillMount() {
@@ -51,22 +60,29 @@ class Results extends Component {
   }
   getParams() {
     const params = queryString.parse(this.props.history.location.search);
-    this.setState({...params,loading:true},() => {
-      console.log(this.state);
+    if (typeof(params.stop_types) === "string") params.stop_types = putIntoArray(params.stop_types);
+    if (typeof(params.stars) === "string") params.stars = putIntoArray(params.stars);
+    if (typeof(params.airline_codes) === "string") params.airline_codes = putIntoArray(params.airline_codes);
+    if (typeof(params.districts) === "string") params.districts = putIntoArray(params.districts);
+    if (typeof(params.property_types) === "string") params.property_types = putIntoArray(params.property_types);
+    this.setState({
+      ...params,
+      loading:true,
+      firstLoad:true,
+      noResults:false
+    },() => {
       if (this.state.type === "hotels") this.getHotelsId();
       if (this.state.type === "flights") this.getFlights();
     });
     this.getCurrency();
   }
   newSearch() {
-// TODO: clean filters
     this.getParams();
   }
   updateView(isNew) {
     if (isNew === undefined) {
       this.setState({currentPage:1},() => {this.updateView(true)})
     } else {
-
       if (this.state.type === "hotels") {
         this.updateQS("hotels");
         this.getHotels();
@@ -91,8 +107,10 @@ class Results extends Component {
       qs.infants_count = this.state.infants_count;
       qs.currency_code = this.state.actualCurrency;
       qs.stop_types = this.state.stop_types;
-      qs.price_max_usd = this.state.price_max_usd;
       qs.price_min_usd = this.state.price_min_usd;
+      qs.price_max_usd = this.state.price_max_usd;
+      qs.duration_min = this.state.duration_min;
+      qs.duration_max = this.state.duration_max;
       qs.airline_codes = this.state.airline_codes;
       qs.sort = this.state.sort;
       qs.order = this.state.order;
@@ -106,13 +124,13 @@ class Results extends Component {
   // TODO: update da qs
   getHotelsId() {
     var that = this,
-        info = this.state.info;
+        state = this.state;
     Axios.get(api.getHotels, {
       params: {
-        location_id: info.id,
-        check_in: info.arriveDate,
-        check_out: info.leaveDate,
-        guests: info.adults_count,
+        location_id: state.id,
+        check_in: state.arriveDate,
+        check_out: state.leaveDate,
+        guests: state.adults_count,
         user_ip: "direct"
       },
       crossdomain: true
@@ -178,17 +196,15 @@ class Results extends Component {
   getFlights() {
     const that = this;
     let params = {
-      "trips": [{
-        "departure_code": this.state.inbound,
-        "arrival_code": this.state.outbound,
-        "inbound_date": this.state.leaveDate,
-        "outbound_date": this.state.arriveDate
+      trips: [{
+        departure_code: this.state.inbound,
+        arrival_code: this.state.outbound,
+        inbound_date: this.state.leaveDate,
+        outbound_date: this.state.arriveDate
       }],
-      "adults_count": this.state.adults_count,
-      "children_count": this.state.children_count,
-      "infants_count": this.state.infants_count,
-      "cabin": this.state.cabin,
-      "currency_code": this.state.actualCurrency
+      adults_count: this.state.adults_count,
+      cabin: that.state.cabin,
+      currency_code: this.state.actualCurrency
     }
     Axios.post(api.getFlights, JSON.stringify(params))
     .then(function (response) {
@@ -210,11 +226,18 @@ class Results extends Component {
       trip_id: that.state.trip_id,
       stop_types: that.state.stop_types,
       cabin: that.state.cabin,
+      adults_count: this.state.adults_count,
+      children_count: this.state.children_count,
+      infants_count: this.state.infants_count,
       fares_query_type: "route",
-      price_max_usd: that.state.price_max_usd,
-      price_min_usd: that.state.price_min_usd,
-      airline_codes: that.state.airline_codes,
+      inbound_departure_day_time_min: that.state.inbound_departure_day_time_min,
+      inbound_departure_day_time_max: that.state.inbound_departure_day_time_max,
       currency_code: that.state.actualCurrency,
+      price_min_usd: that.state.price_min_usd,
+      price_max_usd: that.state.price_max_usd,
+      duration_min: that.state.duration_min,
+      duration_max: that.state.duration_max,
+      airline_codes: that.state.airline_codes,
       sort: that.state.sort,
       order: that.state.order,
       page: that.state.currentPage,
@@ -228,8 +251,9 @@ class Results extends Component {
         gotResponse:"flights",
         loading:false,
         firstLoad:false,
+        noResults:false,
         totalCount:data.filtered_routes_count
-      }) : that.setState({noResults:true,loading:false});
+      }) : that.setState({noResults:true,loading:false,totalCount:0});
     })
     .catch(function (error) {
       console.log(error);
@@ -262,7 +286,7 @@ class Results extends Component {
     index === -1 ? stars.push(newValue) : stars.splice(index, 1);
     this.setState({stars},that.updateView);
   }
-  updatePropType(event) {
+  updatePropertyType(event) {
     const that = this;
     let newValue = event.target.name;
     let property_types = this.state.property_types;
@@ -315,6 +339,24 @@ class Results extends Component {
   updatePagination(event) {
     this.setState({currentPage:event.selected + 1},() => {this.updateView(true)})
   }
+  updateDuration(event) {
+    const that = this;
+    let max = event.max,
+        min = event.min;
+    this.setState({
+      duration_min: min,
+      duration_max: max
+    },that.updateView);
+  }
+  updateInboundTime(event) {
+    const that = this;
+    let max = event.max,
+        min = event.min;
+    this.setState({
+      inbound_departure_day_time_min: min,
+      inbound_departure_day_time_max: max
+    },that.updateView);
+  }
   sortResults(event) {
     const target = event.target;
     if (target.classList.contains("asc")) {
@@ -338,21 +380,23 @@ class Results extends Component {
         {this.state.loading && <Overlay />}
         <Searchbar context="results" handleSearch={this.newSearch}/>
         {this.state.firstLoad && !this.state.noResults && <PleaseWait />}
-        {this.state.noResults && <h1 className="noResults">We found no results for this search.</h1>}
+        {this.state.noResults && <h2 className="noResults">We found no results for this search.</h2>}
         {/* flights */}
           {
-            this.state.gotResponse === "flights" && !this.state.noResults && (
+            this.state.gotResponse === "flights" && (
               <div className="results">
                 <FlightSort handleClick={this.sortResults} />
                 <div className="wrapper">
-                  <p className="results__foundItems">Found {this.state.flights.routes_count} flights</p>
+                  <p className="results__foundItems">Found {this.state.totalCount} flights</p>
                   <Sidebar
-                    {...this.state.flights}
+                    {...this.state}
                     type={this.state.type}
                     changeStops={this.updateStops}
                     changeCabin={this.updateCabin}
                     changePrice={this.updatePriceF}
+                    changeDuration={this.updateDuration}
                     changeAirlines={this.updateAirlines}
+                    changeInboudTime={this.updateInboundTime}
                     currency={this.state.actualCurrencySymbol}
                   />
                   {this.state.noResults && <p className="results__foundItems">No Results</p>}
@@ -370,17 +414,17 @@ class Results extends Component {
           }
           {/* hotels */}
           {
-            this.state.gotResponse === "hotels" && !this.state.noResults && (
+            this.state.gotResponse === "hotels" && (
               <div className="results">
                 <HotelSort handleClick={this.sortResults} />
                 <div className="wrapper">
-                  <p className="results__foundItems">Found {this.state.hotels.filtered_count} hotels</p>
+                  <p className="results__foundItems">Found {this.state.totalCount} hotels</p>
                   <Sidebar
-                    {...this.state.hotels}
+                    {...this.state}
                     type={this.state.type}
                     changeStar={this.updateStars}
                     changePrice={this.updatePriceH}
-                    changePropType={this.updatePropType}
+                    changePropType={this.updatePropertyType}
                     changeDistrict={this.updateDistricts}
                     currency={this.state.actualCurrencySymbol}
                   />

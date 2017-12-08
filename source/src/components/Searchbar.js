@@ -255,7 +255,7 @@ class Searchbar extends Component {
                  <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
                  { this.state.showPersonPicker && <PersonPicker label="Passengers" changePeople={this.changePeople} {...this.state.people} class={true} cabin={this.state.cabin} classSelect={this.classSelect}/> }
                </div>
-               <button onClick={this.onSearch} className={Object.keys(this.state.chosenFlight.inbound).length !== 0 && Object.keys(this.state.chosenFlight.outbound).length !== 0 && this.state.arriveDate !== "" ? "btn primary" : "btn primary disabledLink"}>
+               <button onClick={this.onSearch} className={Object.keys(this.state.chosenFlight.inbound).length !== 0 && Object.keys(this.state.chosenFlight.outbound).length !== 0 && this.state.arriveDate !== "" ? "btn primary" : "btn primary disabled"}>
                  <span>Search</span>
                </button>
              </div>
@@ -276,7 +276,7 @@ class Searchbar extends Component {
                  <div style={{position:"absolute",top:0,left:0,bottom:0,right:0,cursor:"pointer"}} onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
                  { this.state.showPersonPicker && <PersonPicker label="Guests" changePeople={this.changePeople} {...this.state.people}/> }
                </div>
-               <button onClick={this.onSearch} className={(Object.keys(this.state.chosenHotel).length !== 0 && this.state.arriveDate !== "") ? "btn primary" : "btn primary disabledLink"}>
+               <button onClick={this.onSearch} className={(Object.keys(this.state.chosenHotel).length !== 0 && this.state.arriveDate !== "") ? "btn primary" : "btn primary disabled"}>
                  <span>Search</span>
                </button>
              </div>

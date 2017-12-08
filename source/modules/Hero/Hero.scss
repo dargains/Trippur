@@ -24,11 +24,8 @@
         transform: translateY(-50%);
         text-align: center;
         h1 {
-            color: #FFF;
-            font-size: 50px;
-            font-family: $Roboto;
+            @include fontGiant($White);
             text-shadow:2px 2px 2px rgba(0, 0, 0, 0.5);
-            font-weight: $Light;
             strong {
                 font-weight: $Bold;
             }
@@ -44,6 +41,7 @@
             padding: 20px 40px;
             text-align: left;
             margin-top: 30px;
+            @include fontXL;
         }
     }
     .arrow-down {
