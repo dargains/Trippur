@@ -15,7 +15,7 @@ input[type=text] {
   font-family: $Roboto;
   text-transform: uppercase;
   line-height: 45px;
-  border: 1px solid $PrimaryColor;
+  border: 1px solid currentColor;
   color: $PrimaryColor;
   background: transparent;
   display: inline-block;
@@ -27,8 +27,8 @@ input[type=text] {
   border-radius: 5px;
   cursor: pointer;
   outline: none;
+  overflow: hidden;
   &.alternative {
-    border-color: #FFF;
     color: #FFF;
   }
 
@@ -60,7 +60,10 @@ input[type=text] {
     display: block;
     height: 100%;
   }
-
+  &.disabled {
+    pointer-events: none;
+    color: $GrayLight;
+  }
   &:hover {
     color: #FFF;
     transition: all 0.2s ease-in;
@@ -78,7 +81,6 @@ input[type=text] {
 }
 
 .disabledLink {
-  pointer-events: none;
 }
 
 .personPicker {

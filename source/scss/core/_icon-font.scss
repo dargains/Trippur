@@ -24,6 +24,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+.icon-check:before {
+  content: "\e911";
+}
   .icon-cloudy:before {
     content: "\e90a";
   }
@@ -120,4 +123,3 @@
   .icon-instagram:before {
     content: "\e903";
   }
-  
