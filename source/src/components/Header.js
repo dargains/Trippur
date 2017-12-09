@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
-import lang from "../lang";
-
 import LanguageMenu from "./LanguageMenu";
+import lang from "../lang";
 
 class Header extends Component {
   constructor(props) {

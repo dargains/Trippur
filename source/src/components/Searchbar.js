@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Axios from "axios";
 import api from "../api";
+import lang from "../lang";
 import moment from "moment";
 
 import Datepicker from "./Datepicker";
@@ -134,7 +135,7 @@ class Searchbar extends Component {
     Axios.get(api.getLocations, {
       params: {
         q: that.refs.hotel.value,
-        lang: "EN",
+        lang: this.props.lang,
         currency_code: "EUR"
       },
       cancelToken: new CancelToken(function executor(c) {
@@ -198,9 +199,9 @@ class Searchbar extends Component {
       const leaveDate = moment(event.end).format("YYYY[-]M[-]D");
 
       const dateInput = this.state.type === "flights"
-      ? this.refs.flightDate
-      : this.refs.hotelDate;
-      dateInput.value = `${startDate} to ${endDate}`;
+        ? this.refs.flightDate
+        : this.refs.hotelDate;
+      dateInput.value = `${startDate} ${lang[this.props.lang].Searchbar.until} ${endDate}`;
       this.setState({
         arriveDate,
         leaveDate,
@@ -259,11 +260,13 @@ class Searchbar extends Component {
       ? this.state.arriveDate
       : {start: this.state.arriveDate, end: this.state.leaveDate}
 
+    const searchLang = lang[this.props.lang].Searchbar;
+
     return (
       <div className={this.props.context === "results" ? "searchbar secondary" : "searchbar"}>
         <ul className="searchbar__types">
-          <li onClick={this.onTypeChange} data-type="flights" className={this.state.type === "flights" ? "active" : ""}><i className="icon-airplane"></i>Flights</li>
-          <li onClick={this.onTypeChange} data-type="hotels" className={this.state.type === "hotels" ? "active" : ""}><i className="icon-briefcase"></i>Hotels</li>
+          <li onClick={this.onTypeChange} data-type="flights" className={this.state.type === "flights" ? "active" : ""}><i className="icon-airplane"></i>{searchLang.tabs.flights}</li>
+          <li onClick={this.onTypeChange} data-type="hotels" className={this.state.type === "hotels" ? "active" : ""}><i className="icon-briefcase"></i>{searchLang.tabs.hotels}</li>
         </ul>
         {
           this.state.type === "flights"
@@ -271,50 +274,67 @@ class Searchbar extends Component {
            ? (
              <div className="searchbar__filters">
                <div className="searchbar__container">
-                 <input type="text" placeholder="From" ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList}/>
+                 <input type="text" placeholder={searchLang.filter.flights.from} ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{inboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder="Where to" ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList}/>
+                 <input type="text" placeholder={searchLang.filter.flights.whereTo} ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{outboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder={this.state.oneWay ? "Depart date" : "Depart to Return"} ref="flightDate" disabled/>
+                 <input type="text" placeholder={this.state.oneWay ? searchLang.filter.flights.dateOneway : searchLang.filter.flights.date} ref="flightDate" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate})}/>
                  { this.state.showDate && <Datepicker oneWay={this.state.oneWay} onSelect={this.getDate} selected={selectedTime}/> }
-                 <Checkbox id="flightReturn" name="flightReturn" label="One way flight" checked={this.state.oneWay} handleClick={this.changeOneWay}/>
+                 <Checkbox id="flightReturn" name="flightReturn" label={searchLang.filter.flights.oneWay} checked={this.state.oneWay} handleClick={this.changeOneWay}/>
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} passengers`} ref="flightPeople" disabled/>
+                 <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.flights.passengers}`} ref="flightPeople" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
-                 { this.state.showPersonPicker && <PersonPicker label="Passengers" changePeople={this.changePeople} {...this.state.people} class={true} cabin={this.state.cabin} classSelect={this.classSelect}/> }
+                 { this.state.showPersonPicker &&
+                   <PersonPicker
+                     lang={this.props.lang}
+                     label={lang[this.props.lang].PersonPicker.flightLabel}
+                     changePeople={this.changePeople}
+                     class={true}
+                     cabin={this.state.cabin}
+                     classSelect={this.classSelect}
+                     {...this.state.people}
+                   />
+                 }
                </div>
                <button onClick={this.onSearch} className={Object.keys(this.state.chosenFlight.inbound).length !== 0 && Object.keys(this.state.chosenFlight.outbound).length !== 0 && this.state.arriveDate !== "" ? "btn primary" : "btn primary disabled"}>
-                 <span>Search</span>
+                 <span>{searchLang.searchButton}</span>
                </button>
              </div>
            ) : (
              // hotels
              <div className="searchbar__filters">
                <div className="searchbar__container">
-                 <input type="text" placeholder="Where do you want to go?" onKeyUp={this.getHotels} onBlur={this.closeList} onFocus={this.showList} ref="hotel"/>
+                 <input type="text" placeholder={searchLang.filter.hotels.whereTo} onKeyUp={this.getHotels} onBlur={this.closeList} onFocus={this.showList} ref="hotel"/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{hotels}</ul>
                </div>
                <div className="searchbar__container">
-                 <input type="text" placeholder="Checkin to Checkout" ref="hotelDate" disabled/>
+                 <input type="text" placeholder={searchLang.filter.hotels.date} ref="hotelDate" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate})}/>
                  { this.state.showDate && <Datepicker onSelect={this.getDate} selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/> }
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} guests`} ref="hotelPeople" disabled/>
+                 <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.hotels.guests}`} ref="hotelPeople" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
-                 { this.state.showPersonPicker && <PersonPicker label="Guests" changePeople={this.changePeople} {...this.state.people}/> }
+                 { this.state.showPersonPicker &&
+                   <PersonPicker
+                     lang={this.props.lang}
+                     label={lang[this.props.lang].PersonPicker.hotelLabel}
+                     changePeople={this.changePeople}
+                     {...this.state.people}
+                   />
+                 }
                </div>
                <button onClick={this.onSearch} className={(Object.keys(this.state.chosenHotel).length !== 0 && this.state.arriveDate !== "") ? "btn primary" : "btn primary disabled"}>
-                 <span>Search</span>
+                 <span>{searchLang.searchButton}</span>
                </button>
              </div>
            )

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Destination from "./Destination";
+import lang from "../lang";
 
 class DestinationsList extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class DestinationsList extends React.Component {
     return (
       <section className="destinations" data-margin-top="80" data-margin-bottom="80">
         <div className="wrapper">
-          <h2>Top Destinations</h2>
+          <h2>{lang[this.props.lang].Destinations.title}</h2>
           <div className="photoGrid">
             <ul>
               {destinations}

@@ -30,8 +30,8 @@ class App extends Component {
           <div>
             <Route render={() => <Header changeLang={lang => this.setState({lang})} lang={this.state.lang}/>} />
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/Results" component={Results} />
+              <Route exact path="/" render={() => <Home lang={this.state.lang}/>} />
+              <Route exact path="/Results" render={() => <Results lang={this.state.lang}/>} />
               <Pages>
                   <PagesNav />
                   <article>
@@ -45,7 +45,7 @@ class App extends Component {
               </Pages>
               <Route component={Error404} />
             </Switch>
-            <Route component={Footer} />
+            <Route render={() => <Footer changeLang={lang => this.setState({lang})} lang={this.state.lang}/>} />
         </div>
       </BrowserRouter>
     )

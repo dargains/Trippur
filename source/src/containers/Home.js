@@ -9,9 +9,9 @@ class Home extends Component {
   render() {
     return (
       <main>
-        <Hero />
-        <DestinationsList />
-        <Newsletter />
+        <Hero lang={this.props.lang}/>
+        <DestinationsList lang={this.props.lang}/>
+        <Newsletter lang={this.props.lang}/>
       </main>
     )
   }
