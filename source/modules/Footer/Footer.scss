@@ -3,12 +3,12 @@ footer {
     background:#4b5862;
     .wrapper {
         max-width: 630px;
-        ul {
+        > ul {
             border-bottom: 1px solid #7C8A96;
             text-align: center;
             font-size: 0;
             padding-bottom: 35px;
-            li {
+            > li {
                 color: #FFF;
                 display: inline-block;
                 margin-left:15px;
@@ -60,7 +60,7 @@ footer {
                     transition:all 0.3s ease-in-out;
                     @include mq(0,600px){
                         display: inline-block;
-                        margin-left:15px; 
+                        margin-left:15px;
                         &:first-child {
                             margin-left: 0;
                         }
@@ -84,24 +84,20 @@ footer {
                         color: $SecondaryColor;
                         display: block;
                         text-align: center;
-                        
+
                     }
                 }
             }
         }
         h6 {
-            font-weight: $Medium;
+            @include fontM($White);
             display: block;
             text-align: center;
             margin-top: 30px;
             margin-bottom: 20px;
-            font-family: $Roboto;
-            color: #FFF;
         }
         small {
-            color: #FFF;
-            font-family: $Roboto;
-            font-size: 14px;
+            @include fontXS($White);
             display: block;
             text-align: center;
         }

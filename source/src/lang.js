@@ -1,15 +1,18 @@
 const lang = {
   en: {
+    Header: {
+      help: "Help"
+    },
     Hero: {
       title1: "Explore.",
       title2: "Compare. Book.",
-    }
+    },
     SearchBar: {
       tabs: {
         flights: "Flights",
         hotels: "Hotels"
       },
-      searchButton: "Search"
+      searchButton: "Search",
       filter: {
         flights: {
           from: "From",
@@ -21,7 +24,7 @@ const lang = {
           date: "Checkin to checkout"
         }
       }
-    }
+    },
     PersonPicker: {
       flights: {
         label: "passengers",
@@ -30,7 +33,7 @@ const lang = {
           adults: "Adults",
           children: "Children",
           infants: "Infants",
-        }
+        },
         classContainer: {
           label: "Class",
           first: "First Class",
@@ -50,16 +53,19 @@ const lang = {
     }
   },
   pt: {
+    Header: {
+      help: "Ajuda"
+    },
     Hero: {
       title1: "Explore.",
       title2: "Compare. Marque.",
-    }
+    },
     SearchBar: {
       tabs: {
         flights: "Voos",
         hotels: "Hotéis"
       },
-      searchButton: "Pesquisar"
+      searchButton: "Pesquisar",
       filter: {
         flights: {
           from: "De",
@@ -71,7 +77,7 @@ const lang = {
           date: "Partida até retorno"
         }
       }
-    }
+    },
     PersonPicker: {
       flights: {
         label: "passageiros",
@@ -80,7 +86,7 @@ const lang = {
           adults: "Adultos",
           children: "Crianças",
           infants: "Bebés"
-        }
+        },
         classContainer: {
           label: "Classs",
           first: "Primeira Classe",

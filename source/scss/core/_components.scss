@@ -206,6 +206,7 @@ button {
 .langSelector {
   position: relative;
   z-index: 5;
+  display: inline-block;
   ::selection {
     background: transparent;
   }
