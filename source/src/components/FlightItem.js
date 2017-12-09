@@ -17,7 +17,7 @@ export default(props) => (
     <div className="price">
       <p>{props.currency}{props.best_fare.price}<span>{props.best_fare.provider_name}</span></p>
     </div>
-    <ul>
+    <ul class="flightLogo">
       {props.outbound_segments.map(route => <li className="company" key={route.designator_code} style={{backgroundImage: `url(http://0.omg.io/wego/image/upload/c_fit,w_200,h_70/flights/airlines_rectangular/${route.airline_code}.png)`}} alt={route.airline_name} />)}
     </ul>
     <div className="flightInfo">
