@@ -49,9 +49,13 @@ header {
     display: inline-block;
     text-align: right;
 
-    li {
+    > ul > li {
       display: inline-block;
+      vertical-align: middle;
       margin-right: 15px;
+      > * {
+        padding: 10px 0;
+      }
     }
 
     a {

@@ -4,7 +4,10 @@ import Checkbox from "./Checkbox";
 import InputRange from 'react-input-range';
 
 const pad = n => n < 10 ? "0" + n : n;
-const thereIs = (value,array) => array.find(element => element == value);
+function thereIs(value,array) {
+  if (typeof(array) === "string") return value === array;
+  else return array.find(element => element === value);
+}
 
 class FlightFilters extends React.Component {
   constructor(props) {
