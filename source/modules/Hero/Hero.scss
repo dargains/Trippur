@@ -42,8 +42,9 @@
             background-color:rgba(0, 0, 0, 0.5);
             padding: 20px 40px;
             text-align: left;
-            margin-top: 30px;
             @include fontXL;
+            max-width: 1440px;
+            margin:30px auto 0 auto;
         }
     }
     .arrow-down {

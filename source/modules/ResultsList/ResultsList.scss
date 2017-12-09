@@ -1,7 +1,10 @@
 .resultsList {
-  width: calc(100% - 520px);
+  width: calc(100% - 25% - 20px);
   display: inline-block;
   vertical-align: top;
   border: 1px solid $GrayLight;
   margin: 20px auto;
+  @include mq(0,980px) {
+    width: 100%;
+  }
 }
