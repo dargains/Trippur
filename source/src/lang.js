@@ -50,7 +50,8 @@ const lang = {
       }
     },
     DatePicker: {
-
+      weekdays: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+      today: "Today"
     },
     Destinations: {
       title: "Where next?"
@@ -115,7 +116,8 @@ const lang = {
       }
     },
     DatePicker: {
-
+      weekdays: ["Dom","Seg","Ter","Qua","Qui","Sex","Sab"],
+      today: "Hoje"
     },
     Destinations: {
       title: "Para onde?"

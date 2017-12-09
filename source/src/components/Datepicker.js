@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import InfiniteCalendar, {withRange, Calendar} from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css';
-
+import lang from "../lang";
 
 class Datepicker extends Component {
   render() {
@@ -23,12 +23,10 @@ class Datepicker extends Component {
     }
     const locale = {
       locale: require(`date-fns/locale/${this.props.lang}`),
-      headerFormat: 'dddd, D MMM',
-      weekdays: ["Dim","Lun","Mar","Mer","Jeu","Ven","Sam"],
-      blank: 'Aucune date selectionnee',
+      weekdays: lang[this.props.lang].DatePicker.weekdays,
       todayLabel: {
-       long: 'Aujourd\'hui',
-       short: 'Auj.'
+       long: lang[this.props.lang].DatePicker.today,
+       short: lang[this.props.lang].DatePicker.today
       }
     }
     return (
