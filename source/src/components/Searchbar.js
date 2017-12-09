@@ -286,7 +286,14 @@ class Searchbar extends Component {
                  <div className="searchbar__container">
                  <input type="text" placeholder={this.state.oneWay ? searchLang.filter.flights.dateOneway : searchLang.filter.flights.date} ref="flightDate" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate})}/>
-                 { this.state.showDate && <Datepicker oneWay={this.state.oneWay} onSelect={this.getDate} selected={selectedTime}/> }
+                 { this.state.showDate &&
+                   <Datepicker
+                     lang={this.props.lang}
+                     oneWay={this.state.oneWay}
+                     onSelect={this.getDate}
+                     selected={selectedTime}
+                   />
+                 }
                  <Checkbox id="flightReturn" name="flightReturn" label={searchLang.filter.flights.oneWay} checked={this.state.oneWay} handleClick={this.changeOneWay}/>
                </div>
                  <div className="searchbar__container">
@@ -319,7 +326,12 @@ class Searchbar extends Component {
                <div className="searchbar__container">
                  <input type="text" placeholder={searchLang.filter.hotels.date} ref="hotelDate" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate})}/>
-                 { this.state.showDate && <Datepicker onSelect={this.getDate} selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/> }
+                 { this.state.showDate &&
+                   <Datepicker
+                     lang={this.props.lang}
+                     onSelect={this.getDate}
+                     selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/>
+                   }
                </div>
                  <div className="searchbar__container">
                  <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.hotels.guests}`} ref="hotelPeople" disabled/>

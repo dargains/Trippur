@@ -49,6 +49,9 @@ const lang = {
         economy: "Economy"
       }
     },
+    DatePicker: {
+
+    },
     Destinations: {
       title: "Where next?"
     },
@@ -110,6 +113,9 @@ const lang = {
         business: "Business",
         economy: "Economica"
       }
+    },
+    DatePicker: {
+
     },
     Destinations: {
       title: "Para onde?"
