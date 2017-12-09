@@ -10,12 +10,7 @@ import Footer from "./components/Footer";
 import Error404 from "./components/Error404";
 
 import PagesNav from "./components/PagesNav";
-import About from "./components/About";
-import Terms from "./components/Terms";
-import Help from "./components/Help";
-import Cookies from "./components/Cookies";
-import Partnerships from "./components/Partnerships";
-import Privacy from "./components/Privacy";
+import InternalPage from "./components/InternalPage";
 
 class App extends Component {
   constructor(props) {
@@ -35,12 +30,12 @@ class App extends Component {
               <Pages>
                   <PagesNav />
                   <article>
-                    <Route exact path="/Pages/About" component={About}/>
-                    <Route exact path="/Pages/Terms" component={Terms}/>
-                    <Route exact path="/Pages/Help" component={Help}/>
-                    <Route exact path="/Pages/Cookies" component={Cookies}/>
-                    <Route exact path="/Pages/Privacy" component={Privacy}/>
-                    <Route exact path="/Pages/Partnerships" component={Partnerships}/>
+                    <Route exact path="/Pages/About" render={() => <InternalPage page="About" lang={this.state.lang}/>}/>
+                    <Route exact path="/Pages/Terms" render={() => <InternalPage page="Terms" lang={this.state.lang}/>}/>
+                    <Route exact path="/Pages/Help" render={() => <InternalPage page="Help" lang={this.state.lang}/>}/>
+                    <Route exact path="/Pages/Cookies" render={() => <InternalPage page="Cookies" lang={this.state.lang}/>}/>
+                    <Route exact path="/Pages/Privacy" render={() => <InternalPage page="Privacy" lang={this.state.lang}/>}/>
+                    <Route exact path="/Pages/Partnerships" render={() => <InternalPage page="Partnerships" lang={this.state.lang}/>}/>
                   </article>
               </Pages>
               <Route component={Error404} />

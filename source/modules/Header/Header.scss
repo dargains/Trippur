@@ -37,7 +37,9 @@ header {
         content: url("../images/trippur-logo-white.png");
       }
     }
-
+    .langSelector p {
+      color: $White;
+    }
     nav {
       a {
         color: #FFF;

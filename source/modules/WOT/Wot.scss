@@ -66,6 +66,7 @@
       margin-bottom: 40px;
       max-width: 100%;
       text-align: left;
+      z-index: 1;
     }
 
     p {
@@ -76,9 +77,9 @@
         margin-bottom: 10px;
       }
 
-      a {
-        color: $PrimaryColor;
-      }
+    }
+    a {
+      color: $SecondaryColor;
     }
 
     ul {
