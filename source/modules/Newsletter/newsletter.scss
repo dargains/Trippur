@@ -26,14 +26,9 @@
             font-weight: $Light;
             border:none;
             font-size: 12px;
-            max-width: 380px;
+            max-width: 390px;
             width: 100%;
             text-align: center;
-            margin-right: 10px;
-            @include mq(0,600px){
-                width: 100%;
-                margin-bottom: 15px;
-            }
         }
         p {
             color: #FFF;
