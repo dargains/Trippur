@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import LanguageMenu from "./LanguageMenu";
+
 export default(props) => (
   <footer>
     <div className="wrapper">
@@ -15,9 +17,7 @@ export default(props) => (
           <Link to="/Pages/Terms">Terms & Conditions</Link>
         </li>
         <li>
-          <a href="">
-            <img src="http://www.geonames.org/flags/s/pt.png" alt="Portugues"/>
-          </a>
+          <LanguageMenu changeLang={props.changeLang}/>
         </li>
         <li>
           <a href="">€</a>

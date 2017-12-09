@@ -1,6 +1,6 @@
 # dependencies
 /source/node_modules
-/src/build
+/source/src/build
 /css/main.css
 # misc
 .DS_Store

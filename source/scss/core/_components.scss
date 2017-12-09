@@ -202,3 +202,42 @@ button {
     }
   }
 }
+
+.langSelector {
+  position: relative;
+  z-index: 5;
+  display: inline-block;
+  ::selection {
+    background: transparent;
+  }
+  p {
+    color: $White;
+    cursor: pointer;
+  }
+  i {
+    margin-left: 5px;
+  }
+  ul {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: $GrayThin;
+    text-align: left;
+  }
+  li {
+    margin: 5px 0;
+    padding: 5px 15px;
+    background-color: $GrayThin;
+    transition: all .1s ease-in;
+    min-width: 140px;
+    @include fontS;
+    cursor: pointer;
+    &:hover {
+      background-color: $GrayLight;
+    }
+  }
+  img {
+    max-width: 20px;
+    margin-right: 5px;
+  }
+}

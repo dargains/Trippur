@@ -1,18 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 
-export default(props) => (
-  <header data-theme={props.history.location.pathname === "/" ? "white" : ""} data-position={props.history.location.pathname === "/" ? "absolute" : ""}>
-    <Link to="/" className="trippur"></Link>
-    <nav>
-      <ul>
-        <li>
-          <Link to="/Pages/Help">Help</Link>
-        </li>
-        <li>
-          <a href=""><img src="http://www.geonames.org/flags/s/pt.png" alt="Portugues"/></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
-)
+import lang from "../lang";
+
+import LanguageMenu from "./LanguageMenu";
+
+class Header extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <header data-theme={this.props.history.location.pathname === "/" ? "white" : ""} data-position={this.props.history.location.pathname === "/" ? "absolute" : ""}>
+        <Link to="/" className="trippur"></Link>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/Pages/Help">{lang[this.props.lang].Header.help}</Link>
+            </li>
+            <li>
+              <LanguageMenu changeLang={this.props.changeLang} lang={this.props.lang}/>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    )
+  }
+}
+
+export default withRouter(Header);
