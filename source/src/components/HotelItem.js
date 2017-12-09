@@ -1,4 +1,5 @@
 import React from 'react';
+import lang from "../lang";
 
 export default(props) => (
   <article className="hotelItem" id={props.id}>
@@ -15,7 +16,7 @@ export default(props) => (
           <li className="icon-star-full"></li>
           <li className="icon-star-full"></li>
         </ul>
-        <p>{props.satisfaction_description} ({props.total_reviews !== null ? props.total_reviews : "No"} reviews)</p>
+        <p>{props.satisfaction_description} ({props.total_reviews !== null ? props.total_reviews : "No"} {lang[props.lang].Item.hotels.reviews})</p>
       </div>
       <div className="hotelList">
         <ul>
@@ -29,7 +30,7 @@ export default(props) => (
           {props.currency}{props.room_rate_min.price_str}
           <span>{props.room_rate_min.provider_name}</span>
         </p>
-        <p className="btn" onClick={props.onRateClick.bind(this,props.id,props.room_rate_min.id)}><span>VIEW DEAL</span></p>
+        <p className="btn" onClick={props.onRateClick.bind(this,props.id,props.room_rate_min.id)}><span>{lang[props.lang].Item.hotels.deal}</span></p>
       </div>
     </aside>
   </article>

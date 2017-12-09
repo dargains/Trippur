@@ -124,7 +124,7 @@ button {
     @include fontM;
 
     &:hover {
-      background-color: $PrimaryColorLight;
+      background-color: $SecondaryColor;
       color: $White;
     }
   }
@@ -179,13 +179,17 @@ button {
     cursor: pointer;
     outline: transparent;
     color: $White;
-
+    a {
+      color: $White;
+      text-decoration: none;
+      pointer-events: none;
+    }
     &:hover {
       background-color: $GrayMedium;
     }
 
     &.active {
-      background-color: $GrayBold;
+      background-color: $PrimaryColor;
     }
 
     &.disabled {
@@ -223,6 +227,7 @@ button {
     right: 0;
     background-color: $GrayThin;
     text-align: left;
+    box-shadow: 2px 2px 10px rgba(0,0,0,.2);
   }
   li {
     margin: 5px 0;

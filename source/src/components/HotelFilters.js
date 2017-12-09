@@ -3,6 +3,8 @@ import React from 'react';
 import Checkbox from './Checkbox';
 import InputRange from 'react-input-range';
 
+import lang from "../lang";
+
 const thereIs = (value,array) => array.find(element => element == value);
 
 class HotelFilters extends React.Component {
@@ -47,12 +49,14 @@ class HotelFilters extends React.Component {
     console.log(event.target)
   }
   render() {
-    const proptypes = ["Hotel","Hostel","Bed and Breakfast","Apartment","Resort","Villa","Motel"];
-    const stars = ["Not specified","One star","Two stars","Three stars","Four stars","Five stars"];
+    const filterLang = lang[this.props.lang].Filterbar.hotels;
+    const proptypes = filterLang.proptypes;
+    const stars = filterLang.stars;
     return (
       <div>
+
         <article>
-          <h2 className="sidebar__legend">Price</h2>
+          <h2 className="sidebar__legend">{filterLang.price}</h2>
           <InputRange
             maxValue={this.state.initialPrice.max}
             minValue={this.state.initialPrice.min}
@@ -63,19 +67,24 @@ class HotelFilters extends React.Component {
           />
         </article>
         <article>
-          <h2 className="sidebar__legend">Star Rating</h2>
+          <h2 className="sidebar__legend">{filterLang.star}</h2>
           {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox]} checked={thereIs(checkbox,this.props.stars)}handleClick={this.props.changeStar}/>)}
         </article>
+
         <hr/>
+
         <article>
-          <h2 className="sidebar__legend">Accomodation Type</h2>
+          <h2 className="sidebar__legend">{filterLang.type}</h2>
           {this.state.propTypes.map((checkbox,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={checkbox} label={proptypes[checkbox]} checked={thereIs(checkbox,this.props.property_types)}handleClick={this.props.changePropType}/>)}
         </article>
+
         <hr/>
+
         <article>
-          <h2 className="sidebar__legend">District Areas</h2>
+          <h2 className="sidebar__legend">{filterLang.district}</h2>
           {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} checked={thereIs(checkbox.name,this.props.districts)}handleClick={this.props.changeDistrict}/>)}
         </article>
+
       </div>
     );
   }

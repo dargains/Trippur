@@ -1,16 +1,16 @@
 footer {
     padding:45px 0;
-    background:$SecondaryColor;
+    background:$GrayThin;
     .wrapper {
         max-width: 630px;
         text-align: center;
         > ul {
-            border-bottom: 1px solid #484848;
+            border-bottom: 1px solid $GrayBold;
             text-align: center;
             font-size: 0;
             padding-bottom: 35px;
             > li {
-                color: #484848;
+                color: $GrayBold;
                 display: inline-block;
                 margin-left:15px;
                 @include mq(0,600px){
@@ -31,7 +31,7 @@ footer {
                 }
                 &:after {
                     content:'•';
-                    color: #484848;
+                    color: $GrayBold;
                     margin-left: 15px;
                     font-size: 14px;
                 }
@@ -44,7 +44,7 @@ footer {
                     }
                 }
                 a {
-                    color: #484848;
+                    color: $GrayBold;
                     text-decoration: none;
                     font-family: $Roboto;
                     font-size: 14px;
@@ -79,10 +79,10 @@ footer {
                     a {
                         width: 30px;
                         height: 30px;
-                        border:1px solid #484848;
+                        border:1px solid $GrayBold;
                         border-radius:50%;
                         line-height: 30px;
-                        color: #484848;
+                        color: $GrayBold;
                         display: block;
                         text-align: center;
 
@@ -91,14 +91,14 @@ footer {
             }
         }
         h6 {
-            @include fontM(#484848);
+            @include fontM($GrayBold);
             display: block;
             text-align: center;
             margin-top: 30px;
             margin-bottom: 20px;
         }
         small {
-            @include fontXS(#484848);
+            @include fontXS($GrayBold);
             display: block;
             text-align: center;
         }

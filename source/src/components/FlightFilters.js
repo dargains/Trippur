@@ -1,5 +1,7 @@
 import React from 'react';
 
+import lang from "../lang";
+
 import Checkbox from "./Checkbox";
 import InputRange from 'react-input-range';
 
@@ -12,23 +14,6 @@ function thereIs(value,array) {
 class FlightFilters extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      cabin: [
-        {
-          id: "cabin0",
-          name: "cabin",
-          label: "Economy"
-        }, {
-          id: "cabin1",
-          name: "cabin",
-          label: "Business"
-        }, {
-          id: "cabin2",
-          name: "cabin",
-          label: "First class"
-        }
-      ]
-    };
     this.checkboxClick = this.checkboxClick.bind(this);
   }
   componentWillMount() {
@@ -54,15 +39,16 @@ class FlightFilters extends React.Component {
     console.log(event.target)
   }
   render() {
+    const filterLang = lang[this.props.lang].Filterbar.flights;
     return (
       <div>
 
         <article>
-          <h2 className="sidebar__legend">Price</h2>
+          <h2 className="sidebar__legend">{filterLang.price}</h2>
           <InputRange
             maxValue={this.state.initialPrice.max}
             minValue={this.state.initialPrice.min}
-            formatLabel={value => `${value}${this.props.actualCurrencySymbol}`}
+            formatLabel={value => `${this.props.actualCurrencySymbol}${value}`}
             value={this.state.price}
             onChange={price => this.setState({price})}
             onChangeComplete={value => this.props.changePrice(value)}
@@ -72,15 +58,15 @@ class FlightFilters extends React.Component {
         <hr/>
 
         <article>
-          <h2 className="sidebar__legend">Stops</h2>
+          <h2 className="sidebar__legend">{filterLang.stops}</h2>
           {this.props.flights.stop_type_filters.map(stop => <Checkbox key={stop.code} id={stop.code} name={stop.code} label={stop.name} checked={thereIs(stop.code,this.props.stop_types)} handleClick={this.props.changeStops}/>)}
         </article>
 
         <hr/>
 
         <article>
-          <h2 className="sidebar__legend">Times</h2>
-          <p className="flightLegend">Departure time</p>
+          <h2 className="sidebar__legend">{filterLang.times}</h2>
+          <p className="flightLegend">{filterLang.departure}</p>
           <InputRange
             maxValue={this.props.flights.departure_day_time_filter.max}
             minValue={this.props.flights.departure_day_time_filter.min}
@@ -89,7 +75,7 @@ class FlightFilters extends React.Component {
             onChange={inbound => this.setState({inbound})}
             onChangeComplete={value => this.props.changeInboudTime(value)}
           />
-          <p className="flightLegend">Duration</p>
+          <p className="flightLegend">{filterLang.duration}</p>
           <InputRange
             maxValue={this.props.flights.duration_filter.max}
             minValue={this.props.flights.duration_filter.min}
@@ -103,14 +89,16 @@ class FlightFilters extends React.Component {
         <hr/>
 
         <article>
-          <h2 className="sidebar__legend">Cabin</h2>
-          {this.state.cabin.map(cabin => <Checkbox key={cabin.id} id={cabin.id} name={cabin.name} label={cabin.label} checked={thereIs(cabin.id,this.props.cabin)} handleClick={this.props.changeStops} />)}
+          <h2 className="sidebar__legend">{filterLang.cabin}</h2>
+          <Checkbox id="economy" name="economy" label={filterLang.cabins[0]} checked={thereIs("economy",this.props.cabin)} handleClick={this.props.changeStops} />
+          <Checkbox id="business" name="business" label={filterLang.cabins[1]} checked={thereIs("business",this.props.cabin)} handleClick={this.props.changeStops} />
+          <Checkbox id="first" name="first" label={filterLang.cabins[2]} checked={thereIs("first",this.props.cabin)} handleClick={this.props.changeStops} />
         </article>
 
         <hr/>
 
         <article>
-          <h2 className="sidebar__legend">Airlines</h2>
+          <h2 className="sidebar__legend">{filterLang.airlines}</h2>
           {this.props.flights.airline_filters.map(airline => <Checkbox key={airline.code} id={airline.code} name={airline.code} label={airline.name} checked={thereIs(airline.code,this.props.airline_codes)} handleClick={this.props.changeAirlines}/>)}
         </article>
 

@@ -5,9 +5,6 @@ import LanguageMenu from "./LanguageMenu";
 import lang from "../lang";
 
 class Header extends Component {
-  constructor(props) {
-    super(props)
-  }
   render() {
     return (
       <header data-theme={this.props.history.location.pathname === "/" ? "white" : ""} data-position={this.props.history.location.pathname === "/" ? "absolute" : ""}>

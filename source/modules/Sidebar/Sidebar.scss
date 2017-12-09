@@ -6,17 +6,15 @@
   display: inline-block;
   vertical-align: top;
   padding: 20px;
-  font-size: 1rem;
   fieldset {
     width: 100%;
     margin: 20px 0;
     padding: 0 20px;
   }
   &__legend {
-    font-weight: bold;
+    @include fontM;
     text-transform: uppercase;
     margin-bottom: 10px;
-    @include fontM;
   }
   hr {
     border-style: none;
@@ -25,23 +23,18 @@
     background-color: $GrayLight;
   }
   .flightLegend {
-    font-family: $Roboto;
+    @include fontS;
     text-transform: uppercase;
-    color: #222;
-    font-size: .9em;
-    span {
-      color: $PrimaryColor;
-    }
   }
   .input-range {
     margin: 30px auto 50px;
     width: 90%;
     &__slider {
-      background-color: $PrimaryColor;
-      border-color: $PrimaryColorDark;
+      background-color: $SecondaryColor;
+      border-color: $SecondaryColor;
     }
     &__track--active {
-      background-color: $PrimaryColor;
+      background-color: $SecondaryColor;
     }
   }
 }

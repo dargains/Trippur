@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import moment from "moment";
+import lang from "../lang";
 
-const stops = ["No stops", "1 stop", "2+ stops"];
 
 const getTimeDiff = (start,end) => {
   const departure = moment.utc(start);
@@ -12,50 +12,58 @@ const getTimeDiff = (start,end) => {
 
 }
 
-export default(props) => (
-  <article className="flightItem">
-    <div className="price">
-      <p>{props.currency}{props.best_fare.price}<span>{props.best_fare.provider_name}</span></p>
-    </div>
-    <ul class="flightLogo">
-      {props.outbound_segments.map(route => <li className="company" key={route.designator_code} style={{backgroundImage: `url(http://0.omg.io/wego/image/upload/c_fit,w_200,h_70/flights/airlines_rectangular/${route.airline_code}.png)`}} alt={route.airline_name} />)}
-    </ul>
-    <div className="flightInfo">
-      {props.outbound_segments.map(route => <p key={route.designator_code} className="companyName">{route.airline_name}</p>)}
-      <ul>
-        {props.outbound_segments.map(route =>
-          <li key={route.designator_code}>
-            <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong> {route.departure_name}</p>
-            <p>
-              <span>{getTimeDiff(route.departure_time,route.arrival_time)}</span>
-            </p>
-            <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong> {route.arrival_name}</p>
-          </li>
-        )}
-        <span className="flightDuration">{props.outbound_segments.length > 2 ? stops[2] : stops[props.outbound_segments.length - 1]}</span>
-      </ul>
-      {
-        props.inbound_segments &&
-        <ul>
-          {props.inbound_segments.map(route =>
-            <li key={route.designator_code}>
-              <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong> {route.departure_name}</p>
-              <p>
-                <span>{getTimeDiff(route.departure_time,route.arrival_time)}</span>
-              </p>
-              <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong> {route.arrival_name}</p>
-            </li>
-          )}
-          <span className="flightDuration">{props.inbound_segments.length > 2 ? stops[2] : stops[props.inbound_segments.length - 1]}</span>
+class FlightItem extends Component {
+  render() {
+    const itemLang = lang[this.props.lang].Item.flights;
+    const stops = itemLang.stops;
+    return (
+      <article className="flightItem">
+        <div className="price">
+          <p>{this.props.currency}{this.props.best_fare.price}<span>{this.props.best_fare.provider_name}</span></p>
+        </div>
+        <ul className="flightLogo">
+          {this.props.outbound_segments.map(route => <li className="company" key={route.designator_code} style={{backgroundImage: `url(http://0.omg.io/wego/image/upload/c_fit,w_200,h_70/flights/airlines_rectangular/${route.airline_code}.png)`}} alt={route.airline_name} />)}
         </ul>
-      }
-    </div>
-    <div className="flightType">
-      <em>{props.best_fare.description}</em>
-      <a href={props.best_fare.deeplink} className="btn" target="_BLANK">
-        <span>SELECT</span>
-      </a>
-      <a href="">+ more details</a>
-    </div>
-  </article>
-)
+        <div className="flightInfo">
+          {this.props.outbound_segments.map(route => <p key={route.designator_code} className="companyName">{route.airline_name}</p>)}
+          <ul>
+            {this.props.outbound_segments.map(route =>
+              <li key={route.designator_code}>
+                <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong> {route.departure_name}</p>
+                <p>
+                  <span>{getTimeDiff(route.departure_time,route.arrival_time)}</span>
+                </p>
+                <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong> {route.arrival_name}</p>
+              </li>
+            )}
+            <span className="flightDuration">{this.props.outbound_segments.length > 2 ? stops[2] : stops[this.props.outbound_segments.length - 1]}</span>
+          </ul>
+          {
+            this.props.inbound_segments &&
+            <ul>
+              {this.props.inbound_segments.map(route =>
+                <li key={route.designator_code}>
+                  <p><strong>{moment(route.departure_time).format("H[h]mm[m]")}</strong> {route.departure_name}</p>
+                  <p>
+                    <span>{getTimeDiff(route.departure_time,route.arrival_time)}</span>
+                  </p>
+                  <p><strong>{moment(route.arrival_time).format("H[h]mm[m]")}</strong> {route.arrival_name}</p>
+                </li>
+              )}
+              <span className="flightDuration">{this.props.inbound_segments.length > 2 ? stops[2] : stops[this.props.inbound_segments.length - 1]}</span>
+            </ul>
+          }
+        </div>
+        <div className="flightType">
+          <em>{this.props.best_fare.description}</em>
+          <a href={this.props.best_fare.deeplink} className="btn" target="_BLANK">
+            <span>{itemLang.select}</span>
+          </a>
+          <a href="">{itemLang.details}</a>
+        </div>
+      </article>
+    )
+  }
+}
+
+export default FlightItem;

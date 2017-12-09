@@ -13,8 +13,21 @@ class ResultsList extends React.Component {
   render() {
     let items;
     this.props.type === "flights"
-      ? items = this.props.routes.map(flight => <FlightItem key={flight.id} {...flight} currency={this.props.currency}/> )
-      : items = this.props.hotels.map(hotel => <HotelItem key={hotel.id} {...hotel} onRateClick={this.props.onRateClick} currency={this.props.currency}/> );
+      ? items = this.props.routes.map(flight =>
+        <FlightItem
+        key={flight.id}
+        lang={this.props.lang}
+        currency={this.props.currency}
+        {...flight}
+      /> )
+      : items = this.props.hotels.map(hotel =>
+        <HotelItem
+          key={hotel.id}
+          lang={this.props.lang}
+          currency={this.props.currency}
+          onRateClick={this.props.onRateClick}
+          {...hotel}
+        /> );
     return (
       <section className="resultsList">
         {items}

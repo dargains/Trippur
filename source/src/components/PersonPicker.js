@@ -27,7 +27,7 @@ export default (props) => (
     {
       props.class &&
       <div className="personPicker__container">
-        <p>Class</p>
+        <p>{lang[props.lang].PersonPicker.class.label}</p>
         <Radiobutton
           id="first"
           group="class"

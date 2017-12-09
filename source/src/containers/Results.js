@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import {withRouter} from 'react-router-dom';
 import Axios from "axios";
 import api from "../api";
+import lang from "../lang";
 import queryString from "query-string";
 
 import Searchbar from "../components/Searchbar";
 import Sidebar from "../components/Sidebar";
 import ResultsList from "../components/ResultsList";
 import Overlay from "../components/Overlay";
-import HotelSort from "../components/HotelSort";
-import FlightSort from "../components/FlightSort";
+import Sortbar from "../components/Sortbar";
 import PleaseWait from "../components/PleaseWait";
 
 const putIntoArray = element => {
@@ -172,6 +172,7 @@ class Results extends Component {
         price_max: that.state.price_max,
         sort: that.state.sort,
         order: that.state.order,
+        lang: that.props.lang,
         page: that.state.currentPage,
         per_page: 10
       },
@@ -253,6 +254,8 @@ class Results extends Component {
       duration_min: that.state.duration_min,
       duration_max: that.state.duration_max,
       airline_codes: that.state.airline_codes,
+      user_country_code: that.props.lang,
+      locale: that.props.lang,
       sort: that.state.sort,
       order: that.state.order,
       page: that.state.currentPage,
@@ -390,22 +393,24 @@ class Results extends Component {
   }
 
   render() {
+    const resultsLang = lang[this.props.lang].Results;
     return (
       <main>
         {this.state.loading && <Overlay />}
         <Searchbar context="results" handleSearch={this.newSearch} lang={this.props.lang}/>
-        {this.state.firstLoad && !this.state.noResults && <PleaseWait />}
-        {this.state.noResults && <h2 className="noResults">We found no results for this search.</h2>}
+        {this.state.firstLoad && !this.state.noResults && <PleaseWait lang={this.props.lang}/>}
+        {this.state.noResults && <h2 className="noResults">{resultsLang.noResults}</h2>}
         {/* flights */}
           {
             this.state.gotResponse === "flights" && (
               <div className="results">
-                <FlightSort handleClick={this.sortResults} />
+                <Sortbar type={this.state.type} handleClick={this.sortResults} lang={this.props.lang}/>
                 <div className="wrapper">
-                  <p className="results__foundItems">Found {this.state.totalCount} flights</p>
+                  <p className="results__foundItems">{resultsLang.results1} {this.state.totalCount} {resultsLang.resultsF}</p>
                   <Sidebar
                     {...this.state}
                     type={this.state.type}
+                    lang={this.props.lang}
                     changeStops={this.updateStops}
                     changeCabin={this.updateCabin}
                     changePrice={this.updatePriceF}
@@ -417,6 +422,7 @@ class Results extends Component {
                   <ResultsList
                     {...this.state.flights}
                     type={this.state.type}
+                    lang={this.props.lang}
                     currentPage={this.state.currentPage}
                     handlePagination={this.updatePagination}
                     currency={this.state.actualCurrencySymbol}
@@ -430,12 +436,13 @@ class Results extends Component {
           {
             this.state.gotResponse === "hotels" && (
               <div className="results">
-                <HotelSort handleClick={this.sortResults} />
+                <Sortbar type={this.state.type} handleClick={this.sortResults} lang={this.props.lang}/>
                 <div className="wrapper">
-                  <p className="results__foundItems">Found {this.state.totalCount} hotels</p>
+                  <p className="results__foundItems">{resultsLang.results1} {this.state.totalCount} {resultsLang.resultsH}</p>
                   <Sidebar
                     {...this.state}
                     type={this.state.type}
+                    lang={this.props.lang}
                     changeStar={this.updateStars}
                     changePrice={this.updatePriceH}
                     changePropType={this.updatePropertyType}
@@ -445,6 +452,7 @@ class Results extends Component {
                   <ResultsList
                     {...this.state.hotels}
                     type={this.state.type}
+                    lang={this.props.lang}
                     onRateClick={this.redirectHotel}
                     currentPage={this.state.currentPage}
                     handlePagination={this.updatePagination}

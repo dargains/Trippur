@@ -8,17 +8,17 @@ import lang from "../lang";
 class Datepicker extends Component {
   render() {
     const theme = {
-      selectionColor: '#FFA726',
-      accentColor: '#FF8706',
+      selectionColor: '#47A594',
+      accentColor: '#177564',
       textColor: {
-        default: '#333',
+        default: '#484848',
         active: '#FFF'
       },
-      weekdayColor: '#FFA726',
+      weekdayColor: '#47A594',
       floatingNav: {
-        background: '#FF8706',
+        background: '#177564',
         color: '#FFF',
-        chevron: '#FFA726'
+        chevron: '#47A594'
       }
     }
     const locale = {
