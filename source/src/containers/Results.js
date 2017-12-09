@@ -393,7 +393,7 @@ class Results extends Component {
     return (
       <main>
         {this.state.loading && <Overlay />}
-        <Searchbar context="results" handleSearch={this.newSearch}/>
+        <Searchbar context="results" handleSearch={this.newSearch} lang={this.props.lang}/>
         {this.state.firstLoad && !this.state.noResults && <PleaseWait />}
         {this.state.noResults && <h2 className="noResults">We found no results for this search.</h2>}
         {/* flights */}
