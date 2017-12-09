@@ -1,7 +1,7 @@
 .newsletter {
     width: 100%;
     padding:40px 0;
-    background-image: linear-gradient(110deg, $PrimaryColor 0%, $PrimaryColorDark 100%);
+    background-color:$PrimaryColor;
     text-align: center;
     @include mq(0, 620px) {
         .btn {
@@ -26,9 +26,14 @@
             font-weight: $Light;
             border:none;
             font-size: 12px;
-            max-width: 390px;
+            max-width: 380px;
+            margin-right: 10px;
             width: 100%;
             text-align: center;
+            @include mq(0,630px){
+                margin:0 0 10px 0;
+                max-width: 80%; 
+            }
         }
         p {
             color: #FFF;
