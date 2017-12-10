@@ -27,22 +27,22 @@ export default(props) => (
       <h6>{lang[props.lang].Footer.joinUs}</h6>
       <ul>
         <li>
-          <a href="">
+          <a href="http://facebook.com/trippurcom">
             <i className="icon-facebook"></i>
           </a>
         </li>
         <li>
-          <a href="">
+          <a href="https://www.instagram.com/trippurcom/">
             <i className="icon-instagram"></i>
           </a>
         </li>
         <li>
-          <a href="">
+          <a href="https://www.linkedin.com/company/trippur">
             <i className="icon-linkedin"></i>
           </a>
         </li>
         <li>
-          <a href="">
+          <a href="https://twitter.com/Trippurcom">
             <i className="icon-twitter"></i>
           </a>
         </li>

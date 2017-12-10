@@ -42,7 +42,6 @@
             position: relative;
             transition: all 0.3s ease-in;
             border-radius: 5px;
-            height: 400px;
             overflow: hidden;
             &:hover {
               //transform: scale(1.05);
@@ -67,10 +66,6 @@
 
             img {
               width: 100%;
-              position: absolute;
-              left: 50%;
-              top: 50%;
-              transform: translate(-50% , -50%);
               z-index: 1;
             }
 
@@ -99,7 +94,6 @@
             max-width: 100%;
             margin: 10px 0;
             figure {
-              height: 300px;
               border: 10px solid $White;
               figcaption {
                 font-size: 20px;

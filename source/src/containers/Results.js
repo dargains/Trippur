@@ -38,7 +38,8 @@ class Results extends Component {
       property_types:[],
       stop_types:[],
       airline_codes :[],
-      cabin:""
+      cabin:"",
+      itemsPerPage: 20
     };
     this.newSearch = this.newSearch.bind(this);
     this.updateView = this.updateView.bind(this);
@@ -176,7 +177,7 @@ class Results extends Component {
         order: that.state.order,
         lang: that.props.lang,
         page: that.state.currentPage,
-        per_page: 10
+        per_page: that.state.itemsPerPage
       },
       crossdomain: true
     })
@@ -194,22 +195,7 @@ class Results extends Component {
     });
   }
   redirectHotel(hotelId,roomId, event) {
-    const that = this;
-    Axios.get("https://cors-anywhere.herokuapp.com/http://api.wego.com/hotels/api/search/redirect/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109",{
-      params: {
-        search_id: that.state.search_id,
-        hotel_id: hotelId,
-        room_rate_id: roomId,
-        locale:this.props.lang,
-        currency_code: that.state.actualCurrency
-      }
-    })
-    .then(function (response) {
-      window.open().document.write(response.data)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    window.open(`http://api.wego.com/hotels/api/search/redirect/${this.state.hotelsId}?key=047fca814736a1a95010&ts_code=18109&$search_id={search_id}&hotel_id=${hotelId}&room_rate_id=${roomId}&locale=${this.props.lang}&currency_code=${this.state.actualCurrency}`);
   }
   getFlights() {
     const that = this;
@@ -261,7 +247,7 @@ class Results extends Component {
       sort: that.state.sort,
       order: that.state.order,
       page: that.state.currentPage,
-      per_page: 10
+      per_page: that.state.itemsPerPage
     }
     Axios.post(api.getFares, JSON.stringify(params))
     .then(function(response) {
