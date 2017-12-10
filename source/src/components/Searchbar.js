@@ -43,7 +43,7 @@ class Searchbar extends Component {
         children_count:0,
         infants_count:0
       },
-      cabin:"business",
+      cabin:"economy",
       oneWay: false,
       showDate:false,
       showPersonPicker:false,
@@ -80,7 +80,7 @@ class Searchbar extends Component {
         children_count:0,
         infants_count:0
       },
-      cabin:"business",
+      cabin:"economy",
       oneWay:false,
       showDate:false,
       showPersonPicker:false,
@@ -88,9 +88,8 @@ class Searchbar extends Component {
     });
     document.querySelectorAll("input").forEach(input => input.value = "");
   }
-  getAirports(type, event) {
+  getAirports(type) {
     var that = this;
-    const list = event.target.nextElementSibling;
     if (cancel !== undefined) cancel();
     let term = type === "inbound" ? this.refs.inboundAirport.value : this.refs.outboundAirport.value;
     this.setState({gotResponse:false})
@@ -122,7 +121,8 @@ class Searchbar extends Component {
           flightInfo = {
             id: airport.airportid,
             country_name: airport.countryname,
-            country_code: airport.countrycode
+            country_code: airport.countrycode,
+            city: airport.cityname
           };
     let chosenFlight = this.state.chosenFlight;
     chosenFlight[type] = flightInfo
@@ -131,9 +131,8 @@ class Searchbar extends Component {
       ? this.refs.inboundAirport.value = event.target.innerText
       : this.refs.outboundAirport.value = event.target.innerText
   }
-  getHotels(event) {
+  getHotels() {
     var that = this;
-    const list = event.target.nextElementSibling;
     if (cancel !== undefined) cancel();
     this.setState({gotResponse:false})
     Axios.get(api.getLocations, {
@@ -159,7 +158,8 @@ class Searchbar extends Component {
           chosenHotel = {
             id: hotel.hotelid,
             country_name: hotel.countryname,
-            country_code: hotel.countrycode
+            country_code: hotel.countrycode,
+            city: hotel.cityname
           };
     this.setState({chosenHotel});
     this.refs.hotel.value = event.target.innerText;
@@ -235,6 +235,7 @@ class Searchbar extends Component {
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
         cabin: state.cabin,
+        city: state.chosenFlight.outbound.city,
         adults_count: parseInt(state.people.adults_count, 10),
         children_count: parseInt(state.people.children_count, 10),
         infants_count: parseInt(state.people.infants_count, 10)
@@ -246,6 +247,7 @@ class Searchbar extends Component {
         countryName: state.chosenHotel.country_name,
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
+        city: state.chosenHotel.city,
         adults_count: parseInt(state.people.adults_count, 10),
         children_count: parseInt(state.people.children_count, 10),
         infants_count: parseInt(state.people.infants_count, 10)
@@ -254,11 +256,11 @@ class Searchbar extends Component {
     this.props.context === "results" && this.props.handleSearch();
   }
   render() {
-    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} onClick={this.chooseHotel}>{hotel.name}</li>);
+    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} data-cityname={hotel.name.split(",")[0].split(' ').join('')} onClick={this.chooseHotel}>{hotel.name}</li>);
 
-    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} onClick={this.chooseAirport.bind(this,"inbound")}>{airport.name}</li>);
+    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city.split(' ').join('')} onClick={this.chooseAirport.bind(this,"inbound")}>{airport.name}</li>);
 
-    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} onClick={this.chooseAirport.bind(this,"outbound")}>{airport.name}</li>);
+    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city.split(' ').join('')} onClick={this.chooseAirport.bind(this,"outbound")}>{airport.name}</li>);
 
     const selectedTime = this.state.oneWay
       ? this.state.arriveDate

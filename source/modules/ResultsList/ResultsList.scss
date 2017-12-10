@@ -1,9 +1,9 @@
 .resultsList {
-  width: calc(100% - 25% - 20px);
+  width: calc(55% - 40px);
   display: inline-block;
   vertical-align: top;
   border: 1px solid $GrayLight;
-  margin: 20px auto;
+  margin: 0 20px;
   position: relative;
   z-index: 1;
   .openFilters {
@@ -15,8 +15,9 @@
     color: $PrimaryColor;
     display: none;
   }
-  @include mq(0,980px) {
+  @include mq(0,768px) {
     width: 100%;
+    margin: 0 auto;
     .openFilters {
       display: block;
     }

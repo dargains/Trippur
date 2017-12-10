@@ -107,6 +107,9 @@ const lang = {
         proptypes: ['Hotel','Hostel','Bed and Breakfast','Apartment','Resort','Villa','Motel']
       }
     },
+    Photobar: {
+      title: "#visit"
+    },
     Item: {
       flights: {
         stops: ['No stops', '1 stop', '2+ stops'],
@@ -378,6 +381,9 @@ const lang = {
         stars: ['Não especificado','Uma estrela','Duas estrelas','Três estrelas','Quatro estrelas','Cinco estrelas'],
         proptypes: ['Hotel','Hostel','Bed and Breakfast','Apartamento','Resort','Villa','Motel']
       }
+    },
+    Photobar: {
+      title: "#visit"
     },
     Item: {
       flights: {

@@ -14,7 +14,7 @@ input[type=email] {
 .btn,
 button {
   font-size: 12px;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   text-transform: uppercase;
   line-height: 45px;
   border: 1px solid $PrimaryColor;
@@ -122,10 +122,8 @@ button {
   h2 {
     @include fontXXL;
   }
-
-  img {
-    margin: 30px auto;
-    width: 30%;
+  @include mq(0,768px) {
+    margin: 100px auto;
   }
 }
 

@@ -12,6 +12,7 @@ import Error404 from "./components/Error404";
 import PagesNav from "./components/PagesNav";
 import InternalPage from "./components/InternalPage";
 
+
 class App extends Component {
   constructor(props) {
     super(props);

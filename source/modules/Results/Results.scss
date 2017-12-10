@@ -2,40 +2,13 @@
   font-size: 0;
   position: relative;
   overflow: hidden;
+  margin: 40px auto;
   @include mq(0, 600px) {
     padding: 0;
   }
-
   &__foundItems {
     @include fontM;
-    margin-top: 20px;
-  }
-
-  .resultList {
-    font-size: 20px;
-    display: inline-block;
-    width: 100%;
-    max-width: 840px;
-    border: 1px solid $GrayLight;
-    border-top: none;
-    position: relative;
-    vertical-align: top;
-    position: relative;
-    @include mq(0, 1180px) {
-      width: 100%;
-      max-width: 100%;
-    }
-  }
-
-  .ads {
-    font-size: 20px;
-    background: green;
-    display: inline-block;
-    width: 25%;
-    vertical-align: top;
-    @include mq(0, 980px) {
-      width: 100%;
-    }
+    margin: 20px 0;
   }
 }
 .noResults {

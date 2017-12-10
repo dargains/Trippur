@@ -1,6 +1,6 @@
 .sort {
   background: $GrayLight;
-  margin: 10px 0 20px;
+  margin-bottom: 20px;
   .wrapper {
     @include mq(0, 768px) {
       padding: 0;

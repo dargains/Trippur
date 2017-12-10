@@ -27,11 +27,11 @@ class Newsletter extends Component {
         },
         success: {
           fontSize: 14,
-          color: "green"
+          color: "auto"
         },
         error: {
           fontSize: 14,
-          color: "red"
+          color: "auto"
         }
       }
     }

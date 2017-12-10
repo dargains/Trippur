@@ -14,7 +14,7 @@
 }
 @mixin fontGiant($color:$GrayBold) {
   @include fontFix;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   font-size: 60px;
   line-height: 72px;
   color: $color;
@@ -25,7 +25,7 @@
 }
 @mixin fontXXL($color:$GrayBold) {
   @include fontFix;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   font-size: 36px;
   line-height: 43px;
   color: $color;
@@ -36,7 +36,7 @@
 }
 @mixin fontXL($color:$GrayBold) {
   @include fontFix;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   font-weight: $Medium;
   font-size: 30px;
   line-height: 40px;
@@ -48,7 +48,7 @@
 }
 @mixin fontL($color:$GrayBold) {
   @include fontFix;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   font-weight: $Light;
   font-size: 24px;
   line-height: 32px;
@@ -60,7 +60,7 @@
 }
 @mixin fontM($color:$GrayMedium) {
   @include fontFix;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   font-weight: $Regular;
   font-size: 18px;
   line-height: 28px;
@@ -72,7 +72,7 @@
 }
 @mixin fontS($color:$GrayMedium) {
   @include fontFix;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   font-weight: $Regular;
   font-size: 14px;
   line-height: 20px;
@@ -80,7 +80,7 @@
 }
 @mixin fontXS($color:$GrayMedium) {
   @include fontFix;
-  font-family: $Roboto;
+  font-family: $Montserrat;
   font-weight: $Regular;
   font-size: 12px;
   line-height: 20px;

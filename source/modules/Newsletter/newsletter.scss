@@ -11,7 +11,7 @@
     }
     .wrapper {
         h4 {
-            font-family: $Roboto;
+            font-family: $Montserrat;
             font-size: 20px;
             color:#FFF;
             display: block;
@@ -22,7 +22,7 @@
         input {
             background: #f09378;
             color: #FFF;
-            font-family: $Roboto;
+            font-family: $Montserrat;
             font-weight: $Light;
             border:none;
             font-size: 12px;
@@ -32,13 +32,13 @@
             text-align: center;
             @include mq(0,630px){
                 margin:0 0 10px 0;
-                max-width: 80%; 
+                max-width: 80%;
             }
         }
         p {
             color: #FFF;
             font-size: 11px;
-            font-family: $Roboto;
+            font-family: $Montserrat;
             display: block;
             margin-top: 10px;
         }

@@ -1,0 +1,20 @@
+.photobar {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  &__title {
+    @include fontM;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  img {
+    width: 100%;
+  }
+  @include mq(0, 768px) {
+    width: 100%;
+    li {
+      display: inline-block;
+      width: 33.333%;
+    }
+  }
+}

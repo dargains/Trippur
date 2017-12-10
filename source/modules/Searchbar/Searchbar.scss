@@ -4,7 +4,7 @@
   max-width: 1200px;
   margin: 0 auto;
   &.secondary {
-    margin: 40px auto;
+    margin-top: 40px;
     padding: 0 20px;
     .searchbar__types li {
       color: $GrayLight;
@@ -23,6 +23,7 @@
   }
   &__types {
     margin: 10px;
+    margin-top: 0;
     li {
       display: inline-block;
       @include fontM($White);

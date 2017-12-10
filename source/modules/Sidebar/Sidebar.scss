@@ -1,7 +1,5 @@
 .sidebar {
   width: 25%;
-  margin: 20px auto;
-  margin-right: 20px;
   box-shadow: 0px 0px 10px rgba(0,0,0,.2);
   display: inline-block;
   vertical-align: top;
@@ -41,7 +39,7 @@
       background-color: $SecondaryColor;
     }
   }
-  @include mq(0, 980px) {
+  @include mq(0, 768px) {
     width: calc(100% - 20px);
     position: absolute;
     transform: translateX(-110%);

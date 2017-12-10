@@ -11,6 +11,7 @@ import ResultsList from "../components/ResultsList";
 import Overlay from "../components/Overlay";
 import Sortbar from "../components/Sortbar";
 import PleaseWait from "../components/PleaseWait";
+import Photobar from "../components/Photobar";
 
 const putIntoArray = element => {
   let buffer = element;
@@ -431,6 +432,7 @@ class Results extends Component {
                     currency={this.state.actualCurrencySymbol}
                     pageCount={Math.ceil(this.state.totalCount/10)}
                   />
+                  <Photobar city={this.state.city} lang={this.props.lang}/>
                 </div>
               </div>
             )
@@ -464,6 +466,7 @@ class Results extends Component {
                     currency={this.state.actualCurrencySymbol}
                     pageCount={Math.ceil(this.state.totalCount/10)}
                   />
+                  <Photobar city={this.state.city} lang={this.props.lang}/>
                 </div>
               </div>
             )

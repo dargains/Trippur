@@ -20,9 +20,9 @@ export default(props) => (
         <li>
           <LanguageMenu changeLang={props.changeLang} lang={props.lang}/>
         </li>
-        <li>
+        {/* <li>
           <a href="">€</a>
-        </li>
+        </li> */}
       </ul>
       <h6>{lang[props.lang].Footer.joinUs}</h6>
       <ul>
