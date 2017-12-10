@@ -14,7 +14,7 @@ class Sidebar extends React.Component {
   };
   render() {
     return (
-      <aside className="sidebar">
+      <aside className={this.props.showFilters ? "sidebar shown": "sidebar"}>
         {
           this.props.type === "flights"
             ? <FlightFilters {...this.props}/>

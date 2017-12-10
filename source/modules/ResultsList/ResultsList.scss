@@ -4,7 +4,21 @@
   vertical-align: top;
   border: 1px solid $GrayLight;
   margin: 20px auto;
+  position: relative;
+  z-index: 1;
+  .openFilters {
+    position: absolute;
+    top: -40px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: $PrimaryColor;
+    display: none;
+  }
   @include mq(0,980px) {
     width: 100%;
+    .openFilters {
+      display: block;
+    }
   }
 }

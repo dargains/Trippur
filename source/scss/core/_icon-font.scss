@@ -24,6 +24,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+.icon-filter:before {
+  content: "\e912";
+}
 .icon-check:before {
   content: "\e911";
 }

@@ -88,8 +88,9 @@ class Searchbar extends Component {
     });
     document.querySelectorAll("input").forEach(input => input.value = "");
   }
-  getAirports(type) {
+  getAirports(type, event) {
     var that = this;
+    const list = event.target.nextElementSibling;
     if (cancel !== undefined) cancel();
     let term = type === "inbound" ? this.refs.inboundAirport.value : this.refs.outboundAirport.value;
     this.setState({gotResponse:false})
@@ -104,11 +105,13 @@ class Searchbar extends Component {
       crossdomain: true
     })
     .then(function (response) {
-      // NOTE: respostas pequenas sem data
-      response.data.airports.length &&
-      type === "inbound"
+      response.data.airports
+      ? type === "inbound"
         ? that.setState({inboundAirports: response.data.airports,gotResponse:true})
         : that.setState({outboundAirports: response.data.airports,gotResponse:true})
+      : type === "inbound"
+        ? that.setState({inboundAirports: [],gotResponse:true})
+        : that.setState({outboundAirports: [],gotResponse:true})
     })
     .catch(function (error) {
       //console.log(error);
@@ -128,8 +131,9 @@ class Searchbar extends Component {
       ? this.refs.inboundAirport.value = event.target.innerText
       : this.refs.outboundAirport.value = event.target.innerText
   }
-  getHotels() {
+  getHotels(event) {
     var that = this;
+    const list = event.target.nextElementSibling;
     if (cancel !== undefined) cancel();
     this.setState({gotResponse:false})
     Axios.get(api.getLocations, {

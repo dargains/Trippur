@@ -26,6 +26,7 @@ class Results extends Component {
       firstLoad: true,
       noResults: false,
       loading: true,
+      showFilters: false,
       actualCurrency:"EUR",
       actualCurrencySymbol: "€",
       currentPage: 1,
@@ -51,8 +52,8 @@ class Results extends Component {
     this.updateAirlines = this.updateAirlines.bind(this);
     this.updateDistricts = this.updateDistricts.bind(this);
     this.updatePagination = this.updatePagination.bind(this);
-    this.updatePropertyType = this.updatePropertyType.bind(this);
     this.updateInboundTime = this.updateInboundTime.bind(this);
+    this.updatePropertyType = this.updatePropertyType.bind(this);
 
   }
   componentWillMount() {
@@ -198,7 +199,7 @@ class Results extends Component {
         search_id: that.state.search_id,
         hotel_id: hotelId,
         room_rate_id: roomId,
-        locale:"en",
+        locale:this.props.lang,
         currency_code: that.state.actualCurrency
       }
     })
@@ -411,6 +412,7 @@ class Results extends Component {
                     {...this.state}
                     type={this.state.type}
                     lang={this.props.lang}
+                    show={this.state.showFilters}
                     changeStops={this.updateStops}
                     changeCabin={this.updateCabin}
                     changePrice={this.updatePriceF}
@@ -423,6 +425,7 @@ class Results extends Component {
                     {...this.state.flights}
                     type={this.state.type}
                     lang={this.props.lang}
+                    toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
                     currentPage={this.state.currentPage}
                     handlePagination={this.updatePagination}
                     currency={this.state.actualCurrencySymbol}
@@ -443,6 +446,7 @@ class Results extends Component {
                     {...this.state}
                     type={this.state.type}
                     lang={this.props.lang}
+                    show={this.state.showFilters}
                     changeStar={this.updateStars}
                     changePrice={this.updatePriceH}
                     changePropType={this.updatePropertyType}
@@ -453,6 +457,7 @@ class Results extends Component {
                     {...this.state.hotels}
                     type={this.state.type}
                     lang={this.props.lang}
+                    toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
                     onRateClick={this.redirectHotel}
                     currentPage={this.state.currentPage}
                     handlePagination={this.updatePagination}

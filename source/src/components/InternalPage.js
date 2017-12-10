@@ -10,13 +10,10 @@ export default (props) => {
         switch(element.type) {
           case "title":
             return <p key={i} className="title">{element.copy}</p>
-            break;
           case "text":
             return <p key={i} dangerouslySetInnerHTML={{__html:element.copy}}/>
-            break;
           case "list":
             return <ul key={i}>{element.copy.map(item => <li key={item} dangerouslySetInnerHTML={{__html:item}} />)}</ul>
-            break;
           default:
             break;
         }

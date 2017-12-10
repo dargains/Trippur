@@ -4,12 +4,6 @@ import HotelItem from './HotelItem';
 import ReactPaginate from 'react-paginate';
 
 class ResultsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
   render() {
     let items;
     this.props.type === "flights"
@@ -30,6 +24,7 @@ class ResultsList extends React.Component {
         /> );
     return (
       <section className="resultsList">
+        <i className="openFilters icon-filter" onClick={this.props.toggleFilters}></i>
         {items}
         <ReactPaginate
           previousLabel={"<"}

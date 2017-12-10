@@ -35,12 +35,6 @@ button {
     color: $White;
     border-color: $White;
   }
-
-  span {
-    position: relative;
-    z-index: 2;
-  }
-
   &:before {
     width: 0;
     position: absolute;
@@ -182,6 +176,8 @@ button {
     a {
       color: $White;
       text-decoration: none;
+    }
+    .break-me {
       pointer-events: none;
     }
     &:hover {
