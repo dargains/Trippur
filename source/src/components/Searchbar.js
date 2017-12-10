@@ -4,6 +4,7 @@ import Axios from "axios";
 import api from "../api";
 import lang from "../lang";
 import moment from "moment";
+import queryString from "query-string";
 
 import Datepicker from "./Datepicker";
 import PersonPicker from "./PersonPicker";
@@ -44,7 +45,6 @@ class Searchbar extends Component {
         infants_count:0
       },
       cabin:"economy",
-      oneWay: false,
       showDate:false,
       showPersonPicker:false,
       gotResponse:true
@@ -60,6 +60,43 @@ class Searchbar extends Component {
     this.classSelect = this.classSelect.bind(this);
     this.changePeople = this.changePeople.bind(this);
     this.changeOneWay = this.changeOneWay.bind(this);
+  }
+  componentWillMount() {
+    if (this.props.context === "results") {
+      const params = queryString.parse(this.props.history.location.search);
+      params.type === "flights"
+        ? this.setState({type:params.type}, () => {
+          this.refs.inboundAirport.value = params.cityArri;
+          this.refs.outboundAirport.value = params.cityDest;
+          params.leaveDate
+            ? this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`
+            : this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")}`;
+          params.leaveDate && this.setState({oneWay:true})
+          this.setState({
+            people: {
+              adults_count:parseInt(params.adults_count, 10),
+              children_count:parseInt(params.children_count, 10),
+              infants_count:parseInt(params.infants_count, 10)
+            },
+            arriveDate: params.arriveDate,
+            leaveDate: params.leaveDate,
+            cabin: params.cabin
+          })
+        })
+        : this.setState({type:params.type}, () => {
+          this.refs.hotel.value = params.cityDest;
+          this.refs.hotelDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`;
+          this.setState({
+            people: {
+              adults_count:parseInt(params.adults_count, 10),
+              children_count:parseInt(params.children_count, 10),
+              infants_count:parseInt(params.infants_count, 10)
+            },
+            arriveDate: params.arriveDate,
+            leaveDate: params.leaveDate
+          })
+        })
+      }
   }
   onTypeChange(event) {
     let type = event.target.dataset.type;
@@ -159,7 +196,7 @@ class Searchbar extends Component {
             id: hotel.hotelid,
             country_name: hotel.countryname,
             country_code: hotel.countrycode,
-            city: hotel.cityname
+            cityDest: hotel.cityname
           };
     this.setState({chosenHotel});
     this.refs.hotel.value = event.target.innerText;
@@ -235,7 +272,8 @@ class Searchbar extends Component {
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
         cabin: state.cabin,
-        city: state.chosenFlight.outbound.city,
+        cityDest: state.chosenFlight.outbound.city,
+        cityArri: state.chosenFlight.inbound.city,
         adults_count: parseInt(state.people.adults_count, 10),
         children_count: parseInt(state.people.children_count, 10),
         infants_count: parseInt(state.people.infants_count, 10)
@@ -271,8 +309,12 @@ class Searchbar extends Component {
     return (
       <div className={this.props.context === "results" ? "searchbar secondary" : "searchbar"}>
         <ul className="searchbar__types">
-          <li onClick={this.onTypeChange} data-type="flights" className={this.state.type === "flights" ? "active" : ""}><i className="icon-airplane"></i>{searchLang.tabs.flights}</li>
-          <li onClick={this.onTypeChange} data-type="hotels" className={this.state.type === "hotels" ? "active" : ""}><i className="icon-briefcase"></i>{searchLang.tabs.hotels}</li>
+          <li onClick={this.onTypeChange} data-type="flights" className={this.state.type === "flights" ? "active" : ""}>
+            <i className="icon-airplane"></i>{searchLang.tabs.flights}
+          </li>
+          <li onClick={this.onTypeChange} data-type="hotels" className={this.state.type === "hotels" ? "active" : ""}>
+            <i className="icon-briefcase"></i>{searchLang.tabs.hotels}
+          </li>
         </ul>
         {
           this.state.type === "flights"
@@ -280,12 +322,12 @@ class Searchbar extends Component {
            ? (
              <div className="searchbar__filters">
                <div className="searchbar__container">
-                 <input type="text" placeholder={searchLang.filter.flights.from} ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList}/>
+                 <input type="text" placeholder={searchLang.filter.flights.from} ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList} onDoubleClick={(event) => console.log(event.target.value = "")}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{inboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder={searchLang.filter.flights.whereTo} ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList}/>
+                 <input type="text" placeholder={searchLang.filter.flights.whereTo} ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList} onDoubleClick={(event) => console.log(event.target.value = "")}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{outboundAirports}</ul>
                </div>
@@ -325,7 +367,7 @@ class Searchbar extends Component {
              // hotels
              <div className="searchbar__filters">
                <div className="searchbar__container">
-                 <input type="text" placeholder={searchLang.filter.hotels.whereTo} onKeyUp={this.getHotels} onBlur={this.closeList} onFocus={this.showList} ref="hotel"/>
+                 <input type="text" placeholder={searchLang.filter.hotels.whereTo} onKeyUp={this.getHotels} onBlur={this.closeList} onFocus={this.showList} ref="hotel" onDoubleClick={(event) => console.log(event.target.value = "")}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{hotels}</ul>
                </div>

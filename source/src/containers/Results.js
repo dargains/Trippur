@@ -432,7 +432,7 @@ class Results extends Component {
                     currency={this.state.actualCurrencySymbol}
                     pageCount={Math.ceil(this.state.totalCount/10)}
                   />
-                  <Photobar city={this.state.city} lang={this.props.lang}/>
+                  <Photobar city={this.state.cityDest} lang={this.props.lang}/>
                 </div>
               </div>
             )
@@ -466,7 +466,7 @@ class Results extends Component {
                     currency={this.state.actualCurrencySymbol}
                     pageCount={Math.ceil(this.state.totalCount/10)}
                   />
-                  <Photobar city={this.state.city} lang={this.props.lang}/>
+                  <Photobar city={this.state.cityDest} lang={this.props.lang}/>
                 </div>
               </div>
             )

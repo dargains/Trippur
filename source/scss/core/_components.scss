@@ -55,7 +55,8 @@ button {
   text-align: center;
   overflow: hidden;
   @include fontS;
-  z-index: 1;
+  z-index: 2;
+  box-shadow: 2px 2px 10px rgba(0,0,0,.2);
   > p {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -123,7 +124,7 @@ button {
     @include fontXXL;
   }
   @include mq(0,768px) {
-    margin: 100px auto;
+    margin: 80px auto;
   }
 }
 
