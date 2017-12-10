@@ -35,29 +35,6 @@ button {
     color: $White;
     border-color: $White;
   }
-  &:before {
-    width: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: transparent;
-    content: '';
-    transition: all 0.2s ease-in;
-    display: block;
-    height: 100%;
-  }
-
-  &:after {
-    width: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background: transparent;
-    content: '';
-    transition: all 0.2s ease-in;
-    display: block;
-    height: 100%;
-  }
   &.disabled {
     pointer-events: none;
     color: $GrayLight;
@@ -66,15 +43,6 @@ button {
   &:hover {
     color: #FFF;
     background-color: $PrimaryColor;
-    // &:before {
-    //   width: 50%;
-    //   background: $PrimaryColor;
-    // }
-    //
-    // &:after {
-    //   width: 50%;
-    //   background: $PrimaryColor;
-    // }
   }
 }
 
@@ -87,7 +55,7 @@ button {
   text-align: center;
   overflow: hidden;
   @include fontS;
-
+  z-index: 1;
   > p {
     margin-top: 20px;
     margin-bottom: 10px;

@@ -161,7 +161,7 @@ class Results extends Component {
     });
   }
   getHotels() {
-    this.setState({loading:true});
+    this.setState({loading:true,showFilters:false});
     var that = this;
     Axios.get("https://cors-anywhere.herokuapp.com/http://api.wego.com/hotels/api/search/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109", {
       params: {
@@ -234,7 +234,7 @@ class Results extends Component {
     });
   }
   getFares() {
-    this.setState({loading:true});
+    this.setState({loading:true,showFilters:false});
     const that = this,
           id = Math.floor(Math.random() * 1000000000);
     const params = {
