@@ -285,7 +285,7 @@ class Searchbar extends Component {
         countryName: state.chosenHotel.country_name,
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
-        city: state.chosenHotel.city,
+        cityDest: state.chosenHotel.city,
         adults_count: parseInt(state.people.adults_count, 10),
         children_count: parseInt(state.people.children_count, 10),
         infants_count: parseInt(state.people.infants_count, 10)
