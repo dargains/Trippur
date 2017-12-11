@@ -155,7 +155,7 @@ class Results extends Component {
     })
     .then(function (response) {
       setTimeout(()=>{
-        that.setState({hotelsId:response.data.search_id},that.getHotels)
+        that.setState({hotelsSearchId:response.data.search_id},that.getHotels)
       },10000);
     })
     .catch(function (error) {
@@ -165,7 +165,7 @@ class Results extends Component {
   getHotels() {
     this.setState({loading:true,showFilters:false});
     var that = this;
-    Axios.get("https://cors-anywhere.herokuapp.com/http://api.wego.com/hotels/api/search/" + that.state.hotelsId + "?key=047fca814736a1a95010&ts_code=18109", {
+    Axios.get("https://cors-anywhere.herokuapp.com/http://api.wego.com/hotels/api/search/" + that.state.hotelsSearchId + "?key=047fca814736a1a95010&ts_code=18109", {
       params: {
         districts: that.state.districts,
         stars: that.state.stars,
@@ -194,8 +194,8 @@ class Results extends Component {
       console.log(error);
     });
   }
-  redirectHotel(hotelId,roomId, event) {
-    window.open(`http://api.wego.com/hotels/api/search/redirect/${this.state.hotelsId}?key=047fca814736a1a95010&ts_code=18109&$search_id={search_id}&hotel_id=${hotelId}&room_rate_id=${roomId}&locale=${this.props.lang}&currency_code=${this.state.actualCurrency}`);
+  redirectHotel(hotelId,roomId) {
+    window.open(`http://api.wego.com/hotels/api/search/redirect/${this.state.hotelsSearchId}?key=047fca814736a1a95010&ts_code=18109&hotel_id=${hotelId}&room_rate_id=${roomId}&locale=${this.props.lang}&currency_code=${this.state.actualCurrency}`);
   }
   getFlights() {
     const that = this;
