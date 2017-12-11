@@ -223,7 +223,7 @@
   }
   label{
     padding-left: 20px;
-    @include fontM(currentColor);
+    @include fontS(currentColor);
     display: inline-block;
     cursor: pointer;
     &:before {
@@ -234,7 +234,7 @@
       position: absolute;
       border: 1px solid currentColor;
       left: 0;
-      top: 12px;
+      top: 9px;
     }
     &:after {
       display: block;
