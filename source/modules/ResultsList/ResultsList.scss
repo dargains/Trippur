@@ -1,5 +1,5 @@
 .resultsList {
-  width: calc(65% - 40px);
+  width: calc(70% - 40px);
   display: inline-block;
   vertical-align: top;
   border: 1px solid $GrayLight;
@@ -15,7 +15,10 @@
     color: $PrimaryColor;
     display: none;
   }
-  @include mq(0,768px) {
+  @include mq(0,1280px) {
+    width: calc(100% - 40px - 20%);
+  }
+  @include mq(0,800px) {
     width: 100%;
     margin: 0 auto;
     .openFilters {

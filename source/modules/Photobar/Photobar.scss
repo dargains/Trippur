@@ -1,5 +1,5 @@
 .photobar {
-  width: 20%;
+  width: 15%;
   display: inline-block;
   vertical-align: top;
   &__title {
@@ -10,7 +10,7 @@
   img {
     width: 100%;
   }
-  @include mq(0, 768px) {
+  @include mq(0, 1280px) {
     width: 100%;
     li {
       display: inline-block;

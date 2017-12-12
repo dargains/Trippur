@@ -159,6 +159,7 @@
             font-family: $Montserrat;
             font-size: 12px;
             text-align: right;
+            color:#FFF;
             @include mq(0,768px){
                 text-align: center;
             }
