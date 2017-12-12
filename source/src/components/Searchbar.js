@@ -66,8 +66,8 @@ class Searchbar extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.state.type === "flights"
-      ? this.getAirports("outbound")
-      : this.getHotels();
+      ? this.refs.outboundAirport.value !== this.state.outboundAirportValue && this.getAirports("outbound")
+      : this.refs.hotel.value !== this.state.hotelValue && this.getHotels();
   }
   componentWillMount() {
     if (this.props.context === "results") {
