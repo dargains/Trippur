@@ -14,7 +14,14 @@
     width: 100%;
     li {
       display: inline-block;
-      width: 33.333%;
+      width: 20%;
+    }
+  }
+  @include mq(0, 512px) {
+    width: 100%;
+    li {
+      display: inline-block;
+      width: 100%;
     }
   }
 }
