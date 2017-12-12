@@ -36,6 +36,9 @@ class Searchbar extends Component {
       hotels: [],
       inboundAirports:[],
       outboundAirports:[],
+      inboundAirportValue: "",
+      outboundAirportValue: "",
+      hotelValue: "",
       arriveDate:"",
       leaveDate:"",
       selectedOption: '',
@@ -60,6 +63,11 @@ class Searchbar extends Component {
     this.classSelect = this.classSelect.bind(this);
     this.changePeople = this.changePeople.bind(this);
     this.changeOneWay = this.changeOneWay.bind(this);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.state.type === "flights"
+      ? this.getAirports("outbound")
+      : this.getHotels();
   }
   componentWillMount() {
     if (this.props.context === "results") {
@@ -105,6 +113,9 @@ class Searchbar extends Component {
       hotels:[],
       inboundAirports:[],
       outboundAirports:[],
+      inboundAirportValue: "",
+      outboundAirportValue: "",
+      hotelValue: "",
       chosenHotel:{},
       chosenFlight:{
         inbound: {},
@@ -128,7 +139,12 @@ class Searchbar extends Component {
   getAirports(type) {
     var that = this;
     if (cancel !== undefined) cancel();
-    let term = type === "inbound" ? this.refs.inboundAirport.value : this.refs.outboundAirport.value;
+    type === "inbound"
+      ? this.setState({inboundAirportValue:this.refs.inboundAirport.value})
+      : this.setState({outboundAirportValue:this.refs.outboundAirport.value});
+    let term = type === "inbound"
+      ? this.refs.inboundAirport.value
+      : this.refs.outboundAirport.value;
     this.setState({gotResponse:false})
     Axios.get(api.getAirports, {
       params: {
@@ -143,8 +159,8 @@ class Searchbar extends Component {
     .then(function (response) {
       response.data.airports
       ? type === "inbound"
-        ? that.setState({inboundAirports: response.data.airports,gotResponse:true})
-        : that.setState({outboundAirports: response.data.airports,gotResponse:true})
+        ? (that.setState({inboundAirports: response.data.airports,gotResponse:true}),that.refs.inboundAirport.focus())
+        : (that.setState({outboundAirports: response.data.airports,gotResponse:true}),that.refs.outboundAirport.focus())
       : type === "inbound"
         ? that.setState({inboundAirports: [],gotResponse:true})
         : that.setState({outboundAirports: [],gotResponse:true})
@@ -165,13 +181,13 @@ class Searchbar extends Component {
     chosenFlight[type] = flightInfo
     this.setState({chosenFlight});
     type === "inbound"
-      ? this.refs.inboundAirport.value = event.target.innerText
-      : this.refs.outboundAirport.value = event.target.innerText
+      ? this.setState({inboundAirportValue: event.target.innerText})
+      : this.setState({outboundAirportValue: event.target.innerText})
   }
   getHotels() {
     var that = this;
     if (cancel !== undefined) cancel();
-    this.setState({gotResponse:false})
+    this.setState({gotResponse:false,hotelValue:this.refs.hotel.value})
     Axios.get(api.getLocations, {
       params: {
         q: that.refs.hotel.value,
@@ -185,6 +201,7 @@ class Searchbar extends Component {
     })
     .then(function (response) {
       that.setState({hotels: response.data.locations,gotResponse:true});
+      response.data.count && that.refs.hotel.focus();
     })
     .catch(function (error) {
       //console.log(error);
@@ -199,7 +216,7 @@ class Searchbar extends Component {
             cityDest: hotel.cityname
           };
     this.setState({chosenHotel});
-    this.refs.hotel.value = event.target.innerText;
+    this.setState({hotelValue: event.target.innerText})
   }
   showList(event) {
     event.target.nextElementSibling.style.display = "block";
@@ -322,12 +339,12 @@ class Searchbar extends Component {
            ? (
              <div className="searchbar__filters">
                <div className="searchbar__container">
-                 <input type="text" placeholder={searchLang.filter.flights.from} ref="inboundAirport" onKeyUp={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList} onDoubleClick={(event) => console.log(event.target.value = "")}/>
+                 <input type="text" placeholder={searchLang.filter.flights.from} value={this.state.inboundAirportValue} ref="inboundAirport" onInput={this.getAirports.bind(this,"inbound")} onFocus={this.showList} onBlur={this.closeList} onDoubleClick={(event) => console.log(event.target.value = "")}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{inboundAirports}</ul>
                </div>
                  <div className="searchbar__container">
-                 <input type="text" placeholder={searchLang.filter.flights.whereTo} ref="outboundAirport" onKeyUp={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList} onDoubleClick={(event) => console.log(event.target.value = "")}/>
+                 <input type="text" placeholder={searchLang.filter.flights.whereTo} value={this.state.outboundAirportValue} ref="outboundAirport" id="outboundAirport" onInput={this.getAirports.bind(this,"outbound")} onFocus={this.showList} onBlur={this.closeList} onDoubleClick={(event) => console.log(event.target.value = "")}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{outboundAirports}</ul>
                </div>
@@ -367,7 +384,7 @@ class Searchbar extends Component {
              // hotels
              <div className="searchbar__filters">
                <div className="searchbar__container">
-                 <input type="text" placeholder={searchLang.filter.hotels.whereTo} onKeyUp={this.getHotels} onBlur={this.closeList} onFocus={this.showList} ref="hotel" onDoubleClick={(event) => console.log(event.target.value = "")}/>
+                 <input type="text" placeholder={searchLang.filter.hotels.whereTo} value={this.state.hotelValue} onInput={this.getHotels} onBlur={this.closeList} onFocus={this.showList} ref="hotel" id="hotelDestination" onDoubleClick={(event) => console.log(event.target.value = "")}/>
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{hotels}</ul>
                </div>

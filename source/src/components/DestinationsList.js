@@ -14,6 +14,9 @@ class DestinationsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      intervalId: 0,
+      scrollStepInPx: 40,
+      delayInMs: 20,
       destinations: [
         {caption: "Bangkok", image: bangkok, link: ""},
         {caption: "Dubai", image: Dubai, link: ""},
@@ -23,9 +26,28 @@ class DestinationsList extends React.Component {
         {caption: "Venice", image: Venice, link: ""},
       ]
     };
+    this.selectDestination = this.selectDestination.bind(this);
+  }
+  scrollStep() {
+    if (window.pageYOffset === 0) clearInterval(this.state.intervalId);
+    window.scroll(0, window.pageYOffset - this.state.scrollStepInPx);
+  }
+
+  scrollToTop() {
+    let intervalId = setInterval(this.scrollStep.bind(this), this.state.delayInMs);
+    this.setState({ intervalId: intervalId });
+  }
+  selectDestination(event) {
+    const destination = event.currentTarget.dataset.destination;
+    const flight = document.querySelector("#outboundAirport");
+    const hotel = document.querySelector("#hotelDestination");
+    this.scrollToTop();
+    flight
+      ? flight.value = destination
+      : hotel.value = destination
   }
   render() {
-    const destinations = this.state.destinations.map(destination => <Destination key={destination.caption} {...destination} />)
+    const destinations = this.state.destinations.map(destination => <Destination key={destination.caption} {...destination} handleClick={this.selectDestination}/>)
     return (
       <section className="destinations" data-margin-top="80" data-margin-bottom="80">
         <div className="wrapper">

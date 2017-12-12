@@ -92,30 +92,30 @@
   .datePicker {
     position: absolute;
     box-shadow: 2px 2px 10px rgba(0,0,0,.2);
-    .Cal__Day__root.Cal__Day__today:before {
-      width: 46px;
-      height: 46px;
-      margin-top: -23px;
-      margin-left: -23px;
-    }
-    .searchbar .datePicker .Cal__Day__root.Cal__Day__selected .Cal__Day__selection {
-      margin-top: -23px;
-    }
-    .Cal__Day__root.Cal__Day__selected .Cal__Day__selection {
-      width: 46px;
-      height: 46px;
-      margin-top: -23px;
-    }
-    .Cal__Day__month, .Cal__Day__year {
-      line-height: 8px;
-    }
-    .Cal__Day__root.Cal__Day__selected .Cal__Day__selection .Cal__Day__day {
-      top: 3px;
-    }
-    .Cal__Day__range.Cal__Day__selected.Cal__Day__start:after, .Cal__Day__range.Cal__Day__selected.Cal__Day__end:after {
-      height: 46px;
-      margin-top: -23px;
-    }
+    // .Cal__Day__root.Cal__Day__today:before {
+    //   width: 46px;
+    //   height: 46px;
+    //   margin-top: -23px;
+    //   margin-left: -23px;
+    // }
+    // .searchbar .datePicker .Cal__Day__root.Cal__Day__selected .Cal__Day__selection {
+    //   margin-top: -23px;
+    // }
+    // .Cal__Day__root.Cal__Day__selected .Cal__Day__selection {
+    //   width: 46px;
+    //   height: 46px;
+    //   margin-top: -23px;
+    // }
+    // .Cal__Day__month, .Cal__Day__year {
+    //   line-height: 8px;
+    // }
+    // .Cal__Day__root.Cal__Day__selected .Cal__Day__selection .Cal__Day__day {
+    //   top: 3px;
+    // }
+    // .Cal__Day__range.Cal__Day__selected.Cal__Day__start:after, .Cal__Day__range.Cal__Day__selected.Cal__Day__end:after {
+    //   height: 46px;
+    //   margin-top: -23px;
+    // }
   }
   .btn {
     margin-left: 10px;
