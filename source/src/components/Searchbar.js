@@ -66,16 +66,16 @@ class Searchbar extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.state.type === "flights"
-      ? this.getAirports("outbound")
-      : this.getHotels();
+      ? this.refs.outboundAirport.value !== this.state.outboundAirportValue && this.getAirports("outbound")
+      : this.refs.hotel.value !== this.state.hotelValue && this.getHotels();
   }
   componentWillMount() {
     if (this.props.context === "results") {
       const params = queryString.parse(this.props.history.location.search);
       params.type === "flights"
         ? this.setState({type:params.type}, () => {
-          this.refs.inboundAirport.value = params.cityArri;
-          this.refs.outboundAirport.value = params.cityDest;
+          // this.refs.inboundAirport.value = params.cityArri;
+          // this.refs.outboundAirport.value = params.cityDest;
           params.leaveDate
             ? this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`
             : this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")}`;
@@ -86,13 +86,15 @@ class Searchbar extends Component {
               children_count:parseInt(params.children_count, 10),
               infants_count:parseInt(params.infants_count, 10)
             },
+            inboundAirportValue: params.cityArri,
+            outboundAirportValue: params.cityDest,
             arriveDate: params.arriveDate,
             leaveDate: params.leaveDate,
             cabin: params.cabin
           })
         })
         : this.setState({type:params.type}, () => {
-          this.refs.hotel.value = params.cityDest;
+          //this.refs.hotel.value = params.cityDest;
           this.refs.hotelDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`;
           this.setState({
             people: {
@@ -100,6 +102,7 @@ class Searchbar extends Component {
               children_count:parseInt(params.children_count, 10),
               infants_count:parseInt(params.infants_count, 10)
             },
+            hotelValue: params.cityDest,
             arriveDate: params.arriveDate,
             leaveDate: params.leaveDate
           })

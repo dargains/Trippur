@@ -59,7 +59,7 @@ class FlightItem extends Component {
           <a href={this.props.best_fare.deeplink} className="btn" target="_BLANK">
             <span>{itemLang.select}</span>
           </a>
-          <a href="">{itemLang.details}</a>
+          {/* <a href="">{itemLang.details}</a> */}
         </div>
       </article>
     )
