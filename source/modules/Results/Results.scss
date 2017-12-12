@@ -15,4 +15,8 @@
   @include fontL;
   text-align: center;
   margin: 40px auto;
+  min-height: 500px;
+  @include mq(0, 600px) {
+    min-height: auto;
+  }
 }
