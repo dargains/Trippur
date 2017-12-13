@@ -3,27 +3,27 @@ import { NavLink } from "react-router-dom";
 
 const links = [
   {
-    href: "/Pages/Help",
+    href: "/Help",
     label: "Help"
   },
   {
-    href: "/Pages/About",
+    href: "/About",
     label: "About"
   },
   {
-    href: "/Pages/Privacy",
+    href: "/Privacy",
     label: "Privacy"
   },
   {
-    href: "/Pages/Partnerships",
+    href: "/Partnerships",
     label: "Partnerships"
   },
   {
-    href: "/Pages/Cookies",
+    href: "/Cookies",
     label: "Cookies Policy"
   },
   {
-    href: "/Pages/Terms",
+    href: "/Terms",
     label: "Terms & Conditions"
   }
 ]

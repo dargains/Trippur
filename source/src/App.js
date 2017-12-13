@@ -31,12 +31,12 @@ class App extends Component {
               <Pages>
                   <PagesNav />
                   <article>
-                    <Route exact path="/Pages/About" render={() => <InternalPage page="About" lang={this.state.lang}/>}/>
-                    <Route exact path="/Pages/Terms" render={() => <InternalPage page="Terms" lang={this.state.lang}/>}/>
-                    <Route exact path="/Pages/Help" render={() => <InternalPage page="Help" lang={this.state.lang}/>}/>
-                    <Route exact path="/Pages/Cookies" render={() => <InternalPage page="Cookies" lang={this.state.lang}/>}/>
-                    <Route exact path="/Pages/Privacy" render={() => <InternalPage page="Privacy" lang={this.state.lang}/>}/>
-                    <Route exact path="/Pages/Partnerships" render={() => <InternalPage page="Partnerships" lang={this.state.lang}/>}/>
+                    <Route exact path="/About" render={() => <InternalPage page="About" lang={this.state.lang}/>}/>
+                    <Route exact path="/Terms" render={() => <InternalPage page="Terms" lang={this.state.lang}/>}/>
+                    <Route exact path="/Help" render={() => <InternalPage page="Help" lang={this.state.lang}/>}/>
+                    <Route exact path="/Cookies" render={() => <InternalPage page="Cookies" lang={this.state.lang}/>}/>
+                    <Route exact path="/Privacy" render={() => <InternalPage page="Privacy" lang={this.state.lang}/>}/>
+                    <Route exact path="/Partnerships" render={() => <InternalPage page="Partnerships" lang={this.state.lang}/>}/>
                   </article>
               </Pages>
               <Route component={Error404} />
