@@ -79,7 +79,7 @@ class Searchbar extends Component {
           params.leaveDate
             ? this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`
             : this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")}`;
-          params.leaveDate && this.setState({oneWay:true})
+          !params.leaveDate && this.setState({oneWay:true})
           this.setState({
             people: {
               adults_count:parseInt(params.adults_count, 10),
@@ -138,6 +138,9 @@ class Searchbar extends Component {
       gotResponse:true
     });
     document.querySelectorAll("input").forEach(input => input.value = "");
+    type === "flights"
+      ? ""
+      : "";
   }
   getAirports(type) {
     var that = this;
@@ -314,11 +317,11 @@ class Searchbar extends Component {
     this.props.context === "results" && this.props.handleSearch();
   }
   render() {
-    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} data-cityname={hotel.name.split(",")[0].split(' ').join('')} onClick={this.chooseHotel}>{hotel.name}</li>);
+    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} data-cityname={hotel.name.split(",")[0]} onClick={this.chooseHotel}>{hotel.name}</li>);
 
-    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city.split(' ').join('')} onClick={this.chooseAirport.bind(this,"inbound")}>{airport.name}</li>);
+    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this,"inbound")}>{airport.name}</li>);
 
-    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city.split(' ').join('')} onClick={this.chooseAirport.bind(this,"outbound")}>{airport.name}</li>);
+    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this,"outbound")}>{airport.name}</li>);
 
     const selectedTime = this.state.oneWay
       ? this.state.arriveDate
@@ -353,7 +356,7 @@ class Searchbar extends Component {
                </div>
                  <div className="searchbar__container">
                  <input type="text" placeholder={this.state.oneWay ? searchLang.filter.flights.dateOneway : searchLang.filter.flights.date} ref="flightDate" disabled/>
-                 <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate})}/>
+                 <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate,showPersonPicker:false})}/>
                  { this.state.showDate &&
                    <Datepicker
                      lang={this.props.lang}
@@ -366,7 +369,7 @@ class Searchbar extends Component {
                </div>
                  <div className="searchbar__container">
                  <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.flights.passengers}`} ref="flightPeople" disabled/>
-                 <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
+                 <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker,showDate:false})}/>
                  { this.state.showPersonPicker &&
                    <PersonPicker
                      lang={this.props.lang}
@@ -393,7 +396,7 @@ class Searchbar extends Component {
                </div>
                <div className="searchbar__container">
                  <input type="text" placeholder={searchLang.filter.hotels.date} ref="hotelDate" disabled/>
-                 <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate})}/>
+                 <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate,showPersonPicker:false})}/>
                  { this.state.showDate &&
                    <Datepicker
                      lang={this.props.lang}
@@ -403,7 +406,7 @@ class Searchbar extends Component {
                </div>
                  <div className="searchbar__container">
                  <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.hotels.guests}`} ref="hotelPeople" disabled/>
-                 <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker})}/>
+                 <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker,showDate:false})}/>
                  { this.state.showPersonPicker &&
                    <PersonPicker
                      lang={this.props.lang}
