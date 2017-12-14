@@ -17,7 +17,7 @@ header {
     top: 30px;
 
     &:before {
-      content: url("../images/trippur-logo-orange.png");
+      content: url("../images/trippur-coral.svg");
     }
   }
 
@@ -34,7 +34,7 @@ header {
     box-shadow: none;
     .trippur {
       &:before {
-        content: url("../images/trippur-logo-white.png");
+        content: url("../images/trippur-white.svg");
       }
     }
     .langSelector p {
