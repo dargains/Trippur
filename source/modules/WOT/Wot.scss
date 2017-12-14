@@ -28,15 +28,15 @@
       margin: 5px 0;
     }
     a {
-      @include fontS($SecondaryColor);
+      @include fontS(#484848);
       text-decoration: none;
 
       &:hover {
-        color: $PrimaryColor;
+        color: $SecondaryColor;
       }
 
       &.selected {
-        color: $PrimaryColor;
+        color: $SecondaryColor;
       }
     }
   }
