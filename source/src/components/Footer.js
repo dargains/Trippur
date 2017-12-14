@@ -9,13 +9,13 @@ export default(props) => (
     <div className="wrapper">
       <ul>
         <li>
-          <Link to="/Pages/About">{lang[props.lang].Footer.about}</Link>
+          <Link to="/About">{lang[props.lang].Footer.about}</Link>
         </li>
         <li>
-          <Link to="/Pages/Privacy">{lang[props.lang].Footer.privacy}</Link>
+          <Link to="/Privacy">{lang[props.lang].Footer.privacy}</Link>
         </li>
         <li>
-          <Link to="/Pages/Terms">{lang[props.lang].Footer.terms}</Link>
+          <Link to="/Terms">{lang[props.lang].Footer.terms}</Link>
         </li>
         <li>
           <LanguageMenu changeLang={props.changeLang} lang={props.lang}/>
