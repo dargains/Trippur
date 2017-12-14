@@ -8,6 +8,7 @@ input[type=email] {
 
   &[disabled] {
     background-color: $White;
+    -webkit-opacity:1;
   }
 }
 
