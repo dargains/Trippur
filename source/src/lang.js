@@ -108,7 +108,7 @@ const lang = {
       }
     },
     Photobar: {
-      title: "#visit"
+      title: "What's happening in"
     },
     Item: {
       flights: {
@@ -383,7 +383,7 @@ const lang = {
       }
     },
     Photobar: {
-      title: "#visit"
+      title: "O que está a acontecer em"
     },
     Item: {
       flights: {
