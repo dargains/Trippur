@@ -1,6 +1,6 @@
 {
-  "main.css": "static/css/main.b97bcd4f.css",
-  "main.css.map": "static/css/main.b97bcd4f.css.map",
+  "main.css": "static/css/main.22c924c4.css",
+  "main.css.map": "static/css/main.22c924c4.css.map",
   "main.js": "static/js/main.78be99e9.js",
   "main.js.map": "static/js/main.78be99e9.js.map",
   "static\\media\\Bangkok.jpg": "static/media/Bangkok.b14cfb0f.jpg",
@@ -16,5 +16,7 @@
   "static\\media\\icomoon.eot?icz96i": "static/media/icomoon.eea3924a.eot",
   "static\\media\\icomoon.svg?icz96i": "static/media/icomoon.30302111.svg",
   "static\\media\\icomoon.ttf?icz96i": "static/media/icomoon.8948fe2c.ttf",
-  "static\\media\\icomoon.woff?icz96i": "static/media/icomoon.8526151d.woff"
+  "static\\media\\icomoon.woff?icz96i": "static/media/icomoon.8526151d.woff",
+  "static\\media\\trippur-coral.svg": "static/media/trippur-coral.6e9fa3e0.svg",
+  "static\\media\\trippur-white.svg": "static/media/trippur-white.86aee1a2.svg"
 }
