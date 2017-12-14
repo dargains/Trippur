@@ -12,7 +12,7 @@ class Header extends Component {
         <nav>
           <ul>
             <li>
-              <Link to="/Pages/Help">{lang[this.props.lang].Header.help}</Link>
+              <Link to="/Help">{lang[this.props.lang].Header.help}</Link>
             </li>
             <li>
               <LanguageMenu changeLang={this.props.changeLang} lang={this.props.lang}/>
