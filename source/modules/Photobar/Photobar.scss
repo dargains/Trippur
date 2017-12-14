@@ -10,7 +10,7 @@
   img {
     width: 100%;
   }
-  @include mq(0, 1280px) {
+  @include mq(0, 980px) {
     width: 100%;
     li {
       display: inline-block;
