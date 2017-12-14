@@ -109,6 +109,10 @@ class Searchbar extends Component {
         })
       }
   }
+  componentDidMount() {
+    document.addEventListener('click', event => { if (event.target && !document.getElementById("pp").contains(event.target)) this.setState({showPersonPicker:false}) });
+    document.addEventListener('click', event => { if (event.target && !document.getElementById("dp").contains(event.target)) this.setState({showDate:false}) });
+  }
   onTypeChange(event) {
     let type = event.target.dataset.type;
     this.setState({
@@ -138,9 +142,10 @@ class Searchbar extends Component {
       gotResponse:true
     });
     document.querySelectorAll("input").forEach(input => input.value = "");
-    type === "flights"
-      ? ""
-      : "";
+    // let PersonPicker = document.getElementById("pp");
+    // let DatePicker = document.getElementById("dp");
+    // document.addEventListener('click', event => { if (!PersonPicker.contains(event.target)) alert("fora do pp"); });
+    // document.addEventListener('click', event => { if (!DatePicker.contains(event.target)) alert("fora do dp"); });
   }
   getAirports(type) {
     var that = this;
@@ -354,7 +359,7 @@ class Searchbar extends Component {
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{outboundAirports}</ul>
                </div>
-                 <div className="searchbar__container">
+                 <div className="searchbar__container" id="dp">
                  <input type="text" placeholder={this.state.oneWay ? searchLang.filter.flights.dateOneway : searchLang.filter.flights.date} ref="flightDate" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate,showPersonPicker:false})}/>
                  { this.state.showDate &&
@@ -367,7 +372,7 @@ class Searchbar extends Component {
                  }
                  <Checkbox id="flightReturn" name="flightReturn" label={searchLang.filter.flights.oneWay} checked={this.state.oneWay} handleClick={this.changeOneWay}/>
                </div>
-                 <div className="searchbar__container">
+                 <div className="searchbar__container" id="pp">
                  <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.flights.passengers}`} ref="flightPeople" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker,showDate:false})}/>
                  { this.state.showPersonPicker &&
@@ -394,7 +399,7 @@ class Searchbar extends Component {
                  {!this.state.gotResponse && <Spinner />}
                  <ul className="searchbar__results">{hotels}</ul>
                </div>
-               <div className="searchbar__container">
+               <div className="searchbar__container" id="dp">
                  <input type="text" placeholder={searchLang.filter.hotels.date} ref="hotelDate" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showDate: !this.state.showDate,showPersonPicker:false})}/>
                  { this.state.showDate &&
@@ -404,7 +409,7 @@ class Searchbar extends Component {
                      selected={{start: this.state.arriveDate, end: this.state.leaveDate}}/>
                    }
                </div>
-                 <div className="searchbar__container">
+                 <div className="searchbar__container" id="pp">
                  <input type="text" placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.hotels.guests}`} ref="hotelPeople" disabled/>
                  <div className="placeholder" onClick={() => this.setState({showPersonPicker: !this.state.showPersonPicker,showDate:false})}/>
                  { this.state.showPersonPicker &&
