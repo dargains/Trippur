@@ -473,7 +473,8 @@ class Searchbar extends Component {
                     : {
                       start: this.state.arriveDate,
                       end: this.state.leaveDate
-                    }}
+                    }
+                  }
                 />
               }
               <Checkbox id="flightReturn" name="flightReturn" label={searchLang.filter.flights.oneWay} checked={this.state.oneWay} handleClick={this.changeOneWay}/>
