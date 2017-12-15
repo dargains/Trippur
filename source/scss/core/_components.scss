@@ -10,10 +10,16 @@ input[type=email] {
     background-color: $White;
     -webkit-opacity:1;
   }
+  &:focus {
+    outline: none;
+  }
+  &.error {
+    color: red;
+    background-color: #FFB5A9;
+  }
 }
 
-.btn,
-button {
+.btn {
   font-size: 12px;
   font-family: $Montserrat;
   text-transform: uppercase;
@@ -173,7 +179,7 @@ button {
 
 .langSelector {
   position: relative;
-  z-index: 5;
+  z-index: 1;
   display: inline-block;
   ::selection {
     background: transparent;

@@ -66,4 +66,37 @@
         outline-color: transparent;
         outline-style: none;
       }
+      button {
+        font-size: 12px;
+        font-family: $Montserrat;
+        text-transform: uppercase;
+        line-height: 45px;
+        border: 1px solid $PrimaryColor;
+        color: $White;
+        background-color: $PrimaryColor;
+        display: inline-block;
+        min-width: 180px;
+        padding: 0 20px;
+        transition: all .1s ease-in;
+        text-decoration: none;
+        text-align: center;
+        position: relative;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+        overflow: hidden;
+        &.alternative {
+          color: $White;
+          border-color: $White;
+        }
+        &.disabled {
+          pointer-events: none;
+          //color: $GrayLight;
+          //border-color: $GrayLight;
+        }
+        &:hover {
+          color: #FFF;
+          background-color: $PrimaryColor;
+        }
+      }
 }

@@ -5,7 +5,7 @@ export default (props) => {
   const jsonLang = lang[props.lang][props.page];
   return (
     <div>
-      <header>{jsonLang.header}</header>
+      <div className="header">{jsonLang.header}</div>
       {jsonLang.body.map((element, i) => {
         switch(element.type) {
           case "title":

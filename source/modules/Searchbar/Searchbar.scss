@@ -121,15 +121,15 @@
     margin-left: 10px;
   }
   .checkField {
-    padding: 0;
-    padding-left: 10px;
-    margin-left: 10px;
+    // padding: 0;
+    // padding-left: 10px;
+    // margin-left: 10px;
     color: $GrayLight;
     label {
       @include fontS($GrayLight);
       vertical-align: baseline;
       &:after {
-        top: 13px;
+        //top: 13px;
       }
     }
   }
@@ -142,8 +142,8 @@
     }
     .checkField {
       margin: 10px;
-      margin-top: 0;
-      padding: 0 !important;
+      //margin-top: 0;
+      //padding: 0 !important;
       label:after {
         top: 9px;
       }
