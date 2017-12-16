@@ -339,7 +339,7 @@ class Searchbar extends Component {
       toast.error("Destination missing");
     }
     //date check
-    if (this.state.leaveDate) {
+    if (this.state.arriveDate) {
       //result = true;
       this.refs.flightDate.classList.remove("error");
     } else {
