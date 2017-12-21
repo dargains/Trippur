@@ -52,6 +52,7 @@ class Results extends Component {
     this.redirectHotel = this.redirectHotel.bind(this);
     this.updateDuration = this.updateDuration.bind(this);
     this.updateAirlines = this.updateAirlines.bind(this);
+    this.updateHotelName = this.updateHotelName.bind(this);
     this.updateDistricts = this.updateDistricts.bind(this);
     this.updatePagination = this.updatePagination.bind(this);
     this.updateInboundTime = this.updateInboundTime.bind(this);
@@ -105,6 +106,7 @@ class Results extends Component {
       qs.arriveDate = this.state.arriveDate;
       qs.leaveDate = this.state.leaveDate;
       qs.cabin = this.state.cabin;
+      qs.cityDest = this.state.cityDest;
       qs.adults_count = this.state.adults_count;
       qs.children_count = this.state.children_count;
       qs.infants_count = this.state.infants_count;
@@ -124,6 +126,7 @@ class Results extends Component {
       qs.location_id = this.state.id;
       qs.arriveDate = this.state.arriveDate;
       qs.leaveDate = this.state.leaveDate;
+      qs.cityDest = this.state.cityDest;
       qs.adults_count = this.state.adults_count;
       qs.children_count = this.state.children_count;
       qs.infants_count = this.state.infants_count;
@@ -132,6 +135,7 @@ class Results extends Component {
       qs.price_max = this.state.price_max_usd;
       qs.districts = this.state.districts;
       qs.stars = this.state.stars;
+      qs.text_filter = this.state.text_filter;
       qs.property_types = this.state.property_types;
       qs.sort = this.state.sort;
       qs.order = this.state.order;
@@ -176,19 +180,22 @@ class Results extends Component {
         sort: that.state.sort,
         order: that.state.order,
         lang: that.props.lang,
+        text_filter: that.state.text_filter,
         page: that.state.currentPage,
         per_page: that.state.itemsPerPage
       },
       crossdomain: true
     })
     .then(function (response) {
-      that.setState({
-        hotels:response.data,
-        gotResponse:"hotels",
-        loading:false,
-        firstLoad:false,
-        totalCount:response.data.filtered_count
-      });
+      response.data.count
+         ? that.setState({
+           hotels:response.data,
+           gotResponse:"hotels",
+           loading:false,
+           firstLoad:false,
+           totalCount:response.data.filtered_count
+         })
+        : that.setState({noResults:true,loading:false,totalCount:0,hotels:[],gotResponse:""});
     })
     .catch(function (error) {
       console.log(error);
@@ -252,14 +259,16 @@ class Results extends Component {
     Axios.post(api.getFares, JSON.stringify(params))
     .then(function(response) {
       let data = response.data;
-      data.routes_count > 0 ? that.setState({
-        flights:data,
-        gotResponse:"flights",
-        loading:false,
-        firstLoad:false,
-        noResults:false,
-        totalCount:data.filtered_routes_count
-      }) : that.setState({noResults:true,loading:false,totalCount:0});
+      data.filtered_routes_count > 0
+        ? that.setState({
+          flights:data,
+          gotResponse:"flights",
+          loading:false,
+          firstLoad:false,
+          noResults:false,
+          totalCount:data.filtered_routes_count
+        })
+        : that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
     })
     .catch(function (error) {
       console.log(error);
@@ -363,6 +372,16 @@ class Results extends Component {
       inbound_departure_day_time_max: max
     },that.updateView);
   }
+  updateHotelName(event) {
+    const that = this;
+    if (typeof(event) === "string") {
+      this.setState({text_filter:event},that.updateView);
+    } else {
+      let text_filter  = event.target.previousElementSibling.value;
+      this.setState({text_filter},that.updateView);
+
+    }
+  }
   sortResults(event) {
     const target = event.target;
     if (target.classList.contains("asc")) {
@@ -437,8 +456,9 @@ class Results extends Component {
                     show={this.state.showFilters}
                     changeStar={this.updateStars}
                     changePrice={this.updatePriceH}
-                    changePropType={this.updatePropertyType}
+                    changeName={this.updateHotelName}
                     changeDistrict={this.updateDistricts}
+                    changePropType={this.updatePropertyType}
                   />
                   {this.state.noResults && <p className="results__foundItems">No Results</p>}
                   <ResultsList

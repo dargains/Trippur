@@ -1,6 +1,7 @@
 const config = {
   baseUrl: "https://cors-anywhere.herokuapp.com/http://api.wego.com",
   getAirports: "https://www.air-port-codes.com/api/v1/autocomplete",
+  getLocation: "https://srv.wego.com/places/search",
   flightEndpoints: {
     clientInfo: "?api_key=047fca814736a1a95010&ts_code=18109",
     search: "/flights/api/k/2/searches",
@@ -18,6 +19,7 @@ const config = {
 
 const api = {
   getAirports: config.getAirports,
+  getLocation: config.getLocation,
   getFlights: config.baseUrl + config.flightEndpoints.search + config.flightEndpoints.clientInfo,
   getCurrency: config.baseUrl + config.flightEndpoints.currency + config.flightEndpoints.clientInfo,
   getFares: config.baseUrl + config.flightEndpoints.fares + config.flightEndpoints.clientInfo,

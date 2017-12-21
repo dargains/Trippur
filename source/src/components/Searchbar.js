@@ -184,20 +184,35 @@ class Searchbar extends Component {
       ? this.refs.inboundAirport.value
       : this.refs.outboundAirport.value;
     this.setState({gotResponse: false})
-    Axios.get(api.getAirports, {
+    // Axios.get(api.getAirports, {
+    //   params: {
+    //     key: "d089ae75a4",
+    //     term: term
+    //   },
+    Axios.get(api.getLocation, {
       params: {
-        key: "d089ae75a4",
-        term: term
+        language: this.props.lang,
+        locales: [this.props.lang],
+        query: term,
+        site_code: "pt",
+        min_airports:1
       },
       cancelToken: new CancelToken(function executor(c) {
         cancel = c;
       }),
       crossdomain: true
     }).then(function(response) {
-      response.data.airports
+      // response.data.airports
+      //   ? type === "inbound"
+      //     ? (that.setState({inboundAirports: response.data.airports, gotResponse: true}), that.refs.inboundAirport.focus())
+      //     : (that.setState({outboundAirports: response.data.airports, gotResponse: true}), that.refs.outboundAirport.focus())
+      //   : type === "inbound"
+      //     ? that.setState({inboundAirports: [], gotResponse: true})
+      //     : that.setState({outboundAirports: [], gotResponse: true})
+      response.data
         ? type === "inbound"
-          ? (that.setState({inboundAirports: response.data.airports, gotResponse: true}), that.refs.inboundAirport.focus())
-          : (that.setState({outboundAirports: response.data.airports, gotResponse: true}), that.refs.outboundAirport.focus())
+          ? (that.setState({inboundAirports: response.data, gotResponse: true}), that.refs.inboundAirport.focus())
+          : (that.setState({outboundAirports: response.data, gotResponse: true}), that.refs.outboundAirport.focus())
         : type === "inbound"
           ? that.setState({inboundAirports: [], gotResponse: true})
           : that.setState({outboundAirports: [], gotResponse: true})
@@ -405,9 +420,13 @@ class Searchbar extends Component {
   render() {
     const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} data-cityname={hotel.name.split(",")[0]} onClick={this.chooseHotel}>{hotel.name}</li>);
 
-    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}</li>);
+    // const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}</li>);
+    //
+    // const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this, "outbound")}>{airport.name}</li>);
 
-    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this, "outbound")}>{airport.name}</li>);
+    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}</li>);
+
+    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "outbound")}>{airport.name}</li>);
 
     const searchLang = lang[this.props.lang].Searchbar;
 

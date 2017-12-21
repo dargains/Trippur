@@ -8,7 +8,10 @@
       transform: scale(1.2);
     }
   }
-
+  @include mq(0, 768px) {
+    height: auto;
+    padding: 100px 0;
+  }
   .inner-hero {
     position: absolute;
     width: 100%;
@@ -45,7 +48,8 @@
     position: relative;
     z-index: 1;
     @include mq(0, 768px) {
-      top: 53%;
+      top: auto;
+      transform: none;
     }
     h1 {
       @include fontGiant($White);

@@ -11,8 +11,9 @@ class HotelFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hotelName: ""
     };
-    this.checkboxClick = this.checkboxClick.bind(this);
+    this.changelHotelName = this.changelHotelName.bind(this);
   }
   componentWillMount() {
     this.getPrices();
@@ -45,8 +46,8 @@ class HotelFilters extends React.Component {
     let propTypes = [...new Set(rawProp)];
     this.setState({propTypes});
   }
-  checkboxClick(event) {
-    console.log(event.target)
+  changelHotelName(event) {
+    if (event.key === 'Enter') this.props.changeName(this.refs.hotelName.value);
   }
   render() {
     const filterLang = lang[this.props.lang].Filterbar.hotels;
@@ -54,6 +55,14 @@ class HotelFilters extends React.Component {
     const stars = filterLang.stars;
     return (
       <div>
+
+        <article>
+          <h2 className="sidebar__legend">{filterLang.name}</h2>
+          <input type="text" ref="hotelName" onKeyPress={this.changelHotelName}/>
+          <i className="icon-filter" onClick={this.props.changeName}></i>
+        </article>
+
+        <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.price}</h2>
@@ -68,21 +77,21 @@ class HotelFilters extends React.Component {
         </article>
         <article>
           <h2 className="sidebar__legend">{filterLang.star}</h2>
-          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox]} checked={thereIs(checkbox,this.props.stars)}handleClick={this.props.changeStar}/>)}
+          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox]} checked={thereIs(checkbox,this.props.stars)} handleClick={this.props.changeStar}/>)}
         </article>
 
         <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.type}</h2>
-          {this.state.propTypes.map((checkbox,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={checkbox} label={proptypes[checkbox]} checked={thereIs(checkbox,this.props.property_types)}handleClick={this.props.changePropType}/>)}
+          {this.state.propTypes.map((checkbox,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={checkbox} label={proptypes[checkbox]} checked={thereIs(checkbox,this.props.property_types)} handleClick={this.props.changePropType}/>)}
         </article>
 
         <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.district}</h2>
-          {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} checked={thereIs(checkbox.name,this.props.districts)}handleClick={this.props.changeDistrict}/>)}
+          {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} checked={thereIs(checkbox.name,this.props.districts)} handleClick={this.props.changeDistrict}/>)}
         </article>
 
       </div>

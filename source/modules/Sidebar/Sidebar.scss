@@ -8,6 +8,24 @@
   z-index: 2;
   transition: transform .3s ease-in;
   background-color: $White;
+  article {
+    position: relative;
+    input[type=text] {
+      width: 100%;
+      padding-right: 40px;
+    }
+    i {
+      font-size: 20px;
+      position: absolute;
+      right: 10px;
+      bottom: 15px;
+      cursor: pointer;
+      color: $GrayRegular;
+      &:hover {
+        color: $SecondaryColor;
+      }
+    }
+  }
   fieldset {
     width: 100%;
     margin: 20px 0;

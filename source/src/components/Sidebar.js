@@ -3,15 +3,6 @@ import FlightFilters from './FlightFilters';
 import HotelFilters from './HotelFilters';
 
 class Sidebar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
-  handleChange = name => (event, checked) => {
-    this.setState({ [name]: checked });
-  };
   render() {
     return (
       <aside className={this.props.showFilters ? "sidebar shown": "sidebar"}>
@@ -25,5 +16,4 @@ class Sidebar extends React.Component {
   }
 }
 
-//export default Sidebar;
 export default Sidebar;

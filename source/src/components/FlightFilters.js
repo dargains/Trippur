@@ -86,14 +86,14 @@ class FlightFilters extends React.Component {
           />
         </article>
 
-        <hr/>
+        {/* <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.cabin}</h2>
           <Checkbox id="economy" name="economy" label={filterLang.cabins[0]} checked={thereIs("economy",this.props.cabin)} handleClick={this.props.changeStops} />
           <Checkbox id="business" name="business" label={filterLang.cabins[1]} checked={thereIs("business",this.props.cabin)} handleClick={this.props.changeStops} />
           <Checkbox id="first" name="first" label={filterLang.cabins[2]} checked={thereIs("first",this.props.cabin)} handleClick={this.props.changeStops} />
-        </article>
+        </article> */}
 
         <hr/>
 

@@ -107,6 +107,7 @@ const lang = {
         cabins: ['Economy', 'Business', 'First Class']
       },
       hotels: {
+        name: 'Name',
         price: 'Price',
         star: 'Stars',
         type: 'Accomodation type',
@@ -120,6 +121,7 @@ const lang = {
           'Five stars'
         ],
         proptypes: [
+          'Not specified',
           'Hotel',
           'Hostel',
           'Bed and Breakfast',
@@ -701,6 +703,7 @@ const lang = {
     },
     Filterbar: {
       flights: {
+        name: 'Nome',
         price: 'Preço',
         stops: 'Escalas',
         times: 'Horários',
@@ -724,6 +727,7 @@ const lang = {
           'Cinco estrelas'
         ],
         proptypes: [
+          'Não especificado',
           'Hotel',
           'Hostel',
           'Bed and Breakfast',
