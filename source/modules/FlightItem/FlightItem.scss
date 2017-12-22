@@ -42,7 +42,7 @@
             background-repeat: no-repeat;
             margin-bottom: 10px;
             &:last-child{
-                margin-bottom:0; 
+                margin-bottom:0;
             }
             @include mq(0,768px){
                 display: inline-block;
@@ -51,7 +51,7 @@
             }
         }
     }
-    
+
     .flightInfo {
         display: inline-block;
         vertical-align: top;
@@ -136,6 +136,7 @@
     .flightType {
         vertical-align: top;
         float:right;
+        text-align: right;
         @include mq(0,768px){
             float: none;
             margin-top: 40px;
@@ -152,31 +153,20 @@
                 text-align: center;
             }
         }
-        a {
-            display: block;
-            margin-top:20px;
-            color:$PrimaryColor;
-            font-family: $Montserrat;
-            font-size: 12px;
-            text-align: right;
-            color:#FFF;
-            @include mq(0,768px){
-                text-align: center;
-            }
-
-        }
         .btn {
-            min-width: 120px;
             line-height: 35px;
             text-align: center;
-            &:hover {
-                color:#FFF;
-            }
             @include mq(0,768px){
                 max-width: 200px;
                 width: 100%;
                 margin: 0 auto;
             }
+        }
+        select {
+          @include fontS;
+          display: block;
+          padding: 5px;
+          margin-top: 10px;
         }
     }
 

@@ -13,6 +13,11 @@ const getTimeDiff = (start,end) => {
 }
 
 class FlightItem extends Component {
+  goToLink(event) {
+    let select = event.target,
+        selectedIndex = select.selectedIndex;
+    if (selectedIndex) window.location.href = select.childNodes[selectedIndex].dataset.link;
+  }
   render() {
     const itemLang = lang[this.props.lang].Item.flights;
     const stops = itemLang.stops;
@@ -56,10 +61,13 @@ class FlightItem extends Component {
         </div>
         <div className="flightType">
           <em>{this.props.best_fare.description}</em>
-          <a href={this.props.best_fare.deeplink} className="btn" target="_BLANK">
+          <a href={this.props.best_fare.deeplink} className="btn primary" target="_BLANK">
             <span>{itemLang.select}</span>
           </a>
-          {/* <a href="">{itemLang.details}</a> */}
+          <select onChange={this.goToLink}>
+            <option>Other providers</option>
+            {this.props.fares.map(fare => <option key={fare.deeplink} data-link={fare.deeplink}>{fare.provider_name} {this.props.currency}{fare.price}</option>)}
+          </select>
         </div>
       </article>
     )

@@ -16,7 +16,8 @@
     display: none;
   }
   @include mq(0,980px) {
-    width: 75%;
+    width: calc(80% - 20px);
+    margin-right: 0;
   }
   @include mq(0,800px) {
     width: 100%;
