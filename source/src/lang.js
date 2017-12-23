@@ -141,7 +141,7 @@ const lang = {
           'No stops', '1 stop', '2+ stops'
         ],
         select: 'Select',
-        details: '+ More details'
+        selectProvider: 'Other providers'
       },
       hotels: {
         reviews: 'reviews',
@@ -747,7 +747,7 @@ const lang = {
           'Sem conexões', '1 conexão', '2+ conexões'
         ],
         select: 'Escolher',
-        details: '+ Mais detalhes'
+        selectProvider: 'Outros provedores'
       },
       hotels: {
         reviews: 'comentários',

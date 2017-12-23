@@ -64,8 +64,12 @@ class FlightItem extends Component {
           <a href={this.props.best_fare.deeplink} className="btn primary" target="_BLANK">
             <span>{itemLang.select}</span>
           </a>
+          {/* <ul className="selectProvider">
+            <li>{itemLang.selectProvider}</li>
+            {this.props.fares.map(fare => <li key={fare.deeplink}><a href={fare.deeplink}>{fare.provider_name} <span>{this.props.currency}{fare.price}</span></a></li>)}
+          </ul> */}
           <select onChange={this.goToLink}>
-            <option>Other providers</option>
+            <option>{itemLang.selectProvider}</option>
             {this.props.fares.map(fare => <option key={fare.deeplink} data-link={fare.deeplink}>{fare.provider_name} {this.props.currency}{fare.price}</option>)}
           </select>
         </div>
