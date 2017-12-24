@@ -24,6 +24,9 @@ main {
   margin: 0 auto;
   padding: 0 40px;
   position: relative;
+  @include mq(0, 1024px) {
+    padding: 0 20px;
+  }
   @include mq(0, 768px) {
     padding: 0 10px;
   }
