@@ -291,18 +291,18 @@ class Searchbar extends Component {
   }
   getDate(event) {
     if (this.state.oneWay) {
-      const startDate = moment(event).format("D[/]M[/]YYYY");
-      const arriveDate = moment(event).format("YYYY[-]M[-]D");
+      const startDate = moment(event).format("DD[/]MM[/]YYYY");
+      const arriveDate = moment(event).format("YYYY[-]MM[-]DD");
       this.refs.flightDate.value = `${startDate}`;
       this.setState({arriveDate, showDate: false});
     } else {
       if (event.eventType !== 3)
         return;
-      const startDate = moment(event.start).format("D[/]M[/]YYYY");
-      const arriveDate = moment(event.start).format("YYYY[-]M[-]D");
+      const startDate = moment(event.start).format("DD[/]MM[/]YYYY");
+      const arriveDate = moment(event.start).format("YYYY[-]MM[-]DD");
 
-      const endDate = moment(event.end).format("D[/]M[/]YYYY");
-      const leaveDate = moment(event.end).format("YYYY[-]M[-]D");
+      const endDate = moment(event.end).format("DD[/]MM[/]YYYY");
+      const leaveDate = moment(event.end).format("YYYY[-]MM[-]DD");
 
       const dateInput = this.state.type === "flights"
         ? this.refs.flightDate

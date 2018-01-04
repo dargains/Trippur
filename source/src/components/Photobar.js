@@ -11,9 +11,8 @@ class Photobar extends Component {
     }
   }
   componentWillMount() {
-    scraper.getMediaByTag(`visit${this.props.city.split(' ').join('')}`, [],
-    (error,response) => {
-      this.setState({photos:response.media.nodes});
+    scraper.getMediaByTag(`visit${this.props.city.split(' ').join('')}`, [], (error,response) => {
+      this.setState({photos:response.graphql.hashtag.edge_hashtag_to_media.edges});
     });
   }
   render() {
@@ -21,7 +20,11 @@ class Photobar extends Component {
       <aside className="photobar">
         <h2 className="photobar__title">{lang[this.props.lang].Photobar.title} {this.props.city}</h2>
         <ul>
-          {this.state.photos.slice(0, this.state.size).map(photo => <li key={photo.id}><img src={photo.thumbnail_resources[2].src} alt={photo.caption}/></li>)}
+          {this.state.photos.slice(0, this.state.size).map(photo =>
+            <li key={photo.node.id}>
+              <img src={photo.node.display_url} alt={photo.node.edge_media_to_caption.edges[0].node.text}/>
+            </li>
+          )}
         </ul>
       </aside>
     )

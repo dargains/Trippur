@@ -20,14 +20,11 @@ export default(props) => (
         <li>
           <LanguageMenu changeLang={props.changeLang} lang={props.lang}/>
         </li>
-        {/* <li>
-          <a href="">€</a>
-        </li> */}
       </ul>
       <h6>{lang[props.lang].Footer.joinUs}</h6>
       <ul>
         <li>
-          <a href="http://facebook.com/trippurcom">
+          <a href="https://facebook.com/trippurcom">
             <i className="icon-facebook"></i>
           </a>
         </li>
