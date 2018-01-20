@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import EN from "../images/uk.png";
+import PT from "../images/pt.png";
+
 class LanguageMenu extends Component {
   constructor(props) {
     super(props);
@@ -21,8 +24,8 @@ class LanguageMenu extends Component {
   }
   render() {
     const flags = {
-      en: "http://www.geonames.org/flags/s/uk.png",
-      pt: "http://www.geonames.org/flags/s/pt.png"
+      en: EN,
+      pt: PT
     }
     return (
       <div className="langSelector">
