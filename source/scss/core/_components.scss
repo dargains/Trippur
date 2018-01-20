@@ -216,3 +216,94 @@ input[type=email] {
     margin-right: 5px;
   }
 }
+
+ul[data-rating] {
+  display: inline-block;
+
+  &[data-rating="1"] {
+    li {
+      &:nth-child(1) {
+        color: $Honey;
+      }
+    }
+  }
+
+  &[data-rating="2"] {
+    li {
+      &:nth-child(1) {
+        color: $Honey;
+      }
+
+      &:nth-child(2) {
+        color: $Honey;
+      }
+    }
+  }
+
+  &[data-rating="3"] {
+    li {
+      &:nth-child(1) {
+        color: $Honey;
+      }
+
+      &:nth-child(2) {
+        color: $Honey;
+      }
+
+      &:nth-child(3) {
+        color: $Honey;
+      }
+    }
+  }
+
+  &[data-rating="4"] {
+    li {
+      &:nth-child(1) {
+        color: $Honey;
+      }
+
+      &:nth-child(2) {
+        color: $Honey;
+      }
+
+      &:nth-child(3) {
+        color: $Honey;
+      }
+
+      &:nth-child(4) {
+        color: $Honey;
+      }
+    }
+  }
+
+  &[data-rating="5"] {
+    li {
+      &:nth-child(1) {
+        color: $Honey;
+      }
+
+      &:nth-child(2) {
+        color: $Honey;
+      }
+
+      &:nth-child(3) {
+        color: $Honey;
+      }
+
+      &:nth-child(4) {
+        color: $Honey;
+      }
+
+      &:nth-child(5) {
+        color: $Honey;
+      }
+    }
+  }
+
+  li {
+    font-size: 12px;
+    color: $GrayLight;
+    display: inline-block;
+    opacity: 0.8;
+  }
+}

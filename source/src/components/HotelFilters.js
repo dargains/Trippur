@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Checkbox from './Checkbox';
+import Stars from './Stars';
 import InputRange from 'react-input-range';
 
 import lang from "../lang";
@@ -75,9 +76,16 @@ class HotelFilters extends React.Component {
             onChangeComplete={value => this.props.changePrice(value)}
           />
         </article>
-        <article>
+        
+        {/* stars by text */}
+        {/* <article>
           <h2 className="sidebar__legend">{filterLang.star}</h2>
           {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox]} checked={thereIs(checkbox,this.props.stars)} handleClick={this.props.changeStar}/>)}
+        </article> */}
+        {/* stars by icons */}
+        <article>
+          <h2 className="sidebar__legend">{filterLang.star}</h2>
+          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={<Stars stars={checkbox} />} checked={thereIs(checkbox,this.props.stars)} handleClick={this.props.changeStar}/>)}
         </article>
 
         <hr/>
