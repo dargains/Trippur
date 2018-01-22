@@ -160,7 +160,7 @@ class Results extends Component {
     .then(function (response) {
       setTimeout(()=>{
         that.setState({hotelsSearchId:response.data.search_id},that.getHotels)
-      },10000);
+      },5000);
     })
     .catch(function (error) {
       console.log(error);
@@ -221,7 +221,7 @@ class Results extends Component {
     .then(function (response) {
       setTimeout(()=>{
         that.setState({search_id:response.data.id,trip_id:response.data.trips[0].id},that.getFares)
-      },10000);
+      },5000);
     })
     .catch(function (error) {
       console.log(error);

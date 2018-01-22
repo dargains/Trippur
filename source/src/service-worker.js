@@ -1,4 +1,4 @@
-var cacheName = 'trippur v1.1';
+var cacheName = 'trippur v1.3';
 var filesToCache = [
   '/',
   '/index.html',
@@ -24,7 +24,6 @@ var filesToCache = [
   '/static/media/icomoon.ttf',
   '/static/media/icomoon.svg',
   '/static/media/icomoon.eot',
-  '/static/media/icomoon.woff',
   '/static/media/trippur-coral.svg',
   '/static/media/trippur-white.svg',
 ];

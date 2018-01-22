@@ -22,7 +22,7 @@ class Photobar extends Component {
         <ul>
           {this.state.photos.slice(0, this.state.size).map(photo =>
             <li key={photo.node.id}>
-              <img src={photo.node.display_url} alt={photo.node.edge_media_to_caption.edges[0].node.text}/>
+              <img src={photo.node.display_url} alt={photo.node.edge_media_to_caption.edges.length ? photo.node.edge_media_to_caption.edges[0].node.text : ""}/>
             </li>
           )}
         </ul>
