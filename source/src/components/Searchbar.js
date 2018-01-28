@@ -446,6 +446,7 @@ class Searchbar extends Component {
             <div className="searchbar__container">
               <input
                 type="text"
+                aria-label="Origin"
                 ref="inboundAirport"
                 onFocus={this.showList}
                 onBlur={this.closeList}
@@ -461,6 +462,7 @@ class Searchbar extends Component {
             <div className="searchbar__container">
               <input
                 type="text"
+                aria-label="Destination"
                 id="outboundAirport"
                 ref="outboundAirport"
                 onFocus={this.showList}
@@ -478,6 +480,7 @@ class Searchbar extends Component {
               <input
                 type="text"
                 ref="flightDate"
+                aria-label="Date"
                 disabled="disabled"
                 placeholder={this.state.oneWay ? searchLang.filter.flights.dateOneway : searchLang.filter.flights.date}
               />
@@ -501,6 +504,7 @@ class Searchbar extends Component {
             <div className="searchbar__container" id="pp">
               <input
                 type="text"
+                aria-label="Passengers"
                 placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.flights.passengers}`}
                 ref="flightPeople"
                 disabled="disabled"/>
@@ -527,6 +531,7 @@ class Searchbar extends Component {
               <input
                 type="text"
                 ref="hotel"
+                aria-label="Destination"
                 id="hotelDestination"
                 onFocus={this.showList}
                 onBlur={this.closeList}
@@ -543,6 +548,7 @@ class Searchbar extends Component {
               <input
                 type="text"
                 ref="hotelDate"
+                aria-label="Date"
                 disabled="disabled"
                 placeholder={searchLang.filter.hotels.date}
               />
@@ -559,6 +565,7 @@ class Searchbar extends Component {
             <div className="searchbar__container" id="pp">
               <input
                 type="text"
+                aria-label="Guests"
                 ref="hotelPeople"
                 disabled="disabled"
                 placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.hotels.guests}`}

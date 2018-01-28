@@ -15,7 +15,10 @@ export default(props) => (
     <div className="wrapper">
       <h1><strong>{lang[props.lang].Hero.title1}</strong> {lang[props.lang].Hero.title2}</h1>
       <div className="booking-mask">
-        <Searchbar lang={props.lang}/>
+        {navigator.onLine
+          ? <Searchbar lang={props.lang}/>
+          : <h2>Busca offline</h2>
+        }
       </div>
     </div>
     {/* <a href="" className="arrow-down">

@@ -59,7 +59,7 @@ class HotelFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">{filterLang.name}</h2>
-          <input type="text" ref="hotelName" onKeyPress={this.changelHotelName}/>
+          <input type="text" ref="hotelName" aria-label="Hotel name" onKeyPress={this.changelHotelName}/>
           <i className="icon-filter" onClick={this.props.changeName}></i>
         </article>
 
@@ -76,7 +76,7 @@ class HotelFilters extends React.Component {
             onChangeComplete={value => this.props.changePrice(value)}
           />
         </article>
-        
+
         {/* stars by text */}
         {/* <article>
           <h2 className="sidebar__legend">{filterLang.star}</h2>
