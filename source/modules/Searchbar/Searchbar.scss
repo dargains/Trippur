@@ -1,7 +1,7 @@
 .searchbar {
   position: relative;
   z-index: 3;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   &.secondary {
     margin-top: 40px;
@@ -133,7 +133,7 @@
       }
     }
   }
-  @include mq(0,1200px) {
+  @include mq(0,1280px) {
     &__filters {
       flex-wrap: wrap;
     }
@@ -142,8 +142,6 @@
     }
     .checkField {
       margin: 10px;
-      //margin-top: 0;
-      //padding: 0 !important;
       label:after {
         top: 9px;
       }

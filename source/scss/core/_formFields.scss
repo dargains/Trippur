@@ -154,7 +154,7 @@
     }
   }
   @include mq(0,768px) {
-    padding: 10px !important;
+    padding: 10px;
     label {
       padding-left: 30px;
       &:before {

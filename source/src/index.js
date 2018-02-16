@@ -4,10 +4,10 @@ import "./css/main.css";
 import "react-input-range/lib/css/index.css";
 import App from './App';
 
-
 ReactDOM.render(
   <App />,
-  document.getElementById('root'));
+  document.getElementById('root')
+);
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker

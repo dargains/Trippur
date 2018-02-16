@@ -6,7 +6,7 @@ import InputRange from 'react-input-range';
 
 import lang from "../lang";
 
-const thereIs = (value,array) => array.find(element => element == value);
+const thereIs = (value,array) => array.find(element => element === value);
 
 class HotelFilters extends React.Component {
   constructor(props) {
@@ -53,7 +53,6 @@ class HotelFilters extends React.Component {
   render() {
     const filterLang = lang[this.props.lang].Filterbar.hotels;
     const proptypes = filterLang.proptypes;
-    const stars = filterLang.stars;
     return (
       <div>
 
@@ -77,12 +76,6 @@ class HotelFilters extends React.Component {
           />
         </article>
 
-        {/* stars by text */}
-        {/* <article>
-          <h2 className="sidebar__legend">{filterLang.star}</h2>
-          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={stars[checkbox]} checked={thereIs(checkbox,this.props.stars)} handleClick={this.props.changeStar}/>)}
-        </article> */}
-        {/* stars by icons */}
         <article>
           <h2 className="sidebar__legend">{filterLang.star}</h2>
           {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={<Stars stars={checkbox} />} checked={thereIs(checkbox,this.props.stars)} handleClick={this.props.changeStar}/>)}

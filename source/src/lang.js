@@ -217,7 +217,6 @@ const lang = {
     About: {
       header: 'About',
       body: [
-        //{type:'title',copy:'Title'},
         {
           type: 'text',
           copy: 'Trippur is all about the trippurs. We love to travel. We love to explore. We love adventure. We love life. Is there really anyone who doesn’t love to travel? Probably. But the rest of us who do, have to spend smart, and choosing the best price to have the best experience is important. That is what we are all about.'

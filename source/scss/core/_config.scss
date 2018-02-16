@@ -22,31 +22,3 @@ $Crimson: #ef5350;
 $Honey: #FFC107;
 $Lime: #28ca80;
 $Surf: #6d85f4;
-/* Text colors*/
-$colorList: (
-  PrimaryColor: $PrimaryColor,
-  PrimaryColorDark: $PrimaryColorDark,
-  SecondaryColor: $SecondaryColor,
-  Black: $Black,
-  White: $White,
-  GrayThin: $GrayThin,
-  GrayLight: $GrayLight,
-  GrayRegular: $GrayRegular,
-  GrayMedium: $GrayMedium,
-  GrayBold: $GrayBold,
-);
-@each $index, $value in $colorList {
-  &[data-color="#{$index}"] {
-    color: $value !important;
-  }
-}
-@each $index, $value in $colorList {
-  &[data-background="#{$index}"] {
-    background: $value !important;
-  }
-}
-@each $index, $value in $colorList {
-  &[data-backgroundGradient="#{$index}"] {
-    background-image: linear-gradient(110deg, $value, $PrimaryColor), linear-gradient($value, $PrimaryColor);
-  }
-}

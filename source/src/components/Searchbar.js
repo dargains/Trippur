@@ -209,13 +209,19 @@ class Searchbar extends Component {
       //   : type === "inbound"
       //     ? that.setState({inboundAirports: [], gotResponse: true})
       //     : that.setState({outboundAirports: [], gotResponse: true})
-      response.data
-        ? type === "inbound"
-          ? (that.setState({inboundAirports: response.data, gotResponse: true}), that.refs.inboundAirport.focus())
-          : (that.setState({outboundAirports: response.data, gotResponse: true}), that.refs.outboundAirport.focus())
-        : type === "inbound"
-          ? that.setState({inboundAirports: [], gotResponse: true})
-          : that.setState({outboundAirports: [], gotResponse: true})
+      if (response.data) {
+        if (type === "inbound") {
+          that.setState({inboundAirports: response.data, gotResponse: true});
+          that.refs.inboundAirport.focus();
+        }
+        else {
+          that.setState({outboundAirports: response.data, gotResponse: true});
+          that.refs.outboundAirport.focus();
+        }
+      } else {
+        if (type === "inbound") that.setState({inboundAirports: [], gotResponse: true});
+        else that.setState({outboundAirports: [], gotResponse: true});
+      }
     }).catch(function(error) {
       //console.log(error);
     });
