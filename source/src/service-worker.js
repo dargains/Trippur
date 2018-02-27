@@ -1,12 +1,10 @@
-var cacheName = 'trippur v1.5';
+var cacheName = 'trippur v1.6';
 var filesToCache = [
   '/',
   '/index.html',
   '/favicon.ico',
   '/share.jpg',
-  '/apple-touch-icon-72x72.png',
-  '/apple-touch-icon-114x114.png',
-  '/apple-touch-icon.png',
+  '/manifest.json',
   '/static/css/main.css',
   '/static/css/main.css.map',
   '/static/js/main.js',

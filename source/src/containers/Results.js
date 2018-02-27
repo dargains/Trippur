@@ -60,7 +60,7 @@ class Results extends Component {
 
   }
   componentWillMount() {
-    this.getParams()
+    this.getParams();
   }
   getParams() {
     const params = queryString.parse(this.props.history.location.search);
