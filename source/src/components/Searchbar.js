@@ -410,7 +410,7 @@ class Searchbar extends Component {
     this.props.context === "results" && this.props.handleSearch();
   }
   render() {
-    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.countryCode} data-countryname={hotel.countryName} data-cityname={hotel.name.split(",")[0]} data-cityCode={hotel.cityCode} onClick={this.chooseHotel}>{hotel.name}</li>);
+    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.countryCode} data-countryname={hotel.countryName} data-cityname={hotel.name.split(",")[0]} data-citycode={hotel.cityCode} onClick={this.chooseHotel}>{hotel.name}</li>);
 
     const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}</li>);
 

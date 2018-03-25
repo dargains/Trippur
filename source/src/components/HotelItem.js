@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import lang from "../lang";
 
 class HotelItem extends Component {
-
+  getBestRate() {
+    const bestValue = Math.min(...this.props.rates.map(rate => rate.price.amount));
+    const bestRate = this.props.rates.filter(rate => rate.price.amount === bestValue)[0];
+    this.props.updateHotelBestRate(this.props.id, bestRate);
+    return bestRate;
+  }
   render() {
-    const bestValue = this.props.rates && Math.min(...this.props.rates.map(rate => rate.price.amount));
-    const bestRate = this.props.rates && this.props.rates.filter(rate => rate.price.amount === bestValue)[0];
+    //const bestRate = this.props.gotRates && this.getBestRate();
     return (
       <article className="hotelItem" id={this.props.id}>
         <figure>
@@ -27,20 +31,20 @@ class HotelItem extends Component {
             {
               this.props.rates &&
               <ul>
-                {this.props.rates.map(rate => <li key={rate.id}><a href={rate.handoffUrl} target="_blank"><span>€{rate.price.amount}</span> {rate.providerCode}</a></li>)}
+                {this.props.rates.map((rate,index) => <li key={index}><a href={rate.handoffUrl} target="_blank"><span>€{rate.price.amount}</span> {rate.providerCode}</a></li>)}
               </ul>
             }
           </div>
         </div>
         <aside className="right">
           {
-            this.props.rates && bestRate &&
+            this.props.bestRate &&
             <div className="hotelPriceContainer">
               <p className="hotelPrice">
-                {this.props.currency}{bestRate.price.amount}
-                <span>{bestRate.providerCode}</span>
+                {this.props.currency}{this.props.bestRate.price.amount}
+                <span>{this.props.bestRate.providerCode}</span>
               </p>
-              <p className="btn" onClick={() => window.open(bestRate.handoffUrl)}><span>{lang[this.props.lang].Item.hotels.deal}</span></p>
+              <p className="btn" onClick={() => window.open(this.props.bestRate.handoffUrl)}><span>{lang[this.props.lang].Item.hotels.deal}</span></p>
             </div>
           }
         </aside>

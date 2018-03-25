@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 
 class ResultsList extends Component {
   render() {
+    //pagination
     const {currentPage, itemsPerPage} = this.props;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -29,8 +30,10 @@ class ResultsList extends Component {
           rates={this.props.rates && this.props.rates.filter(rate => rate.hotelId === hotel.id)}
           info={this.props.info}
           gotRates={this.props.gotRates}
+          updateHotelBestRate={this.props.updateHotelBestRate}
           {...hotel}
         /> );
+    //if item has no rates, it does't render
     if (this.props.gotRates) {
       renderItems = renderItems.filter(item => item.props.rates.length);
     }

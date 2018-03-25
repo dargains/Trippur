@@ -32,6 +32,7 @@ class Results extends Component {
       actualCurrencySymbol: "€",
       hotels: {},
       flights: {},
+      rates:[],
       districts:[],
       stars:[],
       propertyTypes:[],
@@ -57,6 +58,7 @@ class Results extends Component {
     this.updatePagination = this.updatePagination.bind(this);
     this.updateInboundTime = this.updateInboundTime.bind(this);
     this.updatePropertyType = this.updatePropertyType.bind(this);
+    this.updateHotelBestRate = this.updateHotelBestRate.bind(this);
 
   }
   componentWillMount() {
@@ -104,7 +106,11 @@ class Results extends Component {
     //this.getCurrency();
   }
   newSearch() {
-    this.setState({gotResponse: false},this.getParams);
+    this.setState({
+      gotResponse:false,
+      rates:[],
+      gotRates:false
+    },this.getParams);
   }
   updateView(isNew) {
     if (isNew === undefined) {
@@ -112,11 +118,11 @@ class Results extends Component {
     } else {
       if (this.state.type === "hotels") {
         this.updateQS("hotels");
-        this.getHotels();
+        //this.getHotels();
       }
       if (this.state.type === "flights") {
         this.updateQS("flights");
-        this.getFlights();
+        //this.getFlights();
       }
     }
   }
@@ -180,7 +186,6 @@ class Results extends Component {
         searchId: response.data.search.id,
         info: response.data,
         hotels: response.data.hotels,
-        rates: response.data.rates,
         gotResponse:"hotels",
         loading:false,
         firstLoad:false,
@@ -206,14 +211,30 @@ class Results extends Component {
     )
     .then(function (response) {
       if (state.responseCount === response.data.count) return;
+      console.log({state:state.responseCount,response:response.data.count});
       if (response.data.count) {
+
         let newHotels = state.hotels;
         newHotels.push(...response.data.hotels);
-        let newCount = state.responseCount + response.data.count;
+
+        let newRates = state.rates;
+        newRates.push(...response.data.rates);
+
+        newHotels.forEach((hotel,index) => {
+          const hotelRates = newRates.filter(rate => rate.hotelId === hotel.id)
+          const bestValue = Math.min(...hotelRates.map(rate => rate.price.amount));
+          const bestRate = hotelRates.filter(rate => rate.price.amount === bestValue)[0];
+          bestRate
+            ? that.updateHotelBestRate(hotel, bestRate)
+            : newHotels.splice(index,1);
+        })
+
+        let newCount = response.data.count;
+
         that.setState({
           info: response.data,
           hotels: newHotels,
-          rates: response.data.rates,
+          rates: newRates,
           gotResponse: "hotels",
           responseCount: newCount,
           totalCount: newHotels.length,
@@ -446,19 +467,59 @@ class Results extends Component {
   }
   sortResults(event) {
     const target = event.target;
+    const sort = target.dataset.sort;
+    const flights = this.state.flights;
+    const hotels = this.state.hotels;
     if (target.classList.contains("asc")) {
       target.classList.remove("asc");
       target.classList.add("desc");
-      this.setState({sort:target.dataset.sort,order:"desc"},() => {this.updateView(true)});
+      this.state.type === "flights"
+        ? flights.sort(this.compareValues(sort,"desc"))
+        : hotels.sort(this.compareValues(sort,"desc"));
+      this.setState({sort,order:"desc"},() => {this.updateView(true)});
     } else if (target.classList.contains("desc")) {
       target.classList.remove("desc");
       target.classList.add("asc");
-      this.setState({sort:target.dataset.sort,order:"asc"},() => {this.updateView(true)});
+      this.state.type === "flights"
+        ? flights.sort(this.compareValues(sort,"asc"))
+        : hotels.sort(this.compareValues(sort,"asc"));
+      this.setState({sort,order:"asc"},() => {this.updateView(true)});
     } else {
       target.parentElement.querySelectorAll("li").forEach(element => { element.classList.remove("selected","asc","desc"); });
       target.classList.add("selected", "asc");
-      this.setState({sort:target.dataset.sort,order:"asc"},() => {this.updateView(true)});
+      this.state.type === "flights"
+        ? flights.sort(this.compareValues(sort,"asc"))
+        : hotels.sort(this.compareValues(sort,"asc"));
+      this.setState({sort,order:"asc"},() => {this.updateView(true)});
     }
+  }
+  updateHotelBestRate(hotel, rate) {
+    //var hotel = this.state.hotels.filter(hotel => hotel.id === hotelId);
+    hotel.bestRate = rate;
+    hotel.bestPrice = rate.price.amount;
+  }
+  compareValues(key, order='asc') {
+    return function(a, b) {
+      if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        // property doesn't exist on either object
+          return 0;
+      }
+
+      const varA = (typeof a[key] === 'string')
+        ? a[key].toUpperCase()
+        : a[key];
+      const varB = (typeof b[key] === 'string')
+        ? b[key].toUpperCase()
+        : b[key];
+
+      let comparison = 0;
+      if (varA > varB) comparison = 1;
+      else if (varA < varB) comparison = -1;
+
+      return (
+        (order === 'desc') ? (comparison * -1) : comparison
+      );
+    };
   }
 
   render() {
@@ -536,6 +597,7 @@ class Results extends Component {
                   handlePagination={this.updatePagination}
                   currency={this.state.actualCurrencySymbol}
                   gotRates={this.state.gotRates}
+                  updateHotelBestRate={this.updateHotelBestRate}
                   pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
                 />
                 <Photobar city={this.state.cityDest} lang={this.props.lang}/>
