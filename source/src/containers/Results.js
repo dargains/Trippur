@@ -182,6 +182,10 @@ class Results extends Component {
     const headers = {"Content-Type": "application/json"};
     Axios.post(api.getHotelSearch, JSON.stringify(params), {headers})
     .then(function (response) {
+      response.data.hotels.forEach((hotel,index) => {
+        const reviewsCount = hotel.reviews ? hotel.reviews.reduce((a, b) => a + b.count, 0) : 0;
+        hotel.reviewsCount = reviewsCount;
+      });
       that.setState({
         searchId: response.data.search.id,
         info: response.data,
@@ -225,9 +229,11 @@ class Results extends Component {
           const bestValue = Math.min(...hotelRates.map(rate => rate.price.amount));
           const bestRate = hotelRates.filter(rate => rate.price.amount === bestValue)[0];
           bestRate
-            ? that.updateHotelBestRate(hotel, bestRate)
-            : newHotels.splice(index,1);
-        })
+          ? that.updateHotelBestRate(hotel, bestRate)
+          : newHotels.splice(index,1);
+          const reviewsCount = hotel.reviews ? hotel.reviews.reduce((a, b) => a + b.count, 0) : 0;
+          hotel.reviewsCount = reviewsCount;
+        });
 
         let newCount = response.data.count;
 

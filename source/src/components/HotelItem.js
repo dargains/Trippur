@@ -2,14 +2,7 @@ import React, { Component } from 'react';
 import lang from "../lang";
 
 class HotelItem extends Component {
-  getBestRate() {
-    const bestValue = Math.min(...this.props.rates.map(rate => rate.price.amount));
-    const bestRate = this.props.rates.filter(rate => rate.price.amount === bestValue)[0];
-    this.props.updateHotelBestRate(this.props.id, bestRate);
-    return bestRate;
-  }
   render() {
-    //const bestRate = this.props.gotRates && this.getBestRate();
     return (
       <article className="hotelItem" id={this.props.id}>
         <figure>
@@ -25,7 +18,7 @@ class HotelItem extends Component {
               <li className="icon-star-full"></li>
               <li className="icon-star-full"></li>
             </ul>
-            <p>{this.props.satisfaction_description} ({this.props.reviews ? this.props.reviews.reduce((a, b) => a + b.count, 0) : "No"} {lang[this.props.lang].Item.hotels.reviews})</p>
+            <p>{this.props.satisfaction_description} ({this.props.reviewsCount ? this.props.reviewsCount : "No"} {lang[this.props.lang].Item.hotels.reviews})</p>
           </div>
           <div className="hotelList">
             {
