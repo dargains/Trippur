@@ -13,9 +13,11 @@
     text-align: right;
     @include mq(0,768px) {
       max-width: 100px;
+      margin-right: 40px;
     }
     @include mq(0,512px) {
       max-width: 100%;
+      margin-right: 0;
       text-align: center;
       margin-bottom: 20px;
 
@@ -61,12 +63,14 @@
       color: #FFF;
       @include fontXL($White);
       width: 100%;
-      padding-left: 50px;
-      padding-top: 80px;
+      padding: 60px 40px 20px;
       margin-bottom: 40px;
       max-width: 100%;
       text-align: left;
       z-index: 1;
+      @include mq(0, 768px) {
+        padding: 20px 10px;
+      }
     }
 
     p {
@@ -83,7 +87,7 @@
     }
 
     ul {
-      margin-left: 40px;
+      margin-left: 20px;
       margin-bottom: 20px;
 
       li {

@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react';
 import FlightItem from './FlightItem';
 import HotelItem from './HotelItem';
 import ReactPaginate from 'react-paginate';
 
-class ResultsList extends React.Component {
+class ResultsList extends Component {
   render() {
-    let items;
-    this.props.type === "flights"
-      ? items = this.props.routes.map(flight =>
+    const {currentPage, itemsPerPage} = this.props;
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const items = this.props.type === "flights"
+      ? this.props.routes
+      : this.props.hotels;
+    const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+    let renderItems = this.props.type === "flights"
+      ? currentItems.map(flight =>
         <FlightItem
         key={flight.id}
         lang={this.props.lang}
         currency={this.props.currency}
         {...flight}
       /> )
-      : items = this.props.hotels.map(hotel =>
+      : currentItems.map((hotel,index) =>
         <HotelItem
-          key={hotel.id}
+          key={index}
           lang={this.props.lang}
           currency={this.props.currency}
-          onRateClick={this.props.onRateClick}
+          rates={this.props.rates && this.props.rates.filter(rate => rate.hotelId === hotel.id)}
+          info={this.props.info}
+          gotRates={this.props.gotRates}
           {...hotel}
         /> );
+    if (this.props.gotRates) {
+      renderItems = renderItems.filter(item => item.props.rates.length);
+    }
     return (
       <section className="resultsList">
         <i className="openFilters icon-filter" onClick={this.props.toggleFilters}></i>
-        {items}
+        {renderItems}
         <ReactPaginate
           previousLabel={"<"}
           nextLabel={">"}

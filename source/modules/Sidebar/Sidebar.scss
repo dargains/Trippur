@@ -62,6 +62,9 @@
       background-color: $SecondaryColor;
     }
   }
+  @include mq(0, 980px) {
+    width: 30%;
+  }
   @include mq(0, 800px) {
     width: calc(100% - 20px);
     position: absolute;

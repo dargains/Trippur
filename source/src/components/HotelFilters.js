@@ -12,39 +12,73 @@ class HotelFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hotelName: ""
+      gotRates: false,
+      hotelName: "",
+      initialPrice: {
+        min: 0,
+        max: 10
+      },
+      price: {
+        min: 0,
+        max: 10
+      },
+      stars: [],
+      districts: [],
+      propTypes: []
     };
     this.changelHotelName = this.changelHotelName.bind(this);
   }
-  componentWillMount() {
+  componentDidUpdate() {
+    if (this.state.gotRates) return;
+    this.props.rates && this.setState({gotRates:true});
     this.getPrices();
     this.getStars();
     this.getDistricts();
     this.getPropType();
   }
   getPrices() {
-    let initialPrice = {
-      min: this.props.hotels.rates.min.price,
-      max: this.props.hotels.rates.max.price
+    if (this.props.rates === undefined) return;
+    const filter = this.props.info.filter;
+    const initialPrice = {
+      min: filter.minPrice.amount,
+      max: filter.maxPrice.amount
     }
-    this.setState({initialPrice,price:initialPrice});
+    this.setState({
+      initialPrice,
+      price:initialPrice
+    });
   }
   getStars() {
-    let rawStars = [];
-    this.props.hotels.hotels.forEach(hotel => rawStars.push(hotel.stars));
-    let stars = [...new Set(rawStars)].sort().reverse();
+    if (this.props.rates === undefined) return;
+    const stars = this.props.info.filter.stars.reverse();
     this.setState({stars});
   }
   getDistricts() {
-    let rawDistricts = [];
-    this.props.hotels.districts.map(district => rawDistricts.push({name: district.id, label: district.name}));
-    let districts = Array.from(new Set(rawDistricts.map(JSON.stringify))).map(JSON.parse);
+    if (this.props.rates === undefined) return;
+    const filterDistricts = this.props.info.filter.districts;
+    const allDistricts = this.props.info.districts;
+    filterDistricts.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
+
+    //merge both arrays into districts by the id
+    var hash = {};
+    allDistricts.concat(filterDistricts).forEach(obj => {
+        hash[obj.id] = Object.assign(hash[obj.id] || {}, obj);
+    });
+    var districts = Object.keys(hash).map(key => hash[key]);
     this.setState({districts});
   }
   getPropType() {
-    let rawProp = [];
-    this.props.hotels.hotels.forEach(hotel => rawProp.push(hotel.property_type));
-    let propTypes = [...new Set(rawProp)];
+    if (this.props.rates === undefined) return;
+    const filterPropTypes = this.props.info.filter.propertyTypes;
+    const allPropTypes = this.props.info.propertyTypes;
+    filterPropTypes.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
+
+    //merge both arrays into propTypes by the id
+    var hash = {};
+    allPropTypes.concat(filterPropTypes).forEach(obj => {
+        hash[obj.id] = Object.assign(hash[obj.id] || {}, obj);
+    });
+    var propTypes = Object.keys(hash).map(key => hash[key]);
     this.setState({propTypes});
   }
   changelHotelName(event) {
@@ -52,9 +86,10 @@ class HotelFilters extends React.Component {
   }
   render() {
     const filterLang = lang[this.props.lang].Filterbar.hotels;
-    const proptypes = filterLang.proptypes;
+
+
     return (
-      <div>
+    <div>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.name}</h2>
@@ -78,24 +113,26 @@ class HotelFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">{filterLang.star}</h2>
-          {this.state.stars.map((checkbox,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={checkbox} label={<Stars stars={checkbox} />} checked={thereIs(checkbox,this.props.stars)} handleClick={this.props.changeStar}/>)}
+          {this.state.stars.map((star,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={star.code} label={<Stars stars={star} />} checked={thereIs(star,this.props.stars)} handleClick={this.props.changeStar}/>)}
         </article>
 
         <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.type}</h2>
-          {this.state.propTypes.map((checkbox,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={checkbox} label={proptypes[checkbox]} checked={thereIs(checkbox,this.props.property_types)} handleClick={this.props.changePropType}/>)}
+          {this.state.propTypes.map((propType,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={propType.name} label={`${propType.name} (${propType.count})`} checked={thereIs(propType,this.props.propertyTypes)} handleClick={this.props.changePropType}/>)}
         </article>
 
         <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.district}</h2>
-          {this.state.districts.map((checkbox,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={checkbox.name} label={checkbox.label} checked={thereIs(checkbox.name,this.props.districts)} handleClick={this.props.changeDistrict}/>)}
+          {this.state.districts.map((district,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={district.name} label={`${district.name} (${district.count})`} checked={thereIs(district.name,this.props.districts)} handleClick={this.props.changeDistrict}/>)}
         </article>
 
       </div>
+
+
     );
   }
 }

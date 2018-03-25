@@ -44,12 +44,12 @@ class Searchbar extends Component {
       arriveDate: "",
       leaveDate: "",
       selectedOption: '',
-      people: {
-        adults_count: 1,
-        children_count: 0,
-        infants_count: 0
-      },
+      adultsCount: 1,
+      childrenCount: 0,
+      infantsCount	: 0,
       cabin: "economy",
+      legs: [],
+      siteCode: this.props.lang,
       showDate: false,
       showPersonPicker: false,
       gotResponse: true
@@ -87,11 +87,9 @@ class Searchbar extends Component {
             : this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")}`;
           !params.leaveDate && this.setState({oneWay: true})
           this.setState({
-            people: {
-              adults_count: parseInt(params.adults_count, 10),
-              children_count: parseInt(params.children_count, 10),
-              infants_count: parseInt(params.infants_count, 10)
-            },
+            adultsCount: parseInt(params.adultsCount, 10),
+            childrenCount: parseInt(params.childrenCount, 10),
+            infantsCount	: parseInt(params.infantsCount	, 10),
             inboundAirportValue: params.cityArri,
             outboundAirportValue: params.cityDest,
             chosenHotel: {},
@@ -110,11 +108,9 @@ class Searchbar extends Component {
           //this.refs.hotel.value = params.cityDest;
           this.refs.hotelDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`;
           this.setState({
-            people: {
-              adults_count: parseInt(params.adults_count, 10),
-              children_count: parseInt(params.children_count, 10),
-              infants_count: parseInt(params.infants_count, 10)
-            },
+            adultsCount: parseInt(params.adultsCount, 10),
+            childrenCount: parseInt(params.childrenCount, 10),
+            infantsCount	: parseInt(params.infantsCount	, 10),
             hotelValue: params.cityDest,
             chosenHotel: {},
             chosenFlight: {
@@ -160,11 +156,9 @@ class Searchbar extends Component {
       },
       arriveDate: "",
       leaveDate: "",
-      people: {
-        adults_count: 1,
-        children_count: 0,
-        infants_count: 0
-      },
+      adultsCount: 1,
+      childrenCount: 0,
+      infantsCount	: 0,
       cabin: "economy",
       oneWay: false,
       showDate: false,
@@ -184,11 +178,7 @@ class Searchbar extends Component {
       ? this.refs.inboundAirport.value
       : this.refs.outboundAirport.value;
     this.setState({gotResponse: false})
-    // Axios.get(api.getAirports, {
-    //   params: {
-    //     key: "d089ae75a4",
-    //     term: term
-    //   },
+
     Axios.get(api.getLocation, {
       params: {
         language: this.props.lang,
@@ -202,13 +192,6 @@ class Searchbar extends Component {
       }),
       crossdomain: true
     }).then(function(response) {
-      // response.data.airports
-      //   ? type === "inbound"
-      //     ? (that.setState({inboundAirports: response.data.airports, gotResponse: true}), that.refs.inboundAirport.focus())
-      //     : (that.setState({outboundAirports: response.data.airports, gotResponse: true}), that.refs.outboundAirport.focus())
-      //   : type === "inbound"
-      //     ? that.setState({inboundAirports: [], gotResponse: true})
-      //     : that.setState({outboundAirports: [], gotResponse: true})
       if (response.data) {
         if (type === "inbound") {
           that.setState({inboundAirports: response.data, gotResponse: true});
@@ -230,8 +213,8 @@ class Searchbar extends Component {
     const airport = event.target.dataset,
       flightInfo = {
         id: airport.airportid,
-        country_name: airport.countryname,
-        country_code: airport.countrycode,
+        countryName: airport.countryname,
+        countryCode: airport.countrycode,
         city: airport.cityname
       };
     let chosenFlight = this.state.chosenFlight;
@@ -246,10 +229,11 @@ class Searchbar extends Component {
     if (cancel !== undefined)
       cancel();
     this.setState({gotResponse: false, hotelValue: this.refs.hotel.value})
-    Axios.get(api.getLocations, {
+    Axios.get(api.getLocation, {
       params: {
-        q: that.refs.hotel.value,
+        query: that.refs.hotel.value,
         lang: this.props.lang,
+        min_hotels: 1,
         currency_code: "EUR"
       },
       cancelToken: new CancelToken(function executor(c) {
@@ -257,7 +241,7 @@ class Searchbar extends Component {
       }),
       crossdomain: true
     }).then(function(response) {
-      that.setState({hotels: response.data.locations, gotResponse: true});
+      that.setState({hotels: response.data, gotResponse: true});
       response.data.count && that.refs.hotel.focus();
     }).catch(function(error) {
       //console.log(error);
@@ -267,9 +251,10 @@ class Searchbar extends Component {
     const hotel = event.target.dataset,
       chosenHotel = {
         id: hotel.hotelid,
-        country_name: hotel.countryname,
-        country_code: hotel.countrycode,
-        cityDest: hotel.cityname
+        countryName: hotel.countryname,
+        countryCode: hotel.countrycode,
+        cityDest: hotel.cityname,
+        cityCode: hotel.citycode
       };
     this.setState({chosenHotel});
     this.setState({hotelValue: event.target.innerText})
@@ -284,14 +269,14 @@ class Searchbar extends Component {
     }, 100)
   }
   changePeople(type, operation) {
-    const people = this.state.people;
+    const people = this.state;
     people[type] = operation
-      ? this.state.people[type] + 1
-      : (type === "adults_count" && this.state.people[type] === 1) //must be at least 1 adult
+      ? this.state[type] + 1
+      : (type === "adultsCount" && this.state[type] === 1) //must be at least 1 adult
         ? 1
-        : this.state.people[type] === 0
+        : this.state[type] === 0
           ? 0
-          : this.state.people[type] - 1;
+          : this.state[type] - 1;
 
     this.setState({people});
   }
@@ -404,31 +389,28 @@ class Searchbar extends Component {
         cabin: state.cabin,
         cityDest: state.chosenFlight.outbound.city,
         cityArri: state.chosenFlight.inbound.city,
-        adults_count: parseInt(state.people.adults_count, 10),
-        children_count: parseInt(state.people.children_count, 10),
-        infants_count: parseInt(state.people.infants_count, 10)
+        adultsCount: parseInt(state.adultsCount, 10),
+        childrenCount: parseInt(state.childrenCount, 10),
+        infantsCount	: parseInt(state.infantsCount	, 10)
       }
       : {
         type: "hotels",
         id: state.chosenHotel.id,
-        countryCode: state.chosenHotel.country_code,
-        countryName: state.chosenHotel.country_name,
+        countryCode: state.chosenHotel.countryCode,
+        countryName: state.chosenHotel.countryName,
+        cityCode: state.chosenHotel.cityCode,
         arriveDate: state.arriveDate,
         leaveDate: state.leaveDate,
         cityDest: state.chosenHotel.cityDest,
-        adults_count: parseInt(state.people.adults_count, 10),
-        children_count: parseInt(state.people.children_count, 10),
-        infants_count: parseInt(state.people.infants_count, 10)
+        adultsCount: parseInt(state.adultsCount, 10),
+        childrenCount: parseInt(state.childrenCount, 10),
+        infantsCount	: parseInt(state.infantsCount	, 10)
       }
     this.props.history.push(`/Results?${serialize(info)}`);
     this.props.context === "results" && this.props.handleSearch();
   }
   render() {
-    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.country_code} data-countryname={hotel.country_name} data-cityname={hotel.name.split(",")[0]} onClick={this.chooseHotel}>{hotel.name}</li>);
-
-    // const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}</li>);
-    //
-    // const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.iata} data-airportid={airport.iata} data-countrycode={airport.country.iso} data-countryname={airport.country.name} data-cityname={airport.city} onClick={this.chooseAirport.bind(this, "outbound")}>{airport.name}</li>);
+    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.countryCode} data-countryname={hotel.countryName} data-cityname={hotel.name.split(",")[0]} data-cityCode={hotel.cityCode} onClick={this.chooseHotel}>{hotel.name}</li>);
 
     const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}</li>);
 
@@ -511,7 +493,7 @@ class Searchbar extends Component {
               <input
                 type="text"
                 aria-label="Passengers"
-                placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.flights.passengers}`}
+                placeholder={`${this.state.adultsCount + this.state.childrenCount + this.state.infantsCount	} ${searchLang.filter.flights.passengers}`}
                 ref="flightPeople"
                 disabled="disabled"/>
               <div className="placeholder" onClick={() => this.setState({ showPersonPicker: !this.state.showPersonPicker })} />
@@ -523,7 +505,7 @@ class Searchbar extends Component {
                   classSelect={this.classSelect}
                   changePeople={this.changePeople}
                   label={lang[this.props.lang].PersonPicker.flightLabel}
-                  {...this.state.people}
+                  {...this.state}
                 />}
             </div>
             <button onClick={this.onSubmit} className="btn primary">
@@ -574,7 +556,7 @@ class Searchbar extends Component {
                 aria-label="Guests"
                 ref="hotelPeople"
                 disabled="disabled"
-                placeholder={`${this.state.people.adults_count + this.state.people.children_count + this.state.people.infants_count} ${searchLang.filter.hotels.guests}`}
+                placeholder={`${this.state.adultsCount + this.state.childrenCount + this.state.infantsCount	} ${searchLang.filter.hotels.guests}`}
               />
               <div className="placeholder" onClick={() => this.setState({ showPersonPicker: !this.state.showPersonPicker })}/>
                 {this.state.showPersonPicker &&
@@ -582,7 +564,7 @@ class Searchbar extends Component {
                     lang={this.props.lang}
                     changePeople={this.changePeople}
                     label={lang[this.props.lang].PersonPicker.hotelLabel}
-                    {...this.state.people}
+                    {...this.state}
                   />
                 }
             </div>

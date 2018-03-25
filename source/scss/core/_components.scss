@@ -304,5 +304,9 @@ ul[data-rating] {
     color: $GrayLight;
     display: inline-block;
     opacity: 0.8;
+    &.count {
+      color: $GrayBold;
+      margin-left: 5px;
+    }
   }
 }
