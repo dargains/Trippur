@@ -112,6 +112,7 @@ const lang = {
         star: 'Stars',
         type: 'Accomodation type',
         district: 'District areas',
+        amenities: 'Amenities',
         stars: [
           'Not specified',
           'One star',
@@ -717,6 +718,7 @@ const lang = {
         star: 'Estrelas',
         type: 'Tipos de acomodações',
         district: 'Distritos',
+        amenities: 'Facilidades',
         stars: [
           'Não especificado',
           'Uma estrela',

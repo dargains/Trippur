@@ -24,7 +24,8 @@ class HotelFilters extends React.Component {
       },
       stars: [],
       districts: [],
-      propTypes: []
+      propTypes: [],
+      amenities: []
     };
     this.changelHotelName = this.changelHotelName.bind(this);
   }
@@ -35,9 +36,10 @@ class HotelFilters extends React.Component {
     this.getStars();
     this.getDistricts();
     this.getPropType();
+    this.getAmenities();
   }
   getPrices() {
-    if (this.props.rates === undefined) return;
+    if (!this.props.gotRates) return;
     const filter = this.props.info.filter;
     const initialPrice = {
       min: filter.minPrice.amount,
@@ -49,12 +51,12 @@ class HotelFilters extends React.Component {
     });
   }
   getStars() {
-    if (this.props.rates === undefined) return;
+    if (!this.props.gotRates) return;
     const stars = this.props.info.filter.stars.reverse();
     this.setState({stars});
   }
   getDistricts() {
-    if (this.props.rates === undefined) return;
+    if (!this.props.gotRates) return;
     const filterDistricts = this.props.info.filter.districts;
     const allDistricts = this.props.info.districts;
     filterDistricts.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
@@ -68,7 +70,7 @@ class HotelFilters extends React.Component {
     this.setState({districts});
   }
   getPropType() {
-    if (this.props.rates === undefined) return;
+    if (!this.props.gotRates) return;
     const filterPropTypes = this.props.info.filter.propertyTypes;
     const allPropTypes = this.props.info.propertyTypes;
     filterPropTypes.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
@@ -81,8 +83,22 @@ class HotelFilters extends React.Component {
     var propTypes = Object.keys(hash).map(key => hash[key]);
     this.setState({propTypes});
   }
+  getAmenities() {
+    if (!this.props.gotRates) return;
+    const filterAmenities = this.props.info.filter.amenities;
+    const allAmenities = this.props.info.amenities;
+    filterAmenities.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
+
+    //merge both arrays into propTypes by the id
+    var hash = {};
+    allAmenities.concat(filterAmenities).forEach(obj => {
+        hash[obj.id] = Object.assign(hash[obj.id] || {}, obj);
+    });
+    var amenities = Object.keys(hash).map(key => hash[key]);
+    this.setState({amenities});
+  }
   changelHotelName(event) {
-    if (event.key === 'Enter') this.props.changeName(this.refs.hotelName.value);
+    this.props.changeName(event.target.value);
   }
   render() {
     const filterLang = lang[this.props.lang].Filterbar.hotels;
@@ -93,7 +109,7 @@ class HotelFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">{filterLang.name}</h2>
-          <input type="text" ref="hotelName" aria-label="Hotel name" onKeyPress={this.changelHotelName}/>
+          <input type="text" ref="hotelName" aria-label="Hotel name" value={this.props.hotelName} onChange={this.changelHotelName}/>
           <i className="icon-filter" onClick={this.props.changeName}></i>
         </article>
 
@@ -113,21 +129,28 @@ class HotelFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">{filterLang.star}</h2>
-          {this.state.stars.map((star,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={star.code} label={<Stars stars={star} />} checked={thereIs(star,this.props.stars)} handleClick={this.props.changeStar}/>)}
+          {this.state.stars.map((star,index) => <Checkbox key={`star${index}`} id={`star${index}`} name={star.code} label={<Stars stars={star} />} checked={thereIs(star.code,this.props.stars)} handleClick={this.props.changeStar}/>)}
         </article>
 
         <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.type}</h2>
-          {this.state.propTypes.map((propType,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={propType.name} label={`${propType.name} (${propType.count})`} checked={thereIs(propType,this.props.propertyTypes)} handleClick={this.props.changePropType}/>)}
+          {this.state.propTypes.map((propType,index) => <Checkbox key={`prop${index}`} id={`prop${index}`} name={propType.code} label={propType.name} checked={thereIs(propType.code,this.props.propertyTypes)} handleClick={this.props.changePropType}/>)}
         </article>
 
         <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.district}</h2>
-          {this.state.districts.map((district,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={district.name} label={`${district.name} (${district.count})`} checked={thereIs(district.name,this.props.districts)} handleClick={this.props.changeDistrict}/>)}
+          {this.state.districts.map((district,index) => <Checkbox key={`district${index}`} id={`district${index}`} name={district.code} label={district.name} checked={thereIs(district.name,this.props.districts)} handleClick={this.props.changeDistrict}/>)}
+        </article>
+
+        <hr/>
+
+        <article>
+          <h2 className="sidebar__legend">{filterLang.amenities}</h2>
+          {this.state.amenities.map((amenities,index) => <Checkbox key={`amenities${index}`} id={`amenities${index}`} name={amenities.code} label={amenities.name} checked={thereIs(amenities.name,this.props.amenities)} handleClick={this.props.changeAmenities}/>)}
         </article>
 
       </div>

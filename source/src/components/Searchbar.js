@@ -71,7 +71,7 @@ class Searchbar extends Component {
     this.state.type === "flights"
       ? this.refs.outboundAirport.value !== this.state.outboundAirportValue && this.getAirports("outbound")
       : this.refs.hotel.value !== this.state.hotelValue && this.getHotels();
-    if (this.props.context === "results") this.setState({chosenHotel: {}, chosenFlight: { inbound: {}, outbound: {} },})
+    //if (this.props.context === "results") this.setState({chosenHotel: {}, chosenFlight: { inbound: {}, outbound: {} },})
   }
   componentWillMount() {
     if (this.props.context === "results") {
@@ -89,10 +89,10 @@ class Searchbar extends Component {
           this.setState({
             adultsCount: parseInt(params.adultsCount, 10),
             childrenCount: parseInt(params.childrenCount, 10),
-            infantsCount	: parseInt(params.infantsCount	, 10),
+            infantsCount: parseInt(params.infantsCount, 10),
             inboundAirportValue: params.cityArri,
             outboundAirportValue: params.cityDest,
-            chosenHotel: {},
+            chosenHotel: "{}",
             chosenFlight: {
               inbound: {},
               outbound: {}
@@ -110,9 +110,15 @@ class Searchbar extends Component {
           this.setState({
             adultsCount: parseInt(params.adultsCount, 10),
             childrenCount: parseInt(params.childrenCount, 10),
-            infantsCount	: parseInt(params.infantsCount	, 10),
+            infantsCount: parseInt(params.infantsCount, 10),
             hotelValue: params.cityDest,
-            chosenHotel: {},
+            chosenHotel: {
+              cityCode: params.cityCode,
+              cityDest: params.cityDest,
+              countryCode: params.countryCode,
+              countryName: params.countryName,
+              id: params.id
+            },
             chosenFlight: {
               inbound: {},
               outbound: {}

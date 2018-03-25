@@ -36,8 +36,12 @@ class Results extends Component {
       districts:[],
       stars:[],
       propertyTypes:[],
+      amenities:[],
+      hotelName:"",
       stop_types:[],
       airline_codes :[],
+      priceMin:0,
+      priceMax:10,
       cabin:"",
       currentPage: 1,
       itemsPerPage: 20,
@@ -53,12 +57,12 @@ class Results extends Component {
     this.updatePriceH = this.updatePriceH.bind(this);
     this.updateDuration = this.updateDuration.bind(this);
     this.updateAirlines = this.updateAirlines.bind(this);
+    this.updateAmenities = this.updateAmenities.bind(this);
     this.updateHotelName = this.updateHotelName.bind(this);
     this.updateDistricts = this.updateDistricts.bind(this);
     this.updatePagination = this.updatePagination.bind(this);
     this.updateInboundTime = this.updateInboundTime.bind(this);
     this.updatePropertyType = this.updatePropertyType.bind(this);
-    this.updateHotelBestRate = this.updateHotelBestRate.bind(this);
 
   }
   componentWillMount() {
@@ -117,18 +121,18 @@ class Results extends Component {
       this.setState({currentPage:1},() => {this.updateView(true)})
     } else {
       if (this.state.type === "hotels") {
-        this.updateQS("hotels");
+        this.updateQS();
         //this.getHotels();
       }
       if (this.state.type === "flights") {
-        this.updateQS("flights");
+        this.updateQS();
         //this.getFlights();
       }
     }
   }
-  updateQS(type) {
+  updateQS() {
     const qs = {};
-    if (type === "flights") {
+    if (this.state.type === "flights") {
       qs.type = this.state.type;
       qs.inbound = this.state.inbound;
       qs.outbound = this.state.outbound;
@@ -141,8 +145,8 @@ class Results extends Component {
       qs.infantsCount	 = this.state.infantsCount	;
       qs.currency_code = this.state.actualCurrency;
       qs.stop_types = this.state.stop_types;
-      qs.price_min_usd = this.state.price_min_usd;
-      qs.price_max_usd = this.state.price_max_usd;
+      qs.priceMin = this.state.priceMin;
+      qs.priceMax = this.state.priceMax;
       qs.duration_min = this.state.duration_min;
       qs.duration_max = this.state.duration_max;
       qs.airline_codes = this.state.airline_codes;
@@ -161,11 +165,12 @@ class Results extends Component {
       qs.childrenCount = this.state.childrenCount;
       qs.infantsCount	 = this.state.infantsCount	;
       qs.currency_code = this.state.actualCurrency;
-      qs.price_min = this.state.price_min_usd;
-      qs.price_max = this.state.price_max_usd;
+      qs.priceMin = this.state.priceMin;
+      qs.priceMax = this.state.priceMax;
       qs.districts = this.state.districts;
+      qs.amenities = this.state.amenities;
       qs.stars = this.state.stars;
-      qs.text_filter = this.state.text_filter;
+      qs.hotelName = this.state.hotelName;
       qs.propertyTypes = this.state.propertyTypes;
       qs.sort = this.state.sort;
       qs.order = this.state.order;
@@ -214,8 +219,8 @@ class Results extends Component {
       }
     )
     .then(function (response) {
-      if (state.responseCount === response.data.count) return;
       console.log({state:state.responseCount,response:response.data.count});
+      if (state.responseCount === response.data.count) return;
       if (response.data.count) {
 
         let newHotels = state.hotels;
@@ -226,11 +231,13 @@ class Results extends Component {
 
         newHotels.forEach((hotel,index) => {
           const hotelRates = newRates.filter(rate => rate.hotelId === hotel.id)
-          const bestValue = Math.min(...hotelRates.map(rate => rate.price.amount));
-          const bestRate = hotelRates.filter(rate => rate.price.amount === bestValue)[0];
-          bestRate
-          ? that.updateHotelBestRate(hotel, bestRate)
-          : newHotels.splice(index,1);
+          const bestPrice = Math.min(...hotelRates.map(rate => rate.price.amount));
+          const bestRate = hotelRates.filter(rate => rate.price.amount === bestPrice)[0];
+
+          if (bestPrice) {
+            hotel.bestRate = bestRate;
+            hotel.bestPrice = bestPrice;
+          } else newHotels.splice(index,1);
           const reviewsCount = hotel.reviews ? hotel.reviews.reduce((a, b) => a + b.count, 0) : 0;
           hotel.reviewsCount = reviewsCount;
         });
@@ -241,6 +248,8 @@ class Results extends Component {
           info: response.data,
           hotels: newHotels,
           rates: newRates,
+          priceMin: response.data.filter.minPrice.amount,
+          priceMax: response.data.filter.maxPrice.amount,
           gotResponse: "hotels",
           responseCount: newCount,
           totalCount: newHotels.length,
@@ -325,8 +334,8 @@ class Results extends Component {
       inbound_departure_day_time_min: state.inbound_departure_day_time_min,
       inbound_departure_day_time_max: state.inbound_departure_day_time_max,
       currencyCode: state.actualCurrency,
-      price_min_usd: state.price_min_usd,
-      price_max_usd: state.price_max_usd,
+      priceMin: state.priceMin,
+      priceMax: state.priceMax,
       duration_min: state.duration_min,
       duration_max: state.duration_max,
       airline_codes: state.airline_codes,
@@ -399,6 +408,14 @@ class Results extends Component {
     index === -1 ? propertyTypes.push(newValue) : propertyTypes.splice(index, 1);
     this.setState({propertyTypes},that.updateView);
   }
+  updateAmenities(event) {
+    const that = this;
+    let newValue = parseInt(event.target.name);
+    let amenities = this.state.amenities;
+    let index = amenities.indexOf(newValue);
+    index === -1 ? amenities.push(newValue) : amenities.splice(index, 1);
+    this.setState({amenities},that.updateView);
+  }
   updateStops(event) {
     const that = this;
     let newValue = event.target.name;
@@ -420,8 +437,8 @@ class Results extends Component {
         maxAC = Math.floor(maxUSD/exchangeRate),
         minAC = Math.floor(minUSD/exchangeRate);
     this.setState({
-      price_min_usd: minAC,
-      price_max_usd: maxAC
+      priceMin: minAC,
+      priceMax: maxAC
     },that.updateView);
   }
   updatePriceH(event) {
@@ -429,8 +446,8 @@ class Results extends Component {
     let max = event.max,
         min = event.min;
     this.setState({
-      price_min: min,
-      price_max: max
+      priceMin: min,
+      priceMax: max
     },that.updateView);
   }
   updateAirlines(event) {
@@ -450,7 +467,7 @@ class Results extends Component {
     this.setState({
       duration_min: min,
       duration_max: max
-    },this.updateQS);
+    },this.updateView);
   }
   updateInboundTime(event) {
     const that = this;
@@ -464,10 +481,10 @@ class Results extends Component {
   updateHotelName(event) {
     const that = this;
     if (typeof(event) === "string") {
-      this.setState({text_filter:event},that.updateView);
+      this.setState({hotelName:event},that.updateView);
     } else {
-      let text_filter  = event.target.previousElementSibling.value;
-      this.setState({text_filter},that.updateView);
+      let hotelName  = event.target.previousElementSibling.value;
+      this.setState({hotelName},that.updateView);
 
     }
   }
@@ -498,11 +515,6 @@ class Results extends Component {
         : hotels.sort(this.compareValues(sort,"asc"));
       this.setState({sort,order:"asc"},() => {this.updateView(true)});
     }
-  }
-  updateHotelBestRate(hotel, rate) {
-    //var hotel = this.state.hotels.filter(hotel => hotel.id === hotelId);
-    hotel.bestRate = rate;
-    hotel.bestPrice = rate.price.amount;
   }
   compareValues(key, order='asc') {
     return function(a, b) {
@@ -578,7 +590,8 @@ class Results extends Component {
                 <p className="results__foundItems">{resultsLang.results1} {this.state.totalCount} {resultsLang.resultsH}</p>
                 <Sidebar
                   {...this.state}
-                  {...this.state.info}
+                  info={this.state.info}
+                  stars={this.state.stars}
                   hotels={this.state.hotels}
                   rates={this.state.rates}
                   type={this.state.type}
@@ -589,12 +602,20 @@ class Results extends Component {
                   changeName={this.updateHotelName}
                   changeDistrict={this.updateDistricts}
                   changePropType={this.updatePropertyType}
+                  changeAmenities={this.updateAmenities}
                 />
                 {this.state.noResults && <p className="results__foundItems">No Results</p>}
                 <ResultsList
-                  {...this.state.info}
+                  info={this.state.info}
                   hotels={this.state.hotels}
                   rates={this.state.rates}
+                  stars={this.state.stars}
+                  districts={this.state.districts}
+                  propertyTypes={this.state.propertyTypes}
+                  hotelName={this.state.hotelName}
+                  amenities={this.state.amenities}
+                  priceMin={this.state.priceMin}
+                  priceMax={this.state.priceMax}
                   type={this.state.type}
                   lang={this.props.lang}
                   toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
@@ -603,8 +624,9 @@ class Results extends Component {
                   handlePagination={this.updatePagination}
                   currency={this.state.actualCurrencySymbol}
                   gotRates={this.state.gotRates}
-                  updateHotelBestRate={this.updateHotelBestRate}
+                  totalCount={this.state.totalCount}
                   pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
+                  updateCount={this.updateCount}
                 />
                 <Photobar city={this.state.cityDest} lang={this.props.lang}/>
               </div>
