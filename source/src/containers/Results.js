@@ -410,7 +410,7 @@ class Results extends Component {
   }
   updateAmenities(event) {
     const that = this;
-    let newValue = parseInt(event.target.name);
+    let newValue = parseInt(event.target.name,10);
     let amenities = this.state.amenities;
     let index = amenities.indexOf(newValue);
     index === -1 ? amenities.push(newValue) : amenities.splice(index, 1);

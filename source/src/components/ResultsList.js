@@ -22,7 +22,7 @@ class ResultsList extends Component {
           key={index}
           lang={this.props.lang}
           currency={this.props.currency}
-          rates={this.props.rates && this.props.rates.filter(rate => rate.hotelId === hotel.id)}
+          rates={this.props.gotRates && this.props.rates.filter(rate => rate.hotelId === hotel.id)}
           info={this.props.info}
           gotRates={this.props.gotRates}
           {...hotel}
