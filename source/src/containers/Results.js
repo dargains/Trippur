@@ -20,6 +20,18 @@ const putIntoArray = element => {
   return element;
 }
 
+Array.prototype.unique = function() {
+    var a = this.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+};
+
 class Results extends Component {
   constructor(props) {
     super(props);
@@ -38,14 +50,26 @@ class Results extends Component {
       propertyTypes:[],
       amenities:[],
       hotelName:"",
-      stop_types:[],
-      airline_codes :[],
+      stops:[],
+      airlines:[],
       priceMin:0,
       priceMax:10,
+      durationMin:0,
+      durationMax:10,
       cabin:"",
+      info: {
+        airports:[],
+        cities:[],
+        airlines:[],
+        filters:{}
+      },
+      sort: "bestPrice",
+      order: "asc",
+      totalCount: 0,
       currentPage: 1,
-      itemsPerPage: 20,
-      gotRates: false
+      itemsPerPage: 10,
+      gotRates: false,
+      intervalId:0
     };
     this.newSearch = this.newSearch.bind(this);
     this.updateView = this.updateView.bind(this);
@@ -80,9 +104,9 @@ class Results extends Component {
   }
   getParams() {
     const params = queryString.parse(this.props.history.location.search);
-    if (typeof(params.stop_types) === "string") params.stop_types = putIntoArray(params.stop_types);
+    if (typeof(params.stops) === "string") params.stops = putIntoArray(params.stops);
     if (typeof(params.stars) === "string") params.stars = putIntoArray(params.stars);
-    if (typeof(params.airline_codes) === "string") params.airline_codes = putIntoArray(params.airline_codes);
+    if (typeof(params.airlines) === "string") params.airlines = putIntoArray(params.airlines);
     if (typeof(params.districts) === "string") params.districts = putIntoArray(params.districts);
     if (typeof(params.propertyTypes) === "string") params.propertyTypes = putIntoArray(params.propertyTypes);
     params.oneWay = params.oneWay === "true"; //string to boolean
@@ -129,19 +153,21 @@ class Results extends Component {
       qs.leaveDate = this.state.leaveDate;
       qs.cabin = this.state.cabin;
       qs.cityDest = this.state.cityDest;
+      qs.cityArri = this.state.cityArri;
       qs.adultsCount = this.state.adultsCount;
       qs.childrenCount = this.state.childrenCount;
       qs.infantsCount	 = this.state.infantsCount	;
       qs.currency_code = this.state.actualCurrency;
-      qs.stop_types = this.state.stop_types;
+      qs.stops = this.state.stops;
       qs.priceMin = this.state.priceMin;
       qs.priceMax = this.state.priceMax;
-      qs.duration_min = this.state.duration_min;
-      qs.duration_max = this.state.duration_max;
-      qs.airline_codes = this.state.airline_codes;
+      qs.durationMin = this.state.durationMin;
+      qs.durationMax = this.state.durationMax;
+      qs.airlines = this.state.airlines;
       qs.sort = this.state.sort;
       qs.order = this.state.order;
       qs.currentPage = this.state.currentPage;
+      qs.oneWay = this.state.oneWay;
     } else {
       qs.type = this.state.type;
       qs.id = this.state.id;
@@ -372,7 +398,8 @@ class Results extends Component {
         that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
       }
       if (state.responseCount === data.count) return;
-
+      let durationMin = 0;
+      let durationMax = 0;
 
       let newFlights = state.flights;
       newFlights.push(...data.trips);
@@ -385,15 +412,37 @@ class Results extends Component {
         if (!flight.hasOwnProperty("legs")) flight.legs = [];
         flight.legIds.forEach(leg => flight.legs.push(...data.legs.filter(legF => legF.id === leg)));
 
+        flight.legs = flight.legs.filter((thing, index, self) =>
+          index === self.findIndex((t) =>  t.id === thing.id)
+        )
+
         if (bestFare) {
           flight.bestFare = bestFare;
           flight.bestPrice = bestPrice;
+          flight.duration = flight.legs.reduce((a, b) => a + b.durationMinutes, 0);
+          flight.departure = flight.legs[0].departureTimeMinutes;
+          flight.arrival = flight.legs[0].arrivalTimeMinutes;
+          if (flight.duration > durationMax) durationMax = flight.duration;
+          if (flight.duration < durationMin) durationMin = flight.duration;
         } else newFlights.splice(index,1);
       });
-      
-      state.info && data.airports.push(...state.info.airports);
-      state.info && data.cities.push(...state.info.cities);
-      state.info && data.airlines.push(...state.info.airlines);
+
+      if (state.info) { //cumulative filters
+        for(let filter in data.filters) {
+          var element = data.filters[filter];
+          if (Array.isArray(element)) { //is array
+            if (state.info.filters[filter]) element = element.concat(state.info.filters[filter]).unique();
+            data.filters[filter] = element.unique();
+          } else { //is object
+            if (state.info.filters[filter]) element = Object.assign(element,state.info.filters[filter]);
+            data.filters[filter] = element;
+          }
+        }
+      }
+
+      state.info && data.airports.push(...state.info.airports); //cumulative airports
+      state.info && data.cities.push(...state.info.cities); //cumulative cities
+      state.info && data.airlines.push(...state.info.airlines); //cumulative airlines
 
       that.setState({
         info: data,
@@ -401,10 +450,14 @@ class Results extends Component {
         fares:data.fares,
         legs:data.legs,
         gotResponse:"flights",
+        priceMin: data.filters.minPrice.amount,
+        priceMax: data.filters.maxPrice.amount,
+        durationMin,
+        durationMax,
         loading:false,
         firstLoad:false,
         noResults:false,
-        totalCount: data.trips.length,
+        totalCount: data.trips.length + state.totalCount,
         responseCount: data.count
       },that.getFlights);
     })
@@ -458,10 +511,10 @@ class Results extends Component {
   updateStops(event) {
     const that = this;
     let newValue = event.target.name;
-    let stop_types = this.state.stop_types;
-    let index = stop_types.indexOf(newValue);
-    index === -1 ? stop_types.push(newValue) : stop_types.splice(index, 1);
-    this.setState({stop_types},that.updateView);
+    let stops = this.state.stops;
+    let index = stops.indexOf(newValue);
+    index === -1 ? stops.push(newValue) : stops.splice(index, 1);
+    this.setState({stops},that.updateView);
   }
   updateCabin(event) {
     const that = this;
@@ -470,14 +523,11 @@ class Results extends Component {
   }
   updatePriceF(event) {
     const that = this;
-    let maxUSD = event.max,
-        minUSD = event.min,
-        exchangeRate = this.state.currencies[this.state.actualCurrency].exchange_rate,
-        maxAC = Math.floor(maxUSD/exchangeRate),
-        minAC = Math.floor(minUSD/exchangeRate);
+    let max = event.max,
+        min = event.min;
     this.setState({
-      priceMin: minAC,
-      priceMax: maxAC
+      priceMin: min,
+      priceMax: max
     },that.updateView);
   }
   updatePriceH(event) {
@@ -492,20 +542,17 @@ class Results extends Component {
   updateAirlines(event) {
     const that = this;
     let newValue = event.target.name;
-    let airline_codes = this.state.airline_codes;
-    let index = airline_codes.indexOf(newValue);
-    index === -1 ? airline_codes.push(newValue) : airline_codes.splice(index, 1);
-    this.setState({airline_codes},that.updateView);
-  }
-  updatePagination(event) {
-    this.setState({currentPage:event.selected + 1}, this.updateQS);
+    let airlines = this.state.airlines;
+    let index = airlines.indexOf(newValue);
+    index === -1 ? airlines.push(newValue) : airlines.splice(index, 1);
+    this.setState({airlines},that.updateView);
   }
   updateDuration(event) {
     let max = event.max,
         min = event.min;
     this.setState({
-      duration_min: min,
-      duration_max: max
+      durationMin: min,
+      durationMax: max
     },this.updateView);
   }
   updateInboundTime(event) {
@@ -526,6 +573,20 @@ class Results extends Component {
       this.setState({hotelName},that.updateView);
 
     }
+  }
+  updatePagination(event) {
+    this.scrollToTop();
+    this.setState({currentPage:event.selected + 1}, this.updateQS);
+  }
+  scrollStep() {
+    if (window.pageYOffset === 0) {
+        clearInterval(this.state.intervalId);
+    }
+    window.scroll(0, window.pageYOffset - 50);
+  }
+  scrollToTop() {
+    let intervalId = setInterval(this.scrollStep.bind(this), 16.66);
+    this.setState({ intervalId: intervalId });
   }
   sortResults(event) {
     const target = event.target;
@@ -609,15 +670,21 @@ class Results extends Component {
                 <ResultsList
                   flights={this.state.flights}
                   info={this.state.info}
-
                   type={this.state.type}
                   lang={this.props.lang}
-                  toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
+                  priceMin={this.state.priceMin}
+                  priceMax={this.state.priceMax}
+                  stops={this.state.stops}
+                  airlines={this.state.airlines}
+                  durationMin={this.state.durationMin}
+                  durationMax={this.state.durationMax}
+                  totalCount={this.state.totalCount}
                   currentPage={this.state.currentPage}
                   itemsPerPage={this.state.itemsPerPage}
                   handlePagination={this.updatePagination}
                   currency={this.state.actualCurrencySymbol}
-                  pageCount={Math.ceil(this.state.totalCount/10)}
+                  pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
+                  toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
                 />
                 <Photobar city={this.state.cityDest} lang={this.props.lang}/>
               </div>
@@ -648,8 +715,8 @@ class Results extends Component {
                 />
                 {this.state.noResults && <p className="results__foundItems">No Results</p>}
                 <ResultsList
-                  info={this.state.info}
                   hotels={this.state.hotels}
+                  info={this.state.info}
                   rates={this.state.rates}
                   stars={this.state.stars}
                   districts={this.state.districts}
@@ -660,15 +727,15 @@ class Results extends Component {
                   priceMax={this.state.priceMax}
                   type={this.state.type}
                   lang={this.props.lang}
-                  toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
                   currentPage={this.state.currentPage}
                   itemsPerPage={this.state.itemsPerPage}
                   handlePagination={this.updatePagination}
                   currency={this.state.actualCurrencySymbol}
                   gotRates={this.state.gotRates}
                   totalCount={this.state.totalCount}
-                  pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
                   updateCount={this.updateCount}
+                  pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
+                  toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
                 />
                 <Photobar city={this.state.cityDest} lang={this.props.lang}/>
               </div>

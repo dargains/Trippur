@@ -78,62 +78,61 @@ class Searchbar extends Component {
       const params = queryString.parse(this.props.history.location.search);
       params.type === "flights"
         ? this.setState({
-            type: params.type
+            type: params.type,
+            adultsCount: parseInt(params.adultsCount, 10),
+            childrenCount: parseInt(params.childrenCount, 10),
+            infantsCount: parseInt(params.infantsCount, 10),
+            inboundAirportValue: params.cityArri,
+            outboundAirportValue: params.cityDest,
+            chosenHotel: {},
+            oneWay: params.oneWay === "true",
+            chosenFlight: {
+              inbound: {
+                city: params.cityArri,
+                countryName: params.cityArri,
+                id: params.inbound
+              },
+              outbound: {
+                city: params.cityDest,
+                countryName: params.cityDest,
+                id: params.outbound
+              }
+            },
+            arriveDate: params.arriveDate,
+            leaveDate: params.leaveDate,
+            cabin: params.cabin
           }, () => {
             // this.refs.inboundAirport.value = params.cityArri;
             // this.refs.outboundAirport.value = params.cityDest;
             params.leaveDate
               ? this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`
               : this.refs.flightDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")}`;
-            //!params.leaveDate && this.setState({oneWay: true});
             this.setState({
-              adultsCount: parseInt(params.adultsCount, 10),
-              childrenCount: parseInt(params.childrenCount, 10),
-              infantsCount: parseInt(params.infantsCount, 10),
-              inboundAirportValue: params.cityArri,
-              outboundAirportValue: params.cityDest,
-              chosenHotel: {},
-              oneWay: (params.oneWay === "true"),
-              chosenFlight: {
-                inbound: {
-                  city: params.cityArri,
-                  countryName: params.cityArri,
-                  id: params.inbound
-                },
-                outbound: {
-                  city: params.cityDest,
-                  countryName: params.cityDest,
-                  id: params.outbound
-                }
-              },
-              arriveDate: params.arriveDate,
-              leaveDate: params.leaveDate,
-              cabin: params.cabin
             })
           })
         : this.setState({
-            type: params.type
+            type: params.type,
+            adultsCount: parseInt(params.adultsCount, 10),
+            childrenCount: parseInt(params.childrenCount, 10),
+            infantsCount: parseInt(params.infantsCount, 10),
+            hotelValue: params.cityDest,
+            chosenHotel: {
+              cityCode: params.cityCode,
+              cityDest: params.cityDest,
+              countryCode: params.countryCode,
+              countryName: params.countryName,
+              id: params.id
+            },
+            chosenFlight: {
+              inbound: {},
+              outbound: {}
+            },
+            arriveDate: params.arriveDate,
+            leaveDate: params.leaveDate
           }, () => {
             //this.refs.hotel.value = params.cityDest;
             this.refs.hotelDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`;
             this.setState({
-              adultsCount: parseInt(params.adultsCount, 10),
-              childrenCount: parseInt(params.childrenCount, 10),
-              infantsCount: parseInt(params.infantsCount, 10),
-              hotelValue: params.cityDest,
-              chosenHotel: {
-                cityCode: params.cityCode,
-                cityDest: params.cityDest,
-                countryCode: params.countryCode,
-                countryName: params.countryName,
-                id: params.id
-              },
-              chosenFlight: {
-                inbound: {},
-                outbound: {}
-              },
-              arriveDate: params.arriveDate,
-              leaveDate: params.leaveDate
             })
           });
     }
@@ -323,7 +322,7 @@ class Searchbar extends Component {
       oneWay: !this.state.oneWay,
       arriveDate: "",
       leaveDate: ""
-    })
+    });
     this.refs.flightDate.value = "";
   }
   classSelect(event) {

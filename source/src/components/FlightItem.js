@@ -2,16 +2,6 @@ import React, { Component } from 'react';
 import moment from "moment";
 import lang from "../lang";
 
-
-// const getTimeDiff = (start,end) => {
-//   const departure = moment.utc(start);
-//   const arrival = moment.utc(end);
-//   if (arrival.isBefore(departure)) arrival.add(1, 'day');
-//   const d = moment.duration(arrival.diff(departure));
-//   return moment.utc(+d).format('HH:mm');
-//
-// }
-
 class FlightItem extends Component {
   goToLink(event) {
     let select = event.target,
@@ -60,7 +50,7 @@ class FlightItem extends Component {
           {routesElement}
         </div>
         <div className="flightType">
-          <em>{props.bestFare.description}</em>
+          <em>{props.legs[0].segments[0].cabin}</em>
           <a href={props.bestFare.handoffUrl} className="btn primary" target="_BLANK">
             <span>{itemLang.select}</span>
           </a>

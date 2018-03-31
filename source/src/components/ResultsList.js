@@ -16,7 +16,14 @@ class ResultsList extends Component {
         info={this.props.info}
         {...flight}
       /> );
-
+      unfilteredItems = this.props.stops.length
+        ? unfilteredItems.filter(item => this.props.stops.find(stop => item.props.legs && item.props.legs.find(leg => leg.stopoverCode === stop)))
+        : unfilteredItems;
+      unfilteredItems = this.props.airlines.length
+        ? unfilteredItems.filter(item => this.props.airlines.find(airline => item.props.legs && item.props.legs.find(leg => leg.airlineCodes.find(code => code === airline))))
+        : unfilteredItems;
+      unfilteredItems = unfilteredItems.filter(item => this.props.priceMin <= item.props.bestPrice && item.props.bestPrice <= this.props.priceMax);
+      unfilteredItems = unfilteredItems.filter(item => this.props.durationMin <= item.props.duration && item.props.duration <= this.props.durationMax);
     } else {
       unfilteredItems = this.props.hotels.map((hotel,index) =>
         <HotelItem
@@ -52,9 +59,6 @@ class ResultsList extends Component {
     const {currentPage, itemsPerPage} = this.props;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // const items = this.props.type === "flights"
-    // ? this.props.routes
-    // : this.props.hotels;
     const renderItems = unfilteredItems.slice(indexOfFirstItem, indexOfLastItem);
     console.log(unfilteredItems.length,Math.ceil(unfilteredItems.length/this.props.itemsPerPage));
 

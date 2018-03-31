@@ -25,17 +25,15 @@ class FlightFilters extends React.Component {
       min: filters.minPrice.amount,
       max: filters.maxPrice.amount
     }
+    let initialDuration = {
+      min: filters.tripDurations.min,
+      max: filters.tripDurations.max
+    };
     this.setState({
       initialPrice,
       price: initialPrice,
-      // inbound: {
-      //   min: filters.departure_day_time_filter.min,
-      //   max: filters.departure_day_time_filter.max
-      // },
-      duration: {
-        min: filters.tripDurations.min,
-        max: filters.tripDurations.max
-      },
+      initialDuration,
+      duration: initialDuration,
       stops: filters.stops
     });
     this.getAirlines();
@@ -73,13 +71,13 @@ class FlightFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">{filterLang.stop}</h2>
-          {this.state.stops.map((stop,i) => <Checkbox key={i} id={stop.code} name={stop.code} label={filterLang.stops[stop.code]} checked={thereIs(stop.code,this.state.stops)} handleClick={this.props.changeStops}/>)}
+          {this.state.stops.map((stop,i) => <Checkbox key={i} id={stop.code} name={stop.code} label={filterLang.stops[stop.code]} checked={thereIs(stop.code,this.props.stops)} handleClick={this.props.changeStops}/>)}
         </article>
 
         <hr/>
 
         <article>
-          <h2 className="sidebar__legend">{filterLang.times}</h2>
+          {/* <h2 className="sidebar__legend">{filterLang.times}</h2> */}
           {/* <p className="flightLegend">{filterLang.departure}</p>
           <InputRange
             maxValue={this.props.flights.departure_day_time_filter.max}
@@ -89,10 +87,10 @@ class FlightFilters extends React.Component {
             onChange={inbound => this.setState({inbound})}
             onChangeComplete={value => this.props.changeInboudTime(value)}
           /> */}
-          <p className="flightLegend">{filterLang.duration}</p>
+          <h2 className="sidebar__legend">{filterLang.duration}</h2>
           <InputRange
-            maxValue={this.state.duration.max}
-            minValue={this.state.duration.min}
+            maxValue={this.state.initialDuration.max}
+            minValue={this.state.initialDuration.min}
             formatLabel={value => `${pad(Math.floor(value / 60))}:${pad(value % 60)}`}
             value={this.state.duration}
             onChange={duration => this.setState({duration})}
@@ -113,7 +111,7 @@ class FlightFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">{filterLang.airlines}</h2>
-          {this.state.airlines.map(airline => <Checkbox key={airline.code} id={airline.code} name={airline.code} label={airline.name} checked={thereIs(airline.code,this.state.airlines)} handleClick={this.props.changeAirlines}/>)}
+          {this.state.airlines.map((airline,i) => <Checkbox key={i} id={airline.code} name={airline.code} label={airline.name} checked={thereIs(airline.code,this.props.airlines)} handleClick={this.props.changeAirlines}/>)}
         </article>
 
       </div>

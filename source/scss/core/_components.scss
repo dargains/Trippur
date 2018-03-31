@@ -58,6 +58,7 @@ input[type=email] {
   position: absolute;
   top: 100%;
   width: 100%;
+  max-width: 400px;
   text-align: center;
   overflow: hidden;
   @include fontS;
@@ -107,12 +108,12 @@ input[type=email] {
       font-size: 14px;
 
       &:before {
-        top: 8px;
+        top: 5px;
       }
 
       &:after {
         left: 5px;
-        top: 13px;
+        top: 10px;
       }
     }
   }

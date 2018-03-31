@@ -8,10 +8,10 @@ export default (props) => (
         {
           props.type === "flights"
             ? <ul>
-                <li onClick={props.handleClick} data-sort="price" className="selected asc">{lang[props.lang].Sortbar.flights.price}</li>
+                <li onClick={props.handleClick} data-sort="bestPrice" className="selected asc">{lang[props.lang].Sortbar.flights.price}</li>
                 <li onClick={props.handleClick} data-sort="duration">{lang[props.lang].Sortbar.flights.duration}</li>
-                <li onClick={props.handleClick} data-sort="outbound_departure_time ">{lang[props.lang].Sortbar.flights.departure}</li>
-                <li onClick={props.handleClick} data-sort="inbound_departure_time ">{lang[props.lang].Sortbar.flights.arrival}</li>
+                <li onClick={props.handleClick} data-sort="departure ">{lang[props.lang].Sortbar.flights.departure}</li>
+                <li onClick={props.handleClick} data-sort="arrival ">{lang[props.lang].Sortbar.flights.arrival}</li>
               </ul>
             : <ul>
                 <li onClick={props.handleClick} data-sort="reviewsCount" className="selected asc">{lang[props.lang].Sortbar.hotels.popularity}</li>
