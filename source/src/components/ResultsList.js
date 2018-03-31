@@ -8,11 +8,12 @@ class ResultsList extends Component {
     let unfilteredItems = [];
 
     if (this.props.type === "flights") {
-      unfilteredItems = this.props.routes.map(flight =>
+      unfilteredItems = this.props.flights.map(flight =>
         <FlightItem
         key={flight.id}
         lang={this.props.lang}
         currency={this.props.currency}
+        info={this.props.info}
         {...flight}
       /> );
 

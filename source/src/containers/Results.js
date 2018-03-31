@@ -30,8 +30,8 @@ class Results extends Component {
       showFilters: false,
       actualCurrency:"EUR",
       actualCurrencySymbol: "€",
-      hotels: {},
-      flights: {},
+      hotels: [],
+      flights: [],
       rates:[],
       districts:[],
       stars:[],
@@ -85,24 +85,13 @@ class Results extends Component {
     if (typeof(params.airline_codes) === "string") params.airline_codes = putIntoArray(params.airline_codes);
     if (typeof(params.districts) === "string") params.districts = putIntoArray(params.districts);
     if (typeof(params.propertyTypes) === "string") params.propertyTypes = putIntoArray(params.propertyTypes);
+    params.oneWay = params.oneWay === "true"; //string to boolean
     this.setState({
       ...params,
       loading:true,
       firstLoad:true,
       noResults:false,
-      search: {
-        cityCode: params.cityCode,
-        roomsCount:1,
-        guestsCount:params.adultsCount,
-        checkIn: params.arriveDate,
-        checkOut: params.leaveDate,
-        siteCode: "PT",
-        locale: this.props.lang,
-        currencyCode: this.state.actualCurrency,
-        deviceType: "desktop",
-        appType: "IOS_APP",
-        userCountryCode: "PT"
-      }
+
     },() => {
       if (this.state.type === "hotels") this.getHotelsSearch();
       if (this.state.type === "flights") this.getFlightSearch();
@@ -183,7 +172,21 @@ class Results extends Component {
     this.setState({loading:true,showFilters:false});
     var that = this,
         state = this.state;
-    const params = {search: state.search}
+    const params = {
+      search: {
+        cityCode: state.cityCode,
+        roomsCount:1,
+        guestsCount:state.adultsCount,
+        checkIn: state.arriveDate,
+        checkOut: state.leaveDate,
+        siteCode: "PT",
+        locale: this.props.lang,
+        currencyCode: this.state.actualCurrency,
+        deviceType: "desktop",
+        appType: "IOS_APP",
+        userCountryCode: "PT"
+      }
+    }
     const headers = {"Content-Type": "application/json"};
     Axios.post(api.getHotelSearch, JSON.stringify(params), {headers})
     .then(function (response) {
@@ -199,7 +202,7 @@ class Results extends Component {
         loading:false,
         firstLoad:false,
         responseCount: 0,
-        totalCount: response.data.hotels.length
+        totalCount: response.data.hotels.length,
       },that.getHotels);
     })
     .catch(function (error) {
@@ -209,7 +212,22 @@ class Results extends Component {
   getHotels() {
     var that = this,
         state = this.state;
-    const params = {search: state.search,offset:state.responseCount}
+    const params = {
+      search: {
+        cityCode: state.cityCode,
+        roomsCount:1,
+        guestsCount:state.adultsCount,
+        checkIn: state.arriveDate,
+        checkOut: state.leaveDate,
+        siteCode: "PT",
+        locale: this.props.lang,
+        currencyCode: this.state.actualCurrency,
+        deviceType: "desktop",
+        appType: "IOS_APP",
+        userCountryCode: "PT"
+      },
+      offset:state.responseCount
+    }
     Axios.get(
       `${api.getHotelSearch}${state.searchId}/results`,
       {
@@ -234,7 +252,7 @@ class Results extends Component {
           const bestPrice = Math.min(...hotelRates.map(rate => rate.price.amount));
           const bestRate = hotelRates.filter(rate => rate.price.amount === bestPrice)[0];
 
-          if (bestPrice) {
+          if (bestRate) {
             hotel.bestRate = bestRate;
             hotel.bestPrice = bestPrice;
           } else newHotels.splice(index,1);
@@ -286,67 +304,58 @@ class Results extends Component {
             "departureAirportCode": this.state.inbound,
             "arrivalCityCode": this.state.outbound,
             "outboundDate": this.state.arriveDate
-          },
-          {
-            "departureAirportCode": this.state.outbound,
-            "arrivalCityCode": this.state.inbound,
-            "outboundDate": this.state.leaveDate
           }
         ]
-      },
-      "paymentMethodIds": []
-    }
+      }
+    };
+    if (!this.state.oneWay) {
+      params.search.legs.push({
+        "departureAirportCode": this.state.outbound,
+        "arrivalCityCode": this.state.inbound,
+        "outboundDate": this.state.leaveDate
+      });
+    };
     const headers = {"Content-Type": "application/json"};
     Axios.post(api.getFlightSearch, JSON.stringify(params), {headers})
     .then(function (response) {
-      //setTimeout(()=>{
-        that.setState({searchId:response.data.search.id},that.getFlights)
-      //},5000);
+      that.setState({
+        searchId:response.data.search.id,
+        responseCount:0
+      },that.getFlights)
     })
     .catch(function (error) {
       console.log(error);
     });
   }
   getFlights() {
-    this.setState({loading:true,showFilters:false});
     var that = this,
         state = this.state;
     const params = {
-      searchId: state.searchId,
-      stop_types: state.stop_types,
-      cabin: state.cabin,
-      adultsCount: state.adultsCount,
-      childrenCount: state.childrenCount,
-      infantsCount	: state.infantsCount,
-      legs: [
-        {
-          departureAirportCode: state.inbound,
-          arrivalCityCode: state.outbound,
-          outboundDate: state.arriveDate
-        },
-        {
-          departureAirportCode: state.outbound,
-          arrivalCityCode: state.inbound,
-          outboundDate: state.leaveDate
-        }
-      ],
-      fares_query_type: "route",
-      inbound_departure_day_time_min: state.inbound_departure_day_time_min,
-      inbound_departure_day_time_max: state.inbound_departure_day_time_max,
-      currencyCode: state.actualCurrency,
-      priceMin: state.priceMin,
-      priceMax: state.priceMax,
-      duration_min: state.duration_min,
-      duration_max: state.duration_max,
-      airline_codes: state.airline_codes,
-      user_country_code: that.props.lang,
-      locale: that.props.lang,
-      sort: state.sort,
-      order: state.order,
-      page: state.currentPage,
-      per_page: state.itemsPerPage,
-      deviceType: "DESKTOP",
-      offset:0,
+      search: {
+        siteCode: "PT",
+        locale: this.props.lang,
+        currencyCode: state.actualCurrency,
+        deviceType: "DESKTOP",
+        cabin: state.cabin,
+        adultsCount: state.adultsCount,
+        childrenCount: state.childrenCount,
+        infantsCount: state.infantsCount,
+        legs: [
+          {
+            departureAirportCode: state.inbound,
+            arrivalCityCode: state.outbound,
+            outboundDate: state.arriveDate
+          }
+        ]
+      },
+      offset: state.responseCount
+    };
+    if (!this.state.oneWay) {
+      params.search.legs.push({
+        "departureAirportCode": state.outbound,
+        "arrivalCityCode": state.inbound,
+        "outboundDate": state.leaveDate
+      });
     }
     Axios.get(
       `${api.getFlightSearch}${that.state.searchId}/results`,
@@ -358,16 +367,46 @@ class Results extends Component {
     )
     .then(function(response) {
       let data = response.data;
-      data.filtered_routes_count > 0
-        ? that.setState({
-          flights:data,
-          gotResponse:"flights",
-          loading:false,
-          firstLoad:false,
-          noResults:false,
-          totalCount:data.filtered_routes_count
-        })
-        : that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
+      console.log({state:state.responseCount,response:data.count});
+      if (!data.count) {
+        that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
+      }
+      if (state.responseCount === data.count) return;
+
+
+      let newFlights = state.flights;
+      newFlights.push(...data.trips);
+
+      newFlights.forEach((flight,index) => {
+        flight.fares = data.fares.filter(fare => fare.tripId === flight.id);
+        const bestPrice = Math.min(...flight.fares.map(fare => fare.price.amount));
+        const bestFare = flight.fares.filter(rate => rate.price.amount === bestPrice)[0];
+
+        if (!flight.hasOwnProperty("legs")) flight.legs = [];
+        flight.legIds.forEach(leg => flight.legs.push(...data.legs.filter(legF => legF.id === leg)));
+
+        if (bestFare) {
+          flight.bestFare = bestFare;
+          flight.bestPrice = bestPrice;
+        } else newFlights.splice(index,1);
+      });
+      
+      state.info && data.airports.push(...state.info.airports);
+      state.info && data.cities.push(...state.info.cities);
+      state.info && data.airlines.push(...state.info.airlines);
+
+      that.setState({
+        info: data,
+        flights:newFlights,
+        fares:data.fares,
+        legs:data.legs,
+        gotResponse:"flights",
+        loading:false,
+        firstLoad:false,
+        noResults:false,
+        totalCount: data.trips.length,
+        responseCount: data.count
+      },that.getFlights);
     })
     .catch(function (error) {
       console.log(error);
@@ -568,11 +607,14 @@ class Results extends Component {
                 />
                 {this.state.noResults && <p className="results__foundItems">No Results</p>}
                 <ResultsList
-                  {...this.state.flights}
+                  flights={this.state.flights}
+                  info={this.state.info}
+
                   type={this.state.type}
                   lang={this.props.lang}
                   toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
                   currentPage={this.state.currentPage}
+                  itemsPerPage={this.state.itemsPerPage}
                   handlePagination={this.updatePagination}
                   currency={this.state.actualCurrencySymbol}
                   pageCount={Math.ceil(this.state.totalCount/10)}

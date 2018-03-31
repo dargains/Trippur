@@ -98,13 +98,18 @@ const lang = {
     Filterbar: {
       flights: {
         price: 'Price',
-        stops: 'Stops',
+        stop: 'Stops',
         times: 'Times',
         departure: 'Departure time',
         duration: 'Duration time',
         airlines: 'Airlines',
         cabin: 'Class',
-        cabins: ['Economy', 'Business', 'First Class']
+        cabins: ['Economy', 'Business', 'First Class'],
+        stops: {
+          ONE_STOP: "One stop",
+          MORE_THAN_ONE_STOP: "More than one stop",
+          DIRECT: "Direct"
+        }
       },
       hotels: {
         name: 'Name',
@@ -705,13 +710,18 @@ const lang = {
       flights: {
         name: 'Nome',
         price: 'Preço',
-        stops: 'Escalas',
+        stop: 'Escalas',
         times: 'Horários',
         departure: 'Hora de partida',
         duration: 'Duração total',
         airlines: 'Linhas aéreas',
         cabin: 'Classe',
-        cabins: ['Economica', 'Business', 'Primeira Classe']
+        cabins: ['Economica', 'Business', 'Primeira Classe'],
+        stops: {
+          ONE_STOP: "Uma paragem",
+          MORE_THAN_ONE_STOP: "Mais de uma paragem",
+          DIRECT: "Direto"
+        }
       },
       hotels: {
         price: 'Preço',

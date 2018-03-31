@@ -14,26 +14,40 @@ function thereIs(value,array) {
 class FlightFilters extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      airlines: []
+    }
     this.checkboxClick = this.checkboxClick.bind(this);
   }
   componentWillMount() {
-    let flights = this.props.flights;
+    const filters = this.props.info.filters;
     let initialPrice = {
-      min: flights.price_filter.min,
-      max: flights.price_filter.max
+      min: filters.minPrice.amount,
+      max: filters.maxPrice.amount
     }
     this.setState({
       initialPrice,
       price: initialPrice,
-      inbound: {
-        min: flights.departure_day_time_filter.min,
-        max: flights.departure_day_time_filter.max
-      },
+      // inbound: {
+      //   min: filters.departure_day_time_filter.min,
+      //   max: filters.departure_day_time_filter.max
+      // },
       duration: {
-        min: flights.duration_filter.min,
-        max: flights.duration_filter.max
-      }
-    })
+        min: filters.tripDurations.min,
+        max: filters.tripDurations.max
+      },
+      stops: filters.stops
+    });
+    this.getAirlines();
+  }
+  getAirlines() {
+    const info = this.props.info;
+    const filters = info.filters;
+    let airlines = filters.airlines;
+    airlines.forEach(airline => {
+      airline.name = info.airlines.find(item => item.code === airline.code).name;
+    });
+    this.setState({airlines});
   }
   checkboxClick(event) {
     console.log(event.target)
@@ -58,15 +72,15 @@ class FlightFilters extends React.Component {
         <hr/>
 
         <article>
-          <h2 className="sidebar__legend">{filterLang.stops}</h2>
-          {this.props.flights.stop_type_filters.map(stop => <Checkbox key={stop.code} id={stop.code} name={stop.code} label={stop.name} checked={thereIs(stop.code,this.props.stop_types)} handleClick={this.props.changeStops}/>)}
+          <h2 className="sidebar__legend">{filterLang.stop}</h2>
+          {this.state.stops.map((stop,i) => <Checkbox key={i} id={stop.code} name={stop.code} label={filterLang.stops[stop.code]} checked={thereIs(stop.code,this.state.stops)} handleClick={this.props.changeStops}/>)}
         </article>
 
         <hr/>
 
         <article>
           <h2 className="sidebar__legend">{filterLang.times}</h2>
-          <p className="flightLegend">{filterLang.departure}</p>
+          {/* <p className="flightLegend">{filterLang.departure}</p>
           <InputRange
             maxValue={this.props.flights.departure_day_time_filter.max}
             minValue={this.props.flights.departure_day_time_filter.min}
@@ -74,11 +88,11 @@ class FlightFilters extends React.Component {
             value={this.state.inbound}
             onChange={inbound => this.setState({inbound})}
             onChangeComplete={value => this.props.changeInboudTime(value)}
-          />
+          /> */}
           <p className="flightLegend">{filterLang.duration}</p>
           <InputRange
-            maxValue={this.props.flights.duration_filter.max}
-            minValue={this.props.flights.duration_filter.min}
+            maxValue={this.state.duration.max}
+            minValue={this.state.duration.min}
             formatLabel={value => `${pad(Math.floor(value / 60))}:${pad(value % 60)}`}
             value={this.state.duration}
             onChange={duration => this.setState({duration})}
@@ -99,7 +113,7 @@ class FlightFilters extends React.Component {
 
         <article>
           <h2 className="sidebar__legend">{filterLang.airlines}</h2>
-          {this.props.flights.airline_filters.map(airline => <Checkbox key={airline.code} id={airline.code} name={airline.code} label={airline.name} checked={thereIs(airline.code,this.props.airline_codes)} handleClick={this.props.changeAirlines}/>)}
+          {this.state.airlines.map(airline => <Checkbox key={airline.code} id={airline.code} name={airline.code} label={airline.name} checked={thereIs(airline.code,this.state.airlines)} handleClick={this.props.changeAirlines}/>)}
         </article>
 
       </div>
