@@ -108,7 +108,7 @@ const lang = {
         stops: {
           ONE_STOP: "One stop",
           MORE_THAN_ONE_STOP: "More than one stop",
-          DIRECT: "Direct"
+          DIRECT: "No stops"
         }
       },
       hotels: {

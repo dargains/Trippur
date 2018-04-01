@@ -8,9 +8,9 @@ class ResultsList extends Component {
     let unfilteredItems = [];
 
     if (this.props.type === "flights") {
-      unfilteredItems = this.props.flights.map(flight =>
+      unfilteredItems = this.props.flights.map((flight,index) =>
         <FlightItem
-        key={flight.id}
+        key={index}
         lang={this.props.lang}
         currency={this.props.currency}
         info={this.props.info}
@@ -60,7 +60,7 @@ class ResultsList extends Component {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const renderItems = unfilteredItems.slice(indexOfFirstItem, indexOfLastItem);
-    console.log(unfilteredItems.length,Math.ceil(unfilteredItems.length/this.props.itemsPerPage));
+    console.log("render: ",unfilteredItems.length,"pages: ",Math.ceil(unfilteredItems.length/this.props.itemsPerPage));
 
     return (
       <section className="resultsList">

@@ -15,40 +15,48 @@ class FlightFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      airlines: []
+      airlines: [],
+      initialPrice: {
+        min:0,
+        max:10
+      },
+      duration: {
+        min:0,
+        max:10
+      },
+      stops:[],
     }
-    this.checkboxClick = this.checkboxClick.bind(this);
   }
   componentWillMount() {
-    const filters = this.props.info.filters;
+    this.updateValues(this.props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.updateValues(nextProps);
+  }
+  updateValues(props) {
+    const info = props.info;
+    const filters = info.filters;
+    if (Object.keys(filters).length === 0) return;
     let initialPrice = {
-      min: filters.minPrice.amount,
-      max: filters.maxPrice.amount
+      min: props.priceMin,
+      max: props.priceMax
     }
     let initialDuration = {
-      min: filters.tripDurations.min,
-      max: filters.tripDurations.max
+      min: props.durationMin,
+      max: props.durationMax
     };
+    let airlines = filters.airlines;
+    airlines.forEach(airline => {
+      airline.name = info.airlines.find(item => item.code === airline.code).name;
+    });
     this.setState({
       initialPrice,
       price: initialPrice,
       initialDuration,
       duration: initialDuration,
-      stops: filters.stops
+      stops: filters.stops,
+      airlines
     });
-    this.getAirlines();
-  }
-  getAirlines() {
-    const info = this.props.info;
-    const filters = info.filters;
-    let airlines = filters.airlines;
-    airlines.forEach(airline => {
-      airline.name = info.airlines.find(item => item.code === airline.code).name;
-    });
-    this.setState({airlines});
-  }
-  checkboxClick(event) {
-    console.log(event.target)
   }
   render() {
     const filterLang = lang[this.props.lang].Filterbar.flights;

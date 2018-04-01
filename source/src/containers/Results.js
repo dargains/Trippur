@@ -20,17 +20,19 @@ const putIntoArray = element => {
   return element;
 }
 
-Array.prototype.unique = function() {
-    var a = this.concat();
-    for(var i=0; i<a.length; ++i) {
-        for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
-                a.splice(j--, 1);
-        }
-    }
+function removeDuplicates(originalArray, prop) {
+  var newArray = [];
+  var lookupObject  = {};
 
-    return a;
-};
+  for(var i in originalArray) {
+    lookupObject[originalArray[i][prop]] = originalArray[i];
+  }
+
+  for(i in lookupObject) {
+    newArray.push(lookupObject[i]);
+  }
+  return newArray;
+}
 
 class Results extends Component {
   constructor(props) {
@@ -69,7 +71,8 @@ class Results extends Component {
       currentPage: 1,
       itemsPerPage: 10,
       gotRates: false,
-      intervalId:0
+      intervalId:0,
+
     };
     this.newSearch = this.newSearch.bind(this);
     this.updateView = this.updateView.bind(this);
@@ -124,9 +127,40 @@ class Results extends Component {
   }
   newSearch() {
     this.setState({
-      gotResponse:false,
+      firstLoad: true,
+      noResults: false,
+      loading: true,
+      showFilters: false,
+      actualCurrency:"EUR",
+      actualCurrencySymbol: "€",
+      hotels: [],
+      flights: [],
       rates:[],
-      gotRates:false
+      districts:[],
+      stars:[],
+      propertyTypes:[],
+      amenities:[],
+      hotelName:"",
+      stops:[],
+      airlines:[],
+      priceMin:0,
+      priceMax:10,
+      durationMin:0,
+      durationMax:10,
+      cabin:"",
+      info: {
+        airports:[],
+        cities:[],
+        airlines:[],
+        filters:{}
+      },
+      sort: "bestPrice",
+      order: "asc",
+      totalCount: 0,
+      currentPage: 1,
+      itemsPerPage: 10,
+      gotRates: false,
+      intervalId:0,
     },this.getParams);
   }
   updateView(isNew) {
@@ -398,11 +432,8 @@ class Results extends Component {
         that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
       }
       if (state.responseCount === data.count) return;
-      let durationMin = 0;
-      let durationMax = 0;
 
-      let newFlights = state.flights;
-      newFlights.push(...data.trips);
+      let newFlights = data.trips;
 
       newFlights.forEach((flight,index) => {
         flight.fares = data.fares.filter(fare => fare.tripId === flight.id);
@@ -414,16 +445,19 @@ class Results extends Component {
 
         flight.legs = flight.legs.filter((thing, index, self) =>
           index === self.findIndex((t) =>  t.id === thing.id)
-        )
+        ) //remove duplicate legs
+
+        flight.departure = flight.legs[0].departureTimeMinutes;
+        flight.arrival = flight.legs[0].arrivalTimeMinutes;
 
         if (bestFare) {
           flight.bestFare = bestFare;
           flight.bestPrice = bestPrice;
           flight.duration = flight.legs.reduce((a, b) => a + b.durationMinutes, 0);
-          flight.departure = flight.legs[0].departureTimeMinutes;
-          flight.arrival = flight.legs[0].arrivalTimeMinutes;
           if (flight.duration > durationMax) durationMax = flight.duration;
           if (flight.duration < durationMin) durationMin = flight.duration;
+          flight.departure = flight.legs[0].departureTimeMinutes;
+          flight.arrival = flight.legs[0].arrivalTimeMinutes;
         } else newFlights.splice(index,1);
       });
 
@@ -431,8 +465,8 @@ class Results extends Component {
         for(let filter in data.filters) {
           var element = data.filters[filter];
           if (Array.isArray(element)) { //is array
-            if (state.info.filters[filter]) element = element.concat(state.info.filters[filter]).unique();
-            data.filters[filter] = element.unique();
+            if (state.info.filters[filter]) element = element.concat(state.info.filters[filter]);
+            data.filters[filter] = removeDuplicates(element,"code")
           } else { //is object
             if (state.info.filters[filter]) element = Object.assign(element,state.info.filters[filter]);
             data.filters[filter] = element;
@@ -444,20 +478,31 @@ class Results extends Component {
       state.info && data.cities.push(...state.info.cities); //cumulative cities
       state.info && data.airlines.push(...state.info.airlines); //cumulative airlines
 
+      let priceMin = data.filters.minPrice.amount < state.priceMin ? data.filters.minPrice.amount : state.priceMin;
+      let priceMax = data.filters.maxPrice.amount > state.priceMax ? data.filters.maxPrice.amount : state.priceMax;
+      console.log({priceMax,filter:data.filters.maxPrice.amount,state:state.priceMax});
+
+      let durationMin = data.filters.tripDurations.min < state.durationMin ? data.filters.tripDurations.min : state.durationMin;
+      let durationMax = data.filters.tripDurations.max > state.durationMax ? data.filters.tripDurations.max : state.durationMax;
+
+      let flights = state.flights.concat(newFlights);
+
+      let totalCount = newFlights.length + state.totalCount;
+
       that.setState({
         info: data,
-        flights:newFlights,
+        flights,
         fares:data.fares,
         legs:data.legs,
         gotResponse:"flights",
-        priceMin: data.filters.minPrice.amount,
-        priceMax: data.filters.maxPrice.amount,
+        priceMin,
+        priceMax,
         durationMin,
         durationMax,
         loading:false,
         firstLoad:false,
         noResults:false,
-        totalCount: data.trips.length + state.totalCount,
+        totalCount,
         responseCount: data.count
       },that.getFlights);
     })
@@ -579,7 +624,7 @@ class Results extends Component {
     this.setState({currentPage:event.selected + 1}, this.updateQS);
   }
   scrollStep() {
-    if (window.pageYOffset === 0) {
+    if (window.pageYOffset < 600) {
         clearInterval(this.state.intervalId);
     }
     window.scroll(0, window.pageYOffset - 50);
