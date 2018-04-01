@@ -297,7 +297,6 @@ class Results extends Component {
       }
     )
     .then(function (response) {
-      console.log({state:state.responseCount,response:response.data.count});
       if (state.responseCount === response.data.count) return;
       if (response.data.count) {
 
@@ -427,7 +426,6 @@ class Results extends Component {
     )
     .then(function(response) {
       let data = response.data;
-      console.log({state:state.responseCount,response:data.count});
       if (!data.count) {
         that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
       }
@@ -480,7 +478,6 @@ class Results extends Component {
 
       let priceMin = data.filters.minPrice.amount < state.priceMin ? data.filters.minPrice.amount : state.priceMin;
       let priceMax = data.filters.maxPrice.amount > state.priceMax ? data.filters.maxPrice.amount : state.priceMax;
-      console.log({priceMax,filter:data.filters.maxPrice.amount,state:state.priceMax});
 
       let durationMin = data.filters.tripDurations.min < state.durationMin ? data.filters.tripDurations.min : state.durationMin;
       let durationMax = data.filters.tripDurations.max > state.durationMax ? data.filters.tripDurations.max : state.durationMax;

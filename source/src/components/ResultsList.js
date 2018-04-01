@@ -60,7 +60,6 @@ class ResultsList extends Component {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const renderItems = unfilteredItems.slice(indexOfFirstItem, indexOfLastItem);
-    console.log("render: ",unfilteredItems.length,"pages: ",Math.ceil(unfilteredItems.length/this.props.itemsPerPage));
 
     return (
       <section className="resultsList">
