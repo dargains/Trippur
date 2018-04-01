@@ -12,6 +12,14 @@ import Error404 from "./components/Error404";
 import PagesNav from "./components/PagesNav";
 import InternalPage from "./components/InternalPage";
 
+const internalPages = [
+  "About",
+  "Terms",
+  "Help",
+  "Cookies",
+  "Privacy",
+  "Partnerships"
+]
 
 class App extends Component {
   constructor(props) {
@@ -31,12 +39,7 @@ class App extends Component {
               <Pages>
                   <PagesNav />
                   <article>
-                    <Route exact path="/About" render={() => <InternalPage page="About" lang={this.state.lang}/>}/>
-                    <Route exact path="/Terms" render={() => <InternalPage page="Terms" lang={this.state.lang}/>}/>
-                    <Route exact path="/Help" render={() => <InternalPage page="Help" lang={this.state.lang}/>}/>
-                    <Route exact path="/Cookies" render={() => <InternalPage page="Cookies" lang={this.state.lang}/>}/>
-                    <Route exact path="/Privacy" render={() => <InternalPage page="Privacy" lang={this.state.lang}/>}/>
-                    <Route exact path="/Partnerships" render={() => <InternalPage page="Partnerships" lang={this.state.lang}/>}/>
+                    {internalPages.map(page => <Route exact path={`/${page}`} render={() => <InternalPage page={page} lang={this.state.lang}/>}/>)}
                   </article>
               </Pages>
               <Route component={Error404} />
