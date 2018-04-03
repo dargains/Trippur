@@ -425,11 +425,11 @@ class Searchbar extends Component {
     this.props.context === "results" && this.props.handleSearch();
   }
   render() {
-    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.countryCode} data-countryname={hotel.countryName} data-cityname={hotel.name.split(",")[0]} data-citycode={hotel.cityCode} onClick={this.chooseHotel}>{hotel.name}</li>);
+    const hotels = this.state.hotels.map(hotel => <li key={hotel.id} data-hotelid={hotel.id} data-countrycode={hotel.countryCode} data-countryname={hotel.countryName} data-cityname={hotel.name.split(",")[0]} data-citycode={hotel.cityCode} onClick={this.chooseHotel}>{hotel.name}, {hotel.countryName}</li>);
 
-    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}</li>);
+    const inboundAirports = this.state.inboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "inbound")}>{airport.name}, {airport.countryName}</li>);
 
-    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "outbound")}>{airport.name}</li>);
+    const outboundAirports = this.state.outboundAirports.map(airport => <li key={airport.id} data-airportid={airport.code} data-countrycode={airport.countryCode} data-countryname={airport.countryName} data-cityname={airport.cityName} onClick={this.chooseAirport.bind(this, "outbound")}>{airport.name}, {airport.countryName}</li>);
 
     const searchLang = lang[this.props.lang].Searchbar;
 
