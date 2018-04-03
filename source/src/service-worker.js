@@ -1,4 +1,4 @@
-var cacheName = 'trippur v1.7';
+var cacheName = 'trippur v2.3';
 var filesToCache = [
   '/',
   '/index.html',
@@ -19,6 +19,7 @@ var filesToCache = [
   '/static/media/Paris.jpg',
   '/static/media/Singapore.jpg',
   '/static/media/Venice.jpg',
+  '/static/media/hotel.png',
   '/static/media/icomoon.ttf',
   '/static/media/icomoon.svg',
   '/static/media/icomoon.eot',
