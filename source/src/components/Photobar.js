@@ -20,7 +20,7 @@ class Photobar extends Component {
   render() {
     return (
       <aside className="photobar">
-        {this.state.photo && <h2 className="photobar__title">{lang[this.props.lang].Photobar.title} {this.props.city}</h2>}
+        {this.state.photos.length && <h2 className="photobar__title">{lang[this.props.lang].Photobar.title} {this.props.city}</h2>}
         <ul>
           {this.state.photos.slice(0, this.state.size).map(photo =>
             <li key={photo.node.id}>
