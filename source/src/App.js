@@ -39,7 +39,7 @@ class App extends Component {
               <Pages>
                   <PagesNav />
                   <article>
-                    {internalPages.map(page => <Route exact path={`/${page}`} render={() => <InternalPage page={page} lang={this.state.lang}/>}/>)}
+                    {internalPages.map(page => <Route key={page} exact path={`/${page}`} render={() => <InternalPage page={page} lang={this.state.lang}/>}/>)}
                   </article>
               </Pages>
               <Route component={Error404} />
