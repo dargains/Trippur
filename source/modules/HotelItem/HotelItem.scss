@@ -19,6 +19,17 @@
       width: 100%;
     }
   }
+  .figure {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 
   .center {
     display: inline-block;

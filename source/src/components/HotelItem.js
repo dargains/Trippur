@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import lang from "../lang";
 
+import genericHotel from "../images/hotel.png";
+
 class HotelItem extends Component {
   render() {
     return (
       <article className="hotelItem" id={this.props.id}>
-        <figure>
+        {/* <figure>
           <img src={this.props.imagesCount ? this.props.images[0].url : ""} alt={this.props.name}/>
-        </figure>
+        </figure> */}
+        <div className="figure" style={{backgroundImage:`url(${this.props.imagesCount ? this.props.images[0].url : genericHotel})`}}></div>
         <div className="center">
           <div className="hotelHeader">
             <h2>{this.props.name}</h2>
