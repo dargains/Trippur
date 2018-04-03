@@ -54,8 +54,12 @@ class Results extends Component {
       hotelName:"",
       stops:[],
       airlines:[],
+      initialPriceMin:0,
+      initialPriceMax:10,
       priceMin:0,
       priceMax:10,
+      initialDurationMin:0,
+      initialDurationMax:10,
       durationMin:0,
       durationMax:10,
       cabin:"",
@@ -161,6 +165,7 @@ class Results extends Component {
       itemsPerPage: 10,
       gotRates: false,
       intervalId:0,
+      gotResponse:""
     },this.getParams);
   }
   updateView(isNew) {
@@ -241,6 +246,7 @@ class Results extends Component {
         checkOut: state.leaveDate,
         siteCode: "PT",
         locale: this.props.lang,
+        lang: this.props.lang,
         currencyCode: this.state.actualCurrency,
         deviceType: "desktop",
         appType: "IOS_APP",
@@ -281,6 +287,7 @@ class Results extends Component {
         checkOut: state.leaveDate,
         siteCode: "PT",
         locale: this.props.lang,
+        lang: this.props.lang,
         currencyCode: this.state.actualCurrency,
         deviceType: "desktop",
         appType: "IOS_APP",
@@ -349,20 +356,21 @@ class Results extends Component {
   getFlightSearch() {
     const that = this;
     const params = {
-      "search": {
-        "siteCode": "PT",
-        "locale": this.props.lang,
-        "currencyCode": this.state.actualCurrency,
-        "deviceType": "DESKTOP",
-        "cabin": this.state.cabin,
-        "adultsCount": this.state.adultsCount,
-        "childrenCount": this.state.childrenCount,
-        "infantsCount": this.state.infantsCount,
-        "legs": [
+      search: {
+        siteCode: "PT",
+        lang: this.props.lang,
+        locale: this.props.lang,
+        currencyCode: this.state.actualCurrency,
+        deviceType: "DESKTOP",
+        cabin: this.state.cabin,
+        adultsCount: this.state.adultsCount,
+        childrenCount: this.state.childrenCount,
+        infantsCount: this.state.infantsCount,
+        legs: [
           {
-            "departureAirportCode": this.state.inbound,
-            "arrivalCityCode": this.state.outbound,
-            "outboundDate": this.state.arriveDate
+            departureAirportCode: this.state.inbound,
+            arrivalCityCode: this.state.outbound,
+            outboundDate: this.state.arriveDate
           }
         ]
       }
@@ -393,6 +401,7 @@ class Results extends Component {
       search: {
         siteCode: "PT",
         locale: this.props.lang,
+        lang: this.props.lang,
         currencyCode: state.actualCurrency,
         deviceType: "DESKTOP",
         cabin: state.cabin,
@@ -452,8 +461,8 @@ class Results extends Component {
           flight.bestFare = bestFare;
           flight.bestPrice = bestPrice;
           flight.duration = flight.legs.reduce((a, b) => a + b.durationMinutes, 0);
-          if (flight.duration > durationMax) durationMax = flight.duration;
-          if (flight.duration < durationMin) durationMin = flight.duration;
+          // if (flight.duration > durationMax) durationMax = flight.duration;
+          // if (flight.duration < durationMin) durationMin = flight.duration;
           flight.departure = flight.legs[0].departureTimeMinutes;
           flight.arrival = flight.legs[0].arrivalTimeMinutes;
         } else newFlights.splice(index,1);
@@ -476,11 +485,18 @@ class Results extends Component {
       state.info && data.cities.push(...state.info.cities); //cumulative cities
       state.info && data.airlines.push(...state.info.airlines); //cumulative airlines
 
-      let priceMin = data.filters.minPrice.amount < state.priceMin ? data.filters.minPrice.amount : state.priceMin;
-      let priceMax = data.filters.maxPrice.amount > state.priceMax ? data.filters.maxPrice.amount : state.priceMax;
+      let initialPriceMin = data.filters.minPrice.amount < state.initialPriceMin ? data.filters.minPrice.amount : state.initialPriceMin;
+      let initialPriceMax = data.filters.maxPrice.amount > state.initialPriceMax ? data.filters.maxPrice.amount : state.initialPriceMax;
 
-      let durationMin = data.filters.tripDurations.min < state.durationMin ? data.filters.tripDurations.min : state.durationMin;
-      let durationMax = data.filters.tripDurations.max > state.durationMax ? data.filters.tripDurations.max : state.durationMax;
+      let initialDurationMin = data.filters.tripDurations.min < state.initialDurationMin ? data.filters.tripDurations.min : state.initialDurationMin;
+      let initialDurationMax = data.filters.tripDurations.max > state.initialDurationMax ? data.filters.tripDurations.max : state.initialDurationMax;
+
+      if (initialPriceMin === 0) {
+        initialPriceMin = data.filters.minPrice.amount;
+        initialPriceMax = data.filters.maxPrice.amount;
+        initialDurationMin = data.filters.tripDurations.min;
+        initialDurationMax = data.filters.tripDurations.max;
+      }
 
       let flights = state.flights.concat(newFlights);
 
@@ -492,10 +508,14 @@ class Results extends Component {
         fares:data.fares,
         legs:data.legs,
         gotResponse:"flights",
-        priceMin,
-        priceMax,
-        durationMin,
-        durationMax,
+        initialPriceMin,
+        initialPriceMax,
+        priceMin:initialPriceMin,
+        priceMax:initialPriceMax,
+        initialDurationMin,
+        initialDurationMax,
+        durationMin:initialDurationMin,
+        durationMax:initialDurationMax,
         loading:false,
         firstLoad:false,
         noResults:false,

@@ -17,18 +17,30 @@ class FlightFilters extends React.Component {
     this.state = {
       airlines: [],
       initialPrice: {
-        min:0,
-        max:10
+        min:props.initialPriceMin,
+        max:props.initialPriceMax
+      },
+      price: {
+        min:props.initialPriceMin,
+        max:props.initialPriceMax
+      },
+      initialDuration: {
+        min:props.initialDurationMin,
+        max:props.initialDurationMax
       },
       duration: {
-        min:0,
-        max:10
+        min:props.initialDurationMin,
+        max:props.initialDurationMax
       },
       stops:[],
     }
   }
   componentWillMount() {
     this.updateValues(this.props);
+    this.setState({
+      price:this.state.initialPrice,
+      duration:this.state.initialDuration
+    })
   }
   componentWillReceiveProps(nextProps) {
     this.updateValues(nextProps);
@@ -38,12 +50,12 @@ class FlightFilters extends React.Component {
     const filters = info.filters;
     if (Object.keys(filters).length === 0) return;
     let initialPrice = {
-      min: props.priceMin,
-      max: props.priceMax
+      min: props.initialPriceMin,
+      max: props.initialPriceMax
     }
     let initialDuration = {
-      min: props.durationMin,
-      max: props.durationMax
+      min: props.initialDurationMin,
+      max: props.initialDurationMax
     };
     let airlines = filters.airlines;
     airlines.forEach(airline => {
@@ -51,9 +63,7 @@ class FlightFilters extends React.Component {
     });
     this.setState({
       initialPrice,
-      price: initialPrice,
       initialDuration,
-      duration: initialDuration,
       stops: filters.stops,
       airlines
     });
