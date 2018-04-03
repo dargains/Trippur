@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import FlightItem from './FlightItem';
 import HotelItem from './HotelItem';
 import ReactPaginate from 'react-paginate';
+import lang from "../lang";
 
 class ResultsList extends Component {
   render() {
+    let noResults = lang[this.props.lang].Results.noResultsFilter;
     let unfilteredItems = [];
 
     if (this.props.type === "flights") {
@@ -64,7 +66,7 @@ class ResultsList extends Component {
     return (
       <section className="resultsList">
         <i className="openFilters icon-filter" onClick={this.props.toggleFilters}></i>
-        {renderItems}
+        {renderItems.length ? renderItems : <p className="noResults">{noResults}</p>}
         <ReactPaginate
           previousLabel={"<"}
           nextLabel={">"}

@@ -93,7 +93,8 @@ const lang = {
       results1: 'We found',
       resultsF: 'flights',
       resultsH: 'hotels',
-      noResults: 'We found no results for this search'
+      noResults: 'We found no results for this search',
+      noResultsFilter: 'Sorry , there are no results for this search. Maybe clear some filters?'
     },
     Filterbar: {
       flights: {
