@@ -93,6 +93,7 @@ const lang = {
       results1: 'We found',
       resultsF: 'flights',
       resultsH: 'hotels',
+      of: 'of',
       noResults: 'We found no results for this search',
       noResultsFilter: 'Sorry , there are no results for this search. Maybe clear some filters?'
     },
@@ -705,6 +706,7 @@ const lang = {
       results1: 'Encontrámos',
       resultsF: 'voos',
       resultsH: 'hotéis',
+      of: 'de',
       noResults: 'Não encontramos resultados para esta pesquisa'
     },
     Filterbar: {

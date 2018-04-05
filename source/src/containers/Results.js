@@ -464,7 +464,8 @@ class Results extends Component {
       if (state.responseCount === data.count) return;
 
       let newFlights = data.trips;
-
+let shortestDuration = 0;
+let longestDuration = 1;
       newFlights.forEach((flight,index) => {
         flight.fares = data.fares.filter(fare => fare.tripId === flight.id);
         const bestPrice = Math.min(...flight.fares.map(fare => fare.price.amount));
@@ -484,6 +485,8 @@ class Results extends Component {
           flight.bestFare = bestFare;
           flight.bestPrice = bestPrice;
           flight.duration = flight.legs.reduce((a, b) => a + b.durationMinutes, 0);
+          shortestDuration = flight.duration <= shortestDuration ? flight.duration : shortestDuration;
+          longestDuration = flight.duration >= longestDuration ? flight.duration : longestDuration;
           // if (flight.duration > durationMax) durationMax = flight.duration;
           // if (flight.duration < durationMin) durationMin = flight.duration;
           flight.departure = flight.legs[0].departureTimeMinutes;
@@ -511,14 +514,14 @@ class Results extends Component {
       let initialPriceMin = data.filters.minPrice.amount < state.initialPriceMin ? data.filters.minPrice.amount : state.initialPriceMin;
       let initialPriceMax = data.filters.maxPrice.amount > state.initialPriceMax ? data.filters.maxPrice.amount : state.initialPriceMax;
 
-      let initialDurationMin = data.filters.tripDurations.min < state.initialDurationMin ? data.filters.tripDurations.min : state.initialDurationMin;
-      let initialDurationMax = data.filters.tripDurations.max > state.initialDurationMax ? data.filters.tripDurations.max : state.initialDurationMax;
+      let initialDurationMin = shortestDuration < state.initialDurationMin ? shortestDuration : state.initialDurationMin;
+      let initialDurationMax = longestDuration > state.initialDurationMax ? longestDuration : state.initialDurationMax;
 
       if (initialPriceMin === 0) {
         initialPriceMin = data.filters.minPrice.amount;
         initialPriceMax = data.filters.maxPrice.amount;
         initialDurationMin = data.filters.tripDurations.min;
-        initialDurationMax = data.filters.tripDurations.max;
+        initialDurationMax = longestDuration;
       }
 
       let flights = state.flights.concat(newFlights);
@@ -754,7 +757,7 @@ class Results extends Component {
             <div className="results">
               <Sortbar type={this.state.type} handleClick={this.sortResults} lang={this.props.lang}/>
               <div className="wrapper">
-                <p className="results__foundItems">{resultsLang.results1} {this.state.currentItems} of {this.state.totalCount} {resultsLang.resultsF}</p>
+                <p className="results__foundItems">{resultsLang.results1} {this.state.currentItems} {resultsLang.of} {this.state.totalCount} {resultsLang.resultsF}</p>
                 <Sidebar
                   {...this.state}
                   type={this.state.type}
