@@ -21,8 +21,8 @@ class FlightFilters extends React.Component {
         max:props.initialPriceMax
       },
       price: {
-        min:props.initialPriceMin,
-        max:props.initialPriceMax
+        min:props.priceMin,
+        max:props.priceMax
       },
       initialDuration: {
         min:props.initialDurationMin,
@@ -40,7 +40,7 @@ class FlightFilters extends React.Component {
     this.setState({
       price:this.state.initialPrice,
       duration:this.state.initialDuration
-    })
+    });
   }
   componentWillReceiveProps(nextProps) {
     this.updateValues(nextProps);

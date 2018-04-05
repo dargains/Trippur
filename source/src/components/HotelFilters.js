@@ -7,58 +7,66 @@ import InputRange from 'react-input-range';
 import lang from "../lang";
 
 const thereIs = (value,array) => array.find(element => element === value);
+const compare = (a,b) =>  a.code > b.code ? -1 : a.code < b.code ? 1 : 0;
 
 class HotelFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gotRates: false,
       hotelName: "",
       initialPrice: {
-        min: 0,
-        max: 10
+        min:props.initialPriceMin,
+        max:props.initialPriceMax
       },
       price: {
-        min: 0,
-        max: 10
+        min:props.priceMin,
+        max:props.priceMax
       },
       stars: [],
       districts: [],
       propTypes: [],
-      amenities: []
+      amenities: [],
+      firstLoad:true
     };
     this.changelHotelName = this.changelHotelName.bind(this);
   }
-  componentDidUpdate() {
-    if (this.state.gotRates) return;
-    this.props.rates && this.setState({gotRates:true});
-    this.getPrices();
-    this.getStars();
-    this.getDistricts();
-    this.getPropType();
-    this.getAmenities();
-  }
-  getPrices() {
-    if (!this.props.gotRates) return;
-    const filter = this.props.info.filter;
-    const initialPrice = {
-      min: filter.minPrice.amount,
-      max: filter.maxPrice.amount
-    }
+  componentWillMount() {
+    this.updateValues(this.props);
     this.setState({
-      initialPrice,
-      price:initialPrice
+      price:this.state.initialPrice
     });
   }
-  getStars() {
+  componentWillReceiveProps(props) {
     if (!this.props.gotRates) return;
-    const stars = this.props.info.filter.stars.reverse();
+    this.updateValues(props);
+    this.setState({firstLoad:false});
+  }
+  updateValues(props) {
+    this.getPrices(props);
+    this.getDistricts(props);
+    this.getPropType(props);
+    this.getAmenities(props);
+    this.getStars(props);
+  }
+  getPrices(props) {
+    if (!props.gotRates) return;
+    let initialPrice = {
+      min: props.initialPriceMin,
+      max: props.initialPriceMax
+    }
+    if(this.state.firstLoad) this.setState({price:initialPrice});
+    this.setState({initialPrice});
+  }
+  getStars(props) {
+    if (!props.gotRates) return;
+    const stars = props.info.filter.stars;
+    stars.sort(compare)
     this.setState({stars});
   }
-  getDistricts() {
-    if (!this.props.gotRates) return;
-    const filterDistricts = this.props.info.filter.districts;
-    const allDistricts = this.props.info.districts;
+  getDistricts(props) {
+    if (!props.gotRates) return;
+    const filterDistricts = props.info.filter.districts;
+    const allDistricts = props.info.districts;
     filterDistricts.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
 
     //merge both arrays into districts by the id
@@ -69,10 +77,10 @@ class HotelFilters extends React.Component {
     var districts = Object.keys(hash).map(key => hash[key]);
     this.setState({districts});
   }
-  getPropType() {
-    if (!this.props.gotRates) return;
-    const filterPropTypes = this.props.info.filter.propertyTypes;
-    const allPropTypes = this.props.info.propertyTypes;
+  getPropType(props) {
+    if (!props.gotRates) return;
+    const filterPropTypes = props.info.filter.propertyTypes;
+    const allPropTypes = props.info.propertyTypes;
     filterPropTypes.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
 
     //merge both arrays into propTypes by the id
@@ -83,10 +91,10 @@ class HotelFilters extends React.Component {
     var propTypes = Object.keys(hash).map(key => hash[key]);
     this.setState({propTypes});
   }
-  getAmenities() {
-    if (!this.props.gotRates) return;
-    const filterAmenities = this.props.info.filter.amenities;
-    const allAmenities = this.props.info.amenities;
+  getAmenities(props) {
+    if (!props.gotRates) return;
+    const filterAmenities = props.info.filter.amenities;
+    const allAmenities = props.info.amenities;
     filterAmenities.map(item => item.id = parseInt(item.code,10)); //both heve id as int;
 
     //merge both arrays into propTypes by the id
@@ -102,8 +110,6 @@ class HotelFilters extends React.Component {
   }
   render() {
     const filterLang = lang[this.props.lang].Filterbar.hotels;
-
-
     return (
     <div>
 

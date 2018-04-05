@@ -57,6 +57,7 @@ class ResultsList extends Component {
           unfilteredItems = unfilteredItems.filter(item => this.props.priceMin <= item.props.bestPrice && item.props.bestPrice <= this.props.priceMax);
         }
     }
+    // TODO: send unfilteredItems.length para Results
     //pagination
     const {currentPage, itemsPerPage} = this.props;
     const indexOfLastItem = currentPage * itemsPerPage;

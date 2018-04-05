@@ -148,9 +148,13 @@ class Results extends Component {
       stops:[],
       airlines:[],
       priceMin:0,
-      priceMax:10,
+      priceMax:1,
+      initialPriceMin:0,
+      initialPriceMax:1,
       durationMin:0,
-      durationMax:10,
+      durationMax:1,
+      initialDurationMin:0,
+      initialDurationMax:1,
       cabin:"",
       info: {
         airports:[],
@@ -304,50 +308,67 @@ class Results extends Component {
       }
     )
     .then(function (response) {
-      if (state.responseCount === response.data.count) return;
-      if (response.data.count) {
-
-        let newHotels = state.hotels;
-        newHotels.push(...response.data.hotels);
-
-        let newRates = state.rates;
-        newRates.push(...response.data.rates);
-
-        newHotels.forEach((hotel,index) => {
-          const hotelRates = newRates.filter(rate => rate.hotelId === hotel.id)
-          const bestPrice = Math.min(...hotelRates.map(rate => rate.price.amount));
-          const bestRate = hotelRates.filter(rate => rate.price.amount === bestPrice)[0];
-
-          if (bestRate) {
-            hotel.bestRate = bestRate;
-            hotel.bestPrice = bestPrice;
-          } else newHotels.splice(index,1);
-          const reviewsCount = hotel.reviews ? hotel.reviews.reduce((a, b) => a + b.count, 0) : 0;
-          hotel.reviewsCount = reviewsCount;
-        });
-
-        let newCount = response.data.count;
-
-        that.setState({
-          info: response.data,
-          hotels: newHotels,
-          rates: newRates,
-          priceMin: response.data.filter.minPrice.amount,
-          priceMax: response.data.filter.maxPrice.amount,
-          gotResponse: "hotels",
-          responseCount: newCount,
-          totalCount: newHotels.length,
-          gotRates: true
-        },that.getHotels);
-      } else {
-        that.setState({
-          noResults:true,
-          loading:false,
-          totalCount:0,
-          hotels:[],
-          gotResponse:""
-        });
+      const data = response.data;
+      console.log({state:state.responseCount,data:data.count});
+      if (state.responseCount === data.count) return;
+      if (!data.count) {
+        that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
       }
+      if (state.responseCount === data.count) return;
+
+      let newHotels = state.hotels.concat(data.hotels);
+      let newRates = data.rates;
+
+      newHotels.forEach((hotel,index) => {
+        const hotelRates = newRates.filter(rate => rate.hotelId === hotel.id)
+        const bestPrice = Math.min(...hotelRates.map(rate => rate.price.amount));
+        const bestRate = hotelRates.filter(rate => rate.price.amount === bestPrice)[0];
+
+        if (bestRate) {
+          hotel.bestRate = bestRate;
+          hotel.bestPrice = bestPrice;
+        } else newHotels.splice(index,1);
+        const reviewsCount = hotel.reviews ? hotel.reviews.reduce((a, b) => a + b.count, 0) : 0;
+        hotel.reviewsCount = reviewsCount;
+      });
+
+      state.info && data.amenities.push(...state.info.amenities); //cumulative amenities
+      state.info && data.districts.push(...state.info.districts); //cumulative districts
+      state.info && data.propertyTypes.push(...state.info.propertyTypes); //cumulative propertyTypes
+
+      let newCount = data.count;
+
+      let initialPriceMin = data.filter.minPrice.amount < state.initialPriceMin ? data.filter.minPrice.amount : state.initialPriceMin;
+      let initialPriceMax = data.filter.maxPrice.amount > state.initialPriceMax ? data.filter.maxPrice.amount : state.initialPriceMax;
+
+      let priceMin = state.priceMin;
+      let priceMax = state.priceMax;
+
+      if (initialPriceMin === 0) {
+        initialPriceMin = data.filter.minPrice.amount;
+        initialPriceMax = data.filter.maxPrice.amount;
+        priceMin = initialPriceMin;
+        priceMax = initialPriceMax;
+      }
+      let hotels = state.hotels.concat(newHotels);
+      let rates = state.rates.concat(newRates);
+
+      that.setState({
+        info: data,
+        hotels,
+        rates,
+        initialPriceMin,
+        initialPriceMax,
+        priceMin,
+        priceMax,
+        gotResponse: "hotels",
+        responseCount: newCount,
+        totalCount: newHotels.length,
+        gotRates: true
+      }, () => {
+        that.getHotels();
+        that.sortResults(null,document.querySelector(`[data-sort='${that.state.sort}']`),that.state.order);
+      });
     })
     .catch(function (error) {
       console.log(error);
@@ -475,8 +496,8 @@ class Results extends Component {
             if (state.info.filters[filter]) element = element.concat(state.info.filters[filter]);
             data.filters[filter] = removeDuplicates(element,"code")
           } else { //is object
-            if (state.info.filters[filter]) element = Object.assign(element,state.info.filters[filter]);
-            data.filters[filter] = element;
+            //if (state.info.filters[filter]) element = Object.assign(element,state.info.filters[filter]);
+            //data.filters[filter] = element;
           }
         }
       }
@@ -521,7 +542,10 @@ class Results extends Component {
         noResults:false,
         totalCount,
         responseCount: data.count
-      },that.getFlights);
+      },() => {
+        that.getFlights();
+        that.sortResults(null,document.querySelector(`[data-sort='${that.state.sort}']`),that.state.order);
+      });
     })
     .catch(function (error) {
       console.log(error);
@@ -650,35 +674,44 @@ class Results extends Component {
     let intervalId = setInterval(this.scrollStep.bind(this), 16.66);
     this.setState({ intervalId: intervalId });
   }
-  sortResults(event) {
-    const target = event.target;
+  sortResults(event,element,order) {
+    const target = event ? event.target : element;
     const sort = target.dataset.sort;
     const flights = this.state.flights;
     const hotels = this.state.hotels;
-    if (target.classList.contains("asc")) {
-      target.classList.remove("asc");
-      target.classList.add("desc");
+    if (element) {
+      target.classList.add("selected", order);
       this.state.type === "flights"
+        ? flights.sort(this.compareValues(sort,order))
+        : hotels.sort(this.compareValues(sort,order));
+      this.setState({sort,order},() => {this.updateView(true)});
+    } else {
+      if (target.classList.contains("asc")) {
+        target.classList.remove("asc");
+        target.classList.add("desc");
+        this.state.type === "flights"
         ? flights.sort(this.compareValues(sort,"desc"))
         : hotels.sort(this.compareValues(sort,"desc"));
-      this.setState({sort,order:"desc"},() => {this.updateView(true)});
-    } else if (target.classList.contains("desc")) {
-      target.classList.remove("desc");
-      target.classList.add("asc");
-      this.state.type === "flights"
+        this.setState({sort,order:"desc"},() => {this.updateView(true)});
+      } else if (target.classList.contains("desc")) {
+        target.classList.remove("desc");
+        target.classList.add("asc");
+        this.state.type === "flights"
         ? flights.sort(this.compareValues(sort,"asc"))
         : hotels.sort(this.compareValues(sort,"asc"));
-      this.setState({sort,order:"asc"},() => {this.updateView(true)});
-    } else {
-      target.parentElement.querySelectorAll("li").forEach(element => { element.classList.remove("selected","asc","desc"); });
-      target.classList.add("selected", "asc");
-      this.state.type === "flights"
+        this.setState({sort,order:"asc"},() => {this.updateView(true)});
+      } else {
+        target.parentElement.querySelectorAll("li").forEach(element => element.classList.remove("selected","asc","desc"));
+        target.classList.add("selected", "asc");
+        this.state.type === "flights"
         ? flights.sort(this.compareValues(sort,"asc"))
         : hotels.sort(this.compareValues(sort,"asc"));
-      this.setState({sort,order:"asc"},() => {this.updateView(true)});
+        this.setState({sort,order:"asc"},() => {this.updateView(true)});
+      }
+
     }
   }
-  compareValues(key, order='asc') {
+  compareValues(key, order) {
     return function(a, b) {
       if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
         // property doesn't exist on either object
