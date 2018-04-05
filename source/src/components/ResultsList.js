@@ -58,6 +58,7 @@ class ResultsList extends Component {
         }
     }
     // TODO: send unfilteredItems.length para Results
+    if (this.props.currentItems !== unfilteredItems.length) this.props.getCurrentItems(unfilteredItems.length);
     //pagination
     const {currentPage, itemsPerPage} = this.props;
     const indexOfLastItem = currentPage * itemsPerPage;

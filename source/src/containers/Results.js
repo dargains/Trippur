@@ -72,6 +72,7 @@ class Results extends Component {
       sort: "bestPrice",
       order: "asc",
       totalCount: 0,
+      currentItems:0,
       currentPage: 1,
       itemsPerPage: 10,
       gotRates: false,
@@ -88,6 +89,7 @@ class Results extends Component {
     this.updatePriceH = this.updatePriceH.bind(this);
     this.updateDuration = this.updateDuration.bind(this);
     this.updateAirlines = this.updateAirlines.bind(this);
+    this.getCurrentItems = this.getCurrentItems.bind(this);
     this.updateAmenities = this.updateAmenities.bind(this);
     this.updateHotelName = this.updateHotelName.bind(this);
     this.updateDistricts = this.updateDistricts.bind(this);
@@ -364,6 +366,7 @@ class Results extends Component {
         gotResponse: "hotels",
         responseCount: newCount,
         totalCount: newHotels.length,
+        currentItems: newHotels.length,
         gotRates: true
       }, () => {
         that.getHotels();
@@ -518,7 +521,7 @@ class Results extends Component {
         initialDurationMin = data.filters.tripDurations.min;
         initialDurationMax = data.filters.tripDurations.max;
       }
-
+console.log({dataMin:data.filters.tripDurations.min,dataMax:data.filters.tripDurations.max,stateMin:initialDurationMin,stateMax:initialDurationMax});
       let flights = state.flights.concat(newFlights);
 
       let totalCount = newFlights.length + state.totalCount;
@@ -541,6 +544,7 @@ class Results extends Component {
         firstLoad:false,
         noResults:false,
         totalCount,
+        currentItems:totalCount,
         responseCount: data.count
       },() => {
         that.getFlights();
@@ -664,6 +668,10 @@ class Results extends Component {
     this.scrollToTop();
     this.setState({currentPage:event.selected + 1}, this.updateQS);
   }
+  getCurrentItems(currentItems) {
+    console.log(currentItems);
+    this.setState({currentItems});
+  }
   scrollStep() {
     if (window.pageYOffset < 600) {
         clearInterval(this.state.intervalId);
@@ -748,7 +756,7 @@ class Results extends Component {
             <div className="results">
               <Sortbar type={this.state.type} handleClick={this.sortResults} lang={this.props.lang}/>
               <div className="wrapper">
-                <p className="results__foundItems">{resultsLang.results1} {this.state.totalCount} {resultsLang.resultsF}</p>
+                <p className="results__foundItems">{resultsLang.results1} {this.state.currentItems} of {this.state.totalCount} {resultsLang.resultsF}</p>
                 <Sidebar
                   {...this.state}
                   type={this.state.type}
@@ -769,17 +777,19 @@ class Results extends Component {
                   lang={this.props.lang}
                   priceMin={this.state.priceMin}
                   priceMax={this.state.priceMax}
-                  stops={this.state.stops}
-                  airlines={this.state.airlines}
                   durationMin={this.state.durationMin}
                   durationMax={this.state.durationMax}
+                  stops={this.state.stops}
+                  airlines={this.state.airlines}
                   totalCount={this.state.totalCount}
+                  currentItems={this.state.currentItems}
                   currentPage={this.state.currentPage}
                   itemsPerPage={this.state.itemsPerPage}
                   handlePagination={this.updatePagination}
                   currency={this.state.actualCurrencySymbol}
                   pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
                   toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
+                  getCurrentItems={this.getCurrentItems}
                 />
                 <Photobar city={this.state.cityDest} lang={this.props.lang}/>
               </div>
@@ -828,9 +838,11 @@ class Results extends Component {
                   currency={this.state.actualCurrencySymbol}
                   gotRates={this.state.gotRates}
                   totalCount={this.state.totalCount}
+                  currentItems={this.state.currentItems}
                   updateCount={this.updateCount}
                   pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
                   toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
+                  getCurrentItems={this.getCurrentItems}
                 />
                 <Photobar city={this.state.cityDest} lang={this.props.lang}/>
               </div>
