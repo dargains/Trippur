@@ -311,7 +311,6 @@ class Results extends Component {
     )
     .then(function (response) {
       const data = response.data;
-      console.log({state:state.responseCount,data:data.count});
       if (state.responseCount === data.count) return;
       if (!data.count) {
         that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
@@ -521,7 +520,7 @@ class Results extends Component {
         initialDurationMin = data.filters.tripDurations.min;
         initialDurationMax = data.filters.tripDurations.max;
       }
-console.log({dataMin:data.filters.tripDurations.min,dataMax:data.filters.tripDurations.max,stateMin:initialDurationMin,stateMax:initialDurationMax});
+
       let flights = state.flights.concat(newFlights);
 
       let totalCount = newFlights.length + state.totalCount;
@@ -669,7 +668,6 @@ console.log({dataMin:data.filters.tripDurations.min,dataMax:data.filters.tripDur
     this.setState({currentPage:event.selected + 1}, this.updateQS);
   }
   getCurrentItems(currentItems) {
-    console.log(currentItems);
     this.setState({currentItems});
   }
   scrollStep() {
