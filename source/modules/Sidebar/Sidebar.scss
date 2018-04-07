@@ -1,12 +1,12 @@
 .sidebar {
   width: 20%;
+  transition: transform .3s ease-in;
   box-shadow: 0px 0px 10px rgba(0,0,0,.2);
   display: inline-block;
   vertical-align: top;
   padding: 20px;
   position: relative;
   z-index: 2;
-  transition: transform .3s ease-in;
   background-color: $White;
   article {
     position: relative;
@@ -62,10 +62,10 @@
       background-color: $SecondaryColor;
     }
   }
-  @include mq(0, 980px) {
+  @include mq(0, 1024px) {
     width: 30%;
   }
-  @include mq(0, 800px) {
+  @include mq(0, 768px) {
     width: calc(100% - 20px);
     position: absolute;
     transform: translateX(-110%);

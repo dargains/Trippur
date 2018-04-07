@@ -1,13 +1,17 @@
 const lang = {
   en: {
     Header: {
-      help: 'Help'
+      help: 'Help',
+      blog:'Blog',
+      guides:'Guides'
     },
     Footer: {
       about: 'About',
       privacy: 'Privacy',
       terms: 'Terms & Conditions',
-      joinUs: 'Join us'
+      joinUs: 'Join us',
+      blog:'Blog',
+      guides:'Guides'
     },
     Hero: {
       title1: 'Search.',
@@ -614,13 +618,17 @@ const lang = {
   },
   pt: {
     Header: {
-      help: 'Ajuda'
+      help: 'Ajuda',
+      blog:'Blog',
+      guides:'Guias'
     },
     Footer: {
       about: 'Sobre nós',
       privacy: 'Privacidade',
       terms: 'Termos & Condições',
-      joinUs: 'Junte-se a nós'
+      joinUs: 'Junte-se a nós',
+      blog:'Blog',
+      guides:'Guias'
     },
     Hero: {
       title1: 'Pesquise.',

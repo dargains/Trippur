@@ -1,28 +1,30 @@
-.overlay{
-    position:fixed;
-    height:100%;
-    width:100%;
-    background: $PrimaryColor;
-    opacity: .5;
-    z-index: 10;
-    top: 0;
-    span {
-        &.loading {
-            position: absolute;
-            left:50%;
-            top:50%;
-            transform: translate(-50%,-50%);
-            color:#FFF;
-            font-size: 40px;
-            animation: move 2s infinite alternate linear;
-        }
-    }
-}
-@keyframes move {
-    from {
-        transform: translate(-50%,-50%) rotate(0) scale(1);
-    }
-    to   {
-        transform: translate(-50%,-50%) rotate(360deg) scale(1.5);
+.overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: $PrimaryColor;
+  opacity: 0.5;
+  z-index: 10;
+  top: 0;
+
+  span {
+    &.loading {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      color: $White;
+      font-size: 40px;
+      animation: move 2s infinite alternate linear;
     }
   }
+}
+@keyframes move {
+  from {
+    transform: translate(-50%,-50%) rotate(0) scale(1);
+  }
+
+  to {
+    transform: translate(-50%,-50%) rotate(360deg) scale(1.5);
+  }
+}

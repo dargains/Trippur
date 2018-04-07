@@ -13,7 +13,7 @@ footer {
                 color: $GrayBold;
                 display: inline-block;
                 margin-left:15px;
-                @include mq(0,600px){
+                @include mq(0,668px){
                     display: block;
                     margin:10px 0;
                     &:first-child{
@@ -59,7 +59,7 @@ footer {
                 margin-bottom: 15px;
                 li {
                     transition:all 0.3s ease-in-out;
-                    @include mq(0,600px){
+                    @include mq(0,668px){
                         display: inline-block;
                         margin-left:15px;
                         &:first-child {

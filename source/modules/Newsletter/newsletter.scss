@@ -3,7 +3,7 @@
     padding:40px 0;
     background-color:$PrimaryColor;
     text-align: center;
-    @include mq(0, 620px) {
+    @include mq(0, 668px) {
         .btn {
             margin-top: 10px;
             min-width: 120px;
@@ -13,15 +13,15 @@
         h4 {
             font-family: $Montserrat;
             font-size: 20px;
-            color:#FFF;
+            color:$White;
             display: block;
             text-align: center;
             position: relative;
             margin-bottom: 30px;
         }
         input {
-            background: #ff8d93;
-            color: #FFF;
+            background: $PrimaryColorLight;
+            color: $White;
             font-family: $Montserrat;
             font-weight: $Light;
             border:none;
@@ -30,13 +30,13 @@
             margin-right: 10px;
             width: 100%;
             text-align: center;
-            @include mq(0,630px){
+            @include mq(0,668px){
                 margin:0 0 10px 0;
                 max-width: 80%;
             }
         }
         p {
-            color: #FFF;
+            color: $White;
             font-size: 11px;
             font-family: $Montserrat;
             display: block;
@@ -51,16 +51,16 @@
         }
     }
     ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        color: #FFFFFF;
+        color: $White;
       }
       ::-moz-placeholder { /* Firefox 19+ */
-        color: #FFFFFF;
+        color: $White;
       }
       :-ms-input-placeholder { /* IE 10+ */
-        color: #FFFFFF;
+        color: $White;
       }
       :-moz-placeholder { /* Firefox 18- */
-        color: #FFFFFF;
+        color: $White;
       }
       :focus {
         outline-color: transparent;
@@ -95,7 +95,7 @@
           //border-color: $GrayLight;
         }
         &:hover {
-          color: #FFF;
+          color: $White;
           background-color: $PrimaryColor;
         }
       }

@@ -1,5 +1,5 @@
 .hotelItem {
-  border-top: 1px solid #f1f3f4;
+  border-top: 1px solid $GrayThin;
   padding: 40px;
   overflow: hidden;
   @include mq(0, 1280px) {
@@ -29,6 +29,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    @include mq(0,512px) {
+      width: calc(100% + 40px);
+      left: -20px;
+      top: -20px;
+    }
   }
 
   .center {
@@ -42,7 +47,7 @@
     }
 
     .hotelHeader {
-      border-bottom: 1px solid #f1f3f4;
+      border-bottom: 1px solid $GrayThin;
       padding-bottom: 5px;
 
       h2 {
@@ -53,6 +58,9 @@
         @include fontXS;
         display: inline-block;
         margin-left: 10px;
+      }
+      @include mq(0,1024px) {
+        padding-bottom: 10px;
       }
     }
 
@@ -129,7 +137,7 @@
           line-height: 35px;
 
           &:hover {
-            color: #FFF;
+            color: $White;
           }
         }
       }

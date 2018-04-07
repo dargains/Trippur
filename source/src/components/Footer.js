@@ -12,6 +12,12 @@ export default(props) => (
           <Link to="/About">{lang[props.lang].Footer.about}</Link>
         </li>
         <li>
+          <a href="http://guides.trippur.com">{lang[props.lang].Footer.guides}</a>
+        </li>
+        <li>
+          <a href="http://blog.trippur.com">{lang[props.lang].Footer.blog}</a>
+        </li>
+        <li>
           <Link to="/Privacy">{lang[props.lang].Footer.privacy}</Link>
         </li>
         <li>

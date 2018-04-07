@@ -15,7 +15,7 @@ input[type=email] {
   }
   &.error {
     color: red;
-    background-color: #FFB5A9;
+    background-color: $PrimaryColorLight;
   }
 }
 .btn {
@@ -47,7 +47,7 @@ input[type=email] {
     //border-color: $GrayLight;
   }
   &:hover {
-    color: #FFF;
+    color: $White;
     background-color: $PrimaryColor;
   }
 }
@@ -85,7 +85,6 @@ input[type=email] {
   &__icon {
     border: 1px solid $GrayLight;
     background-color: $GrayThin;
-    line-height: 30px;
     width: 30px;
     border-radius: 50%;
     display: block;
@@ -190,6 +189,7 @@ input[type=email] {
   }
   i {
     margin-left: 5px;
+    font-size: 16px;
   }
   ul {
     position: absolute;

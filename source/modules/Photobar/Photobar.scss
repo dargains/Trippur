@@ -10,7 +10,7 @@
   img {
     width: 100%;
   }
-  @include mq(0, 980px) {
+  @include mq(0, 1024px) {
     width: 100%;
     margin-top: 20px;
     li {
@@ -18,12 +18,12 @@
       width: 20%;
     }
   }
-  @include mq(0, 700px) {
+  @include mq(0, 668px) {
     li {
       width: 50%;
     }
   }
-  @include mq(0, 450px) {
+  @include mq(0, 512px) {
     li {
       width: 100%;
     }

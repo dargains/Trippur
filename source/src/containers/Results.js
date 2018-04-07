@@ -464,8 +464,8 @@ class Results extends Component {
       if (state.responseCount === data.count) return;
 
       let newFlights = data.trips;
-let shortestDuration = 0;
-let longestDuration = 1;
+      let shortestDuration = 0;
+      let longestDuration = 1;
       newFlights.forEach((flight,index) => {
         flight.fares = data.fares.filter(fare => fare.tripId === flight.id);
         const bestPrice = Math.min(...flight.fares.map(fare => fare.price.amount));
@@ -802,7 +802,7 @@ let longestDuration = 1;
             <div className="results">
               <Sortbar type={this.state.type} handleClick={this.sortResults} lang={this.props.lang}/>
               <div className="wrapper">
-                <p className="results__foundItems">{resultsLang.results1} {this.state.totalCount} {resultsLang.resultsH}</p>
+                <p className="results__foundItems">{resultsLang.results1} {this.state.currentItems} {resultsLang.of} {this.state.totalCount} {resultsLang.resultsH}</p>
                 <Sidebar
                   {...this.state}
                   info={this.state.info}

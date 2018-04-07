@@ -30,7 +30,7 @@
       margin: 5px 0;
     }
     a {
-      @include fontS(#484848);
+      @include fontS($GrayBold);
       text-decoration: none;
 
       &:hover {
@@ -60,7 +60,7 @@
 
     .header {
       background-color: $GrayRegular;
-      color: #FFF;
+      color: $White;
       @include fontXL($White);
       width: 100%;
       padding: 60px 40px 20px;

@@ -58,10 +58,10 @@
       strong {
         font-weight: $Bold;
       }
-      @include mq(0,600px) {
+      @include mq(0,768px) {
         font-size: 30px;
       }
-      @include mq(0,400px) {
+      @include mq(0,512px) {
         font-size: 25px;
       }
     }
@@ -87,7 +87,7 @@
     bottom: 3%;
     transform: translateX(-50%);
     font-size: 30px;
-    color: #FFF;
+    color: $White;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     text-decoration: none;
     transition: all 0.4s ease-in;

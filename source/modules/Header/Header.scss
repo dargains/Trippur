@@ -1,6 +1,6 @@
 header {
   padding: 20px;
-  background: #F7F7F7;
+  background: $GrayThin;
   width: 100%;
   text-align: right;
   position: relative;
@@ -26,7 +26,7 @@ header {
     }
     nav {
       a {
-        color: #FFF;
+        color: $White;
       }
     }
   }
@@ -44,23 +44,32 @@ header {
   nav {
     display: inline-block;
     text-align: right;
+  }
+  li {
+    display: inline-block;
+    vertical-align: middle;
+    a {
+      padding: 10px 0;
+    }
+  }
+  li + li {
+    margin-left: 15px;
+  }
 
-    li {
-      display: inline-block;
-      vertical-align: middle;
-      a {
-        padding: 10px 0;
-      }
+  a {
+    color: $PrimaryColor;
+    text-decoration: none;
+    font-family: $Montserrat;
+    font-size: 14px;
+    //font-weight: bold;
+  }
+  @include mq(0,512px) {
+    padding: 20px 10px;
+    .trippur {
+      width: 90px;
     }
     li + li {
-      margin-left: 15px;
-    }
-
-    a {
-      color: $PrimaryColor;
-      text-decoration: none;
-      font-family: $Montserrat;
-      font-size: 14px;
+      margin-left: 10px;
     }
   }
 }

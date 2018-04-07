@@ -15,11 +15,11 @@
     color: $PrimaryColor;
     display: none;
   }
-  @include mq(0,980px) {
+  @include mq(0,1024px) {
     width: calc(70% - 20px);
     margin-right: 0;
   }
-  @include mq(0,800px) {
+  @include mq(0,768px) {
     width: 100%;
     margin: 0 auto;
     .openFilters {
