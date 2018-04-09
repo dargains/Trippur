@@ -2,20 +2,20 @@ const lang = {
   en: {
     Header: {
       help: 'Help',
-      blog:'Blog',
-      guides:'Guides'
+      guides: 'Guides',
+      blog: 'Blog'
     },
     Footer: {
       about: 'About',
+      guides: 'Guides',
+      blog: 'Blog',
       privacy: 'Privacy',
       terms: 'Terms & Conditions',
-      joinUs: 'Join us',
-      blog:'Blog',
-      guides:'Guides'
+      joinUs: 'Join our community'
     },
     Hero: {
-      title1: 'Search.',
-      title2: 'Compare. Book.'
+      title1: 'Find & compare flights and hotels',
+      title2: ''
     },
     Searchbar: {
       tabs: {
@@ -66,15 +66,15 @@ const lang = {
       today: 'Today'
     },
     Destinations: {
-      title: 'Where next?'
+      title: 'Popular destinations'
     },
     Newsletter: {
-      title: 'Subscribe to our Newsletter',
+      title: 'Get the best offers & updates',
       placeholder: 'enter your email here',
       btnLabel: 'submit',
       sending: 'Sending...',
       success: 'Thank you for subscribing',
-      error: 'Cannot register this email'
+      error: 'Sorry, we cannot register this email'
     },
     Sortbar: {
       flights: {
@@ -90,15 +90,14 @@ const lang = {
       }
     },
     Pleasewait: {
-      title: 'Please wait',
-      subtitle: 'We are looking for the best deals'
+      title: 'Ready to find the best deals?',
+      subtitle: 'searching all the best travel sites...'
     },
     Results: {
       results1: 'We found',
       resultsF: 'flights',
       resultsH: 'hotels',
-      of: 'of',
-      noResults: 'We found no results for this search',
+      noResults: 'hmmm, there are no results for this search.',
       noResultsFilter: 'Sorry , there are no results for this search. Maybe clear some filters?'
     },
     Filterbar: {
@@ -157,7 +156,6 @@ const lang = {
       },
       hotels: {
         reviews: 'reviews',
-        noReviews: 'No',
         deal: 'View deal'
       }
     },
@@ -169,61 +167,61 @@ const lang = {
           copy: 'FAQ'
         }, {
           type: 'title',
-          copy: 'DOES TRIPPUR SELL TICKETS?'
+          copy: 'Does trippur sell tickets?'
         }, {
           type: 'text',
           copy: 'No, we don’t sell tickets and you don’t book directly on our site. You book your flight, hotel, or holiday deal on the company’s site which we’ve directed you to.'
         }, {
           type: 'title',
-          copy: 'WHOM SHOULD I CONTACT WITH QUESTIONS REGARDING BOOKING?'
+          copy: 'Whom should i contact with questions regarding booking?'
         }, {
           type: 'text',
           copy: 'If you experience problems with a booking and/or want to change it, you must contact the company you booked with. In case you’re not sure which company, you can find out by looking at the booking confirmation e-mail that you received from the company. You can also look at your checking account, where you can see which company debited the money. Trippur doesn’t have any information about your booking, and therefore we unfortunately can’t change it and/or send you any confirmation about your booking.'
         }, {
           type: 'title',
-          copy: 'WHAT SHOULD I CHECK BEFORE BOOKING A FLIGHT?'
+          copy: 'What should i check before booking a flight?'
         }, {
           type: 'text',
           copy: 'Before clicking on the ‘Buy’ button on a company’s site you should always (double) check that you’ve given the correct information such as: Travel dates Departure and arrival airports Number of passengers Names of passengers Email.'
         }, {
           type: 'title',
-          copy: 'DO YOU INCLUDE FEES IN THE PRICES?'
+          copy: 'Do you include fees in the prices?'
         }, {
           type: 'text',
           copy: 'We do our best to include all mandatory fees and surcharges (fees that cannot be deselected) in the prices which we display. Our goal is to create as much transparency in prices as possible and we’re constantly working on making the prices more transparent. The challenge for us is all the (hidden) and constantly changing extra fees which the companies add to their prices. We’ve begun displaying overviews of the non-mandatory fees and surcharges which the different companies add to their prices. These overviews are shown together with the specific company and we want to display a fee-list for each company on our site.'
         }, {
           type: 'title',
-          copy: 'DOES TRIPPUR RAISE PRICES ON FLIGHT TICKETS?'
+          copy: 'Does Trippur raise prices on flight tickets?'
         }, {
           type: 'text',
           copy: 'No, absolutely not! Trippur never tracks your IP address or uses cookies to push prices up. We make real-time, live searches and find the best prices available at the time of your search. We have no intentions of pushing up prices, because we always want you to be able to find the best and cheapest prices available.'
         }, {
           type: 'title',
-          copy: 'WHAT SHOULD I DO IF I EXPERIENCE INACCURATE INFORMATION ON TRIPPUR?'
+          copy: 'What should i do if i experience inaccurate information on Trippur site??'
         }, {
           type: 'text',
           copy: 'Our goal is always to show the cheapest prices and accurate information. Therefore we’d really appreciate if you would please inform us via our Feedback if you experience that we display information which is incorrect. Then we’ll look into the issue and take action.'
         }, {
           type: 'title',
-          copy: 'HOW DO I GIVE THE MOST USEFUL FEEDBACK ON TRIPPUR?'
+          copy: 'How do i give the most useful feedback on Trippur?'
         }, {
           type: 'text',
           copy: 'Your feedback is very valuable to us because it helps us improve our services. If you contact us, then please give us as much information as possible about your search including travel dates and destinations, as well as the name of company we’ve directed you. This information makes it easier for us to look into an issue and take action.'
         }, {
           type: 'title',
-          copy: 'SUPPORT'
+          copy: 'Support'
         }, {
           type: 'text',
-          copy: 'To give us suggestions, report a problem or have any inquiries regarding the Trippur site, please contact us at <a href="mailto:support@trippur.com">support@trippur.com</a>'
+          copy: 'To give us suggestions, report a problem or have any inquiries regarding the Trippur site, please contact us at <a href="mailto:info@trippur.com">info@trippur.com</a>'
         }, {
           type: 'title',
-          copy: 'SOCIAL MEDIA'
+          copy: 'Our community'
         }, {
           type: 'text',
-          copy: 'Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ for some further travel inspiration. You can also leave comments and questions too, we’re always listening.'
+          copy: 'Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ to get the best offers, share experiences and for some further travel inspiration. If you are a trippur, share your travel experiences with us and leave your comments and questions too, we’re always listening!'
         }, {
           type: 'list',
-          copy: ['Facebook', 'Twitter', 'instagram']
+          copy: ['Facebook @trippurcom', 'Twitter @trippurcom', 'instagram @trippurcom']
         }
       ]
     },
@@ -232,22 +230,28 @@ const lang = {
       body: [
         {
           type: 'text',
-          copy: 'Trippur is all about the trippurs. We love to travel. We love to explore. We love adventure. We love life. Is there really anyone who doesn’t love to travel? Probably. But the rest of us who do, have to spend smart, and choosing the best price to have the best experience is important. That is what we are all about.'
+          copy: 'Trippur is all about the trippurs -  Trippur is built for people, who like us, love to discover the world and experience life. '
         }, {
           type: 'text',
-          copy: 'We are here, with only one mission, that is to help you find the best possible price for your travel and holidays, so that you can enjoy your adventure even more with a better budget to spend on what really matters instead spending it all on only airfare or hotel.'
+          copy: 'We love to travel. We love to explore. We love life. We believe that life is a prettier journey when filled with joy and experiences. Our mission is to help people discover and experience the world.'
         }, {
           type: 'text',
-          copy: 'With Trippur you can search thousands of the most popular travel sites at once, and choose what suits you better. Make sure you find the best deal. It’s free! Search, compare, and book directly from the provider without extra fees. Choose what suits you better. Trippur suits any traveler.'
+          copy: "With Trippur you can easily search thousands of the most popular travel sites at once, and compare millions of flights and hotels around the world - get the best deals available and instantly discover what's happening at your next destination."
+        }, {
+          type: 'text',
+          copy: 'Find and compare the best offers on flights and hotels -  book directly from the provider you choose, without extra fees.'
+        }, {
+          type: 'text',
+          copy: 'Pick some places to go on our Guides, and join our community of trippurs on facebook, Instagram and twitter. Where next?'
         }, {
           type: 'title',
-          copy: 'Get in touch'
+          copy: 'Get in touch!'
         }, {
           type: 'text',
-          copy: 'Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ for some further travel inspiration. You can also leave comments and questions too, we’re always listening.'
+          copy: 'Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ to get the best offers, share experiences and for some further travel inspiration. If you are a trippur, share your travel experiences with us and leave your comments and questions too, we’re always listening!'
         }, {
           type: 'list',
-          copy: ['Facebook', 'Twitter', 'Instagram']
+          copy: ['Facebook @trippurcom', 'Twitter @trippurcom', 'instagram @trippurcom']
         }
       ]
     },
@@ -404,22 +408,22 @@ const lang = {
       body: [
         {
           type: 'title',
-          copy: 'If you’re an airline, or an online travel agency that wants to be listed on Trippur:'
+          copy: 'If you’re a company that wants to be listed on Trippur contact us at:'
         }, {
           type: 'text',
-          copy: '<a href="mailto:partners@trippur.com">partners@trippur.com</a>'
+          copy: '<a href="mailto:infos@trippur.com">info@trippur.com</a>'
         }, {
           type: 'title',
-          copy: 'If you’re a hotel chain/owner:'
+          copy: 'If you’re a company which provides travel services or experiences:'
         }, {
           type: 'text',
-          copy: '<a href="mailto:partners@trippur.com">partners@trippur.com</a>'
+          copy: '<a href="mailto:info@trippur.com">info@trippur.com</a>'
         }, {
           type: 'title',
           copy: 'Advertising inquiries:'
         }, {
           type: 'text',
-          copy: '<a href="mailto:advertising@trippur.com">advertising@trippur.com</a>'
+          copy: '<a href="mailto:ads@trippur.com">ads@trippur.com</a>'
         }
       ]
     },
@@ -620,20 +624,20 @@ const lang = {
   pt: {
     Header: {
       help: 'Ajuda',
-      blog:'Blog',
-      guides:'Guias'
+      guias: 'Guias',
+      blog: 'Blog'
     },
     Footer: {
       about: 'Sobre nós',
+      guias: 'Guias',
+      blog: 'Blog',
       privacy: 'Privacidade',
       terms: 'Termos & Condições',
-      joinUs: 'Junte-se a nós',
-      blog:'Blog',
-      guides:'Guias'
+      joinUs: 'Junte-se à nossa comunidade'
     },
     Hero: {
-      title1: 'Pesquise.',
-      title2: 'Compare. Marque.'
+      title1: 'Encontre e compare voos e hotéis',
+      title2: ''
     },
     Searchbar: {
       tabs: {
@@ -684,10 +688,10 @@ const lang = {
       today: 'Hoje'
     },
     Destinations: {
-      title: 'Para onde?'
+      title: 'Destinos populares'
     },
     Newsletter: {
-      title: 'Subscreva à nossa Newsletter',
+      title: 'Receba as melhores ofertas e novidades',
       placeholder: 'escreva o seu email aqui',
       btnLabel: 'submeter',
       sending: 'A enviar...',
@@ -708,15 +712,15 @@ const lang = {
       }
     },
     Pleasewait: {
-      title: 'Por favor aguarde',
-      subtitle: 'Estamos a buscar as melhores ofertas'
+      title: ' A postos para encontrar as melhores ofertas?',
+      subtitle: 'a procurar em todos os melhores sites de viagens...'
     },
     Results: {
       results1: 'Encontrámos',
       resultsF: 'voos',
       resultsH: 'hotéis',
-      of: 'de',
-      noResults: 'Não encontramos resultados para esta pesquisa'
+      noResults: 'Não encontrámos resultados para esta pesquisa',
+      noResultsFilter: 'Não encontrámos resultados para esta pesquisa. Tente retirar alguns filtros'
     },
     Filterbar: {
       flights: {
@@ -770,103 +774,118 @@ const lang = {
           'Sem conexões', '1 conexão', '2+ conexões'
         ],
         select: 'Escolher',
-        selectProvider: 'Outros provedores'
+        selectProvider: 'Outros sites'
       },
       hotels: {
         reviews: 'comentários',
-        noReviews: 'Sem',
         deal: 'Ver oferta'
       }
     },
     Help: {
-      header: 'Help',
+      header: 'Ajuda',
       body: [
         {
           type: 'title',
           copy: 'FAQ'
         }, {
           type: 'title',
-          copy: 'DOES TRIPPUR SELL TICKETS?'
+          copy: 'Does trippur sell tickets?'
         }, {
           type: 'text',
           copy: 'No, we don’t sell tickets and you don’t book directly on our site. You book your flight, hotel, or holiday deal on the company’s site which we’ve directed you to.'
         }, {
           type: 'title',
-          copy: 'WHOM SHOULD I CONTACT WITH QUESTIONS REGARDING BOOKING?'
+          copy: 'Whom should i contact with questions regarding booking?'
         }, {
           type: 'text',
           copy: 'If you experience problems with a booking and/or want to change it, you must contact the company you booked with. In case you’re not sure which company, you can find out by looking at the booking confirmation e-mail that you received from the company. You can also look at your checking account, where you can see which company debited the money. Trippur doesn’t have any information about your booking, and therefore we unfortunately can’t change it and/or send you any confirmation about your booking.'
         }, {
           type: 'title',
-          copy: 'WHAT SHOULD I CHECK BEFORE BOOKING A FLIGHT?'
+          copy: 'What should i check before booking a flight?'
         }, {
           type: 'text',
           copy: 'Before clicking on the ‘Buy’ button on a company’s site you should always (double) check that you’ve given the correct information such as: Travel dates Departure and arrival airports Number of passengers Names of passengers Email.'
         }, {
           type: 'title',
-          copy: 'DO YOU INCLUDE FEES IN THE PRICES?'
+          copy: 'Do you include fees in the prices?'
         }, {
           type: 'text',
           copy: 'We do our best to include all mandatory fees and surcharges (fees that cannot be deselected) in the prices which we display. Our goal is to create as much transparency in prices as possible and we’re constantly working on making the prices more transparent. The challenge for us is all the (hidden) and constantly changing extra fees which the companies add to their prices. We’ve begun displaying overviews of the non-mandatory fees and surcharges which the different companies add to their prices. These overviews are shown together with the specific company and we want to display a fee-list for each company on our site.'
         }, {
           type: 'title',
-          copy: 'DOES TRIPPUR RAISE PRICES ON FLIGHT TICKETS?'
+          copy: 'Does trippur raise prices on flight tickets?'
         }, {
           type: 'text',
           copy: 'No, absolutely not! Trippur never tracks your IP address or uses cookies to push prices up. We make real-time, live searches and find the best prices available at the time of your search. We have no intentions of pushing up prices, because we always want you to be able to find the best and cheapest prices available.'
         }, {
           type: 'title',
-          copy: 'WHAT SHOULD I DO IF I EXPERIENCE INACCURATE INFORMATION ON TRIPPUR?'
+          copy: 'What should i do if i experience inaccurate information on trippur?'
         }, {
           type: 'text',
           copy: 'Our goal is always to show the cheapest prices and accurate information. Therefore we’d really appreciate if you would please inform us via our Feedback if you experience that we display information which is incorrect. Then we’ll look into the issue and take action.'
         }, {
           type: 'title',
-          copy: 'HOW DO I GIVE THE MOST USEFUL FEEDBACK ON TRIPPUR?'
+          copy: 'How do i give the most useful feedback on Trippur?'
         }, {
           type: 'text',
           copy: 'Your feedback is very valuable to us because it helps us improve our services. If you contact us, then please give us as much information as possible about your search including travel dates and destinations, as well as the name of company we’ve directed you. This information makes it easier for us to look into an issue and take action.'
         }, {
           type: 'title',
-          copy: 'SUPPORT'
+          copy: 'Support'
         }, {
           type: 'text',
           copy: 'To give us suggestions, report a problem or have any inquiries regarding the Trippur site, please contact us at <a href="mailto:support@trippur.com">support@trippur.com</a>'
         }, {
           type: 'title',
-          copy: 'SOCIAL MEDIA'
+          copy: 'Social media'
         }, {
           type: 'text',
           copy: 'Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ for some further travel inspiration. You can also leave comments and questions too, we’re always listening.'
         }, {
           type: 'list',
-          copy: ['Facebook', 'Twitter', 'instagram']
+          copy: ['Facebook @trippurcom', 'Twitter @trippurcom', 'instagram @trippurcom']
         }
       ]
     },
     About: {
-      header: 'About',
+      header: 'Sobre nós',
       body: [
         {
           type: 'title',
-          copy: 'Title'
+          copy: 'Trippur'
         }, {
           type: 'text',
-          copy: 'Trippur is all about the trippurs. We love to travel. We love to explore. We love adventure. We love life. Is there really anyone who doesn’t love to travel? Probably. But the rest of us who do, have to spend smart, and choosing the best price to have the best experience is important. That is what we are all about. We are here, with only one mission, that is to help you find the best possible price for your travel and holidays, so that you can enjoy your adventure even more with a better budget to spend on what really matters instead spending it all on only airfare or hotel. With Trippur you can search thousands of the most popular travel sites at once, and choose what suits you better. Make sure you find the best deal: a hotel, flight or holiday. It’s free! Explore, compare, and book directly from the provider without extra fees. Choose what suits you better. Trippur suits any traveler.'
+          copy: 'Trippur é um website de pesquisa de viagens, que encontra e compara ofertas em voos e hotéis. Disponibizamos também guias de viagem para que descubra o que fazer a cada cidade que vá.'
+        }, {
+          type: 'text',
+          copy: 'O Trippur existe para pessoas que, tal como nós, gostam de descobrir o mundo e experienciar a vida. Acreditamos que a vida torna-se uma melhor jornada quando preenchida com experiencias. A nossa missão é facilitar a tarefa de descobrir e experienciar o mundo - encontrando as melhores ofertas que se adequam exactamente ao que procura.'
+        }, {
+          type: 'text',
+          copy: 'Somos independentes das companhias aéreas, hotéis e agências de viagem, o que significa que damos aos viajantes uma visão completa das opções de viagem disponíveis no mercado, sem adicionar taxas. Somos gratuitos e não adicionamos taxas de reserva para nenhuma das ofertas que vê no site.'
+
         }, {
           type: 'title',
-          copy: 'SOCIAL MEDIA'
+          copy: 'O que fazemos?'
         }, {
           type: 'text',
-          copy: 'Sometimes forms or email aren’t what you need, so check us out on Facebook, Twitter, Instagram and Google+ for some further travel inspiration. You can also leave comments and questions too, we’re always listening.'
+          copy: 'Com o Trippur, pode pesquisar milhares dos mais populares sites de viagens de uma só vez e comparar milhões de voos e hotéis em  todo o mundo - obtenha as melhores ofertas disponíveis e descubra instantaneamente o que está a acontecer no seu próximo destino.'
+        }, {
+          type: 'text',
+          copy: 'Encontre e compare as melhores ofertas em voos e hotéis - reserve diretamente do site de viagem que você escolher. Consulte os nossos Guias de viagem para descobrir lugares a visitar e junte-se à nossa comunidade de trippurs no facebook, Instagram e twitter. Where next?'
+        }, {
+          type: 'title',
+          copy: 'Junte-se à nossa comunidade'
+        }, {
+          type: 'text',
+          copy: 'Às vezes, formulários e emails não é o que mais precisa, por isso junte-se a nós no Facebook, Twitter, Instagram e Google+ para obter as melhores ofertas, partilhar experiências de viagens e obter mais inspiração. Partilhe ideias, deixe os seus comentários e perguntas - ouvimos sempre!'
         }, {
           type: 'list',
-          copy: ['Facebook', 'Twitter', 'Instagram']
+          copy: ['Facebook @trippurcom', 'Twitter @trippurcom', 'Instagram @trippurcom']
         }
       ]
     },
     Privacy: {
-      header: 'Privacy',
+      header: 'Privacidade',
       body: [
         {
           type: 'text',
@@ -1004,22 +1023,22 @@ const lang = {
       body: [
         {
           type: 'title',
-          copy: 'If you’re an airline, or an online travel agency that wants to be listed on Trippur:'
+          copy: 'If you’re a company that wants to be listed on Trippur contact us at:'
         }, {
           type: 'text',
-          copy: '<a href="mailto:partners@trippur.com">partners@trippur.com</a>'
+          copy: '<a href="mailto:infos@trippur.com">info@trippur.com</a>'
         }, {
           type: 'title',
-          copy: 'If you’re a hotel chain/owner:'
+          copy: 'If you’re a company which provides travel related services or experiences:'
         }, {
           type: 'text',
-          copy: '<a href="mailto:partners@trippur.com">partners@trippur.com</a>'
+          copy: '<a href="mailto:info@trippur.com">info@trippur.com</a>'
         }, {
           type: 'title',
           copy: 'Advertising inquiries:'
         }, {
           type: 'text',
-          copy: '<a href="mailto:advertising@trippur.com">advertising@trippur.com</a>'
+          copy: '<a href="mailto:ads@trippur.com">ads@trippur.com</a>'
         }
       ]
     },
