@@ -199,7 +199,6 @@ class Searchbar extends Component {
         locales: [this.props.lang],
         query: term,
         site_code: "pt",
-        min_airports:1
       },
       cancelToken: new CancelToken(function executor(c) {
         cancel = c;
@@ -242,12 +241,13 @@ class Searchbar extends Component {
     var that = this;
     if (cancel !== undefined)
       cancel();
-    this.setState({gotResponse: false, hotelValue: this.refs.hotel.value})
+    this.setState({gotResponse: false, hotelValue: this.refs.hotel.value});
     Axios.get(api.getLocation, {
       params: {
         query: that.refs.hotel.value,
-        lang: this.props.lang,
-        min_hotels: 1,
+        language: this.props.lang,
+        types: ["city","district","hotel"],
+        site_code: "pt",
         currency_code: "EUR"
       },
       cancelToken: new CancelToken(function executor(c) {
@@ -340,8 +340,9 @@ class Searchbar extends Component {
   }
   checkFlightFields() {
     let result = false;
+    const state = this.state;
     //inbound airport check
-    if (Object.keys(this.state.chosenFlight.inbound).length !== 0) {
+    if (Object.keys(state.chosenFlight.inbound).length !== 0) {
       result = true;
       this.refs.inboundAirport.classList.remove("error");
     } else {
@@ -350,7 +351,7 @@ class Searchbar extends Component {
       toast.error("Origin missing");
     }
     //outbound airport check
-    if (Object.keys(this.state.chosenFlight.outbound).length !== 0) {
+    if (Object.keys(state.chosenFlight.outbound).length !== 0) {
       //result = true;
       this.refs.outboundAirport.classList.remove("error");
     } else {
@@ -359,7 +360,7 @@ class Searchbar extends Component {
       toast.error("Destination missing");
     }
     //date check
-    if (this.state.arriveDate) {
+    if (state.arriveDate) {
       //result = true;
       this.refs.flightDate.classList.remove("error");
     } else {
@@ -367,28 +368,42 @@ class Searchbar extends Component {
       this.refs.flightDate.classList.add("error");
       toast.error("Date missing");
     }
+    if (state.chosenFlight.outbound.id === state.chosenFlight.inbound.id) {
+      result = false;
+      this.refs.outboundAirport.classList.add("error");
+      this.refs.inboundAirport.classList.add("error");
+      toast.error("Please enter unique 'From' and 'To' airports");
+    }
     return result;
   }
   checkHotelFields() {
     let result = false;
+    const state = this.state;
+    const refs = this.refs;
     //hotel check
-    if (Object.keys(this.state.chosenHotel).length !== 0) {
+    if (Object.keys(state.chosenHotel).length !== 0) {
       result = true;
-      this.refs.hotel.classList.remove("error");
+      refs.hotel.classList.remove("error");
     } else {
       result = false;
-      this.refs.hotel.classList.add("error");
+      refs.hotel.classList.add("error");
       toast.error("Destination missing");
     }
     //date check
-    if (this.state.leaveDate) {
+    if (state.leaveDate) {
       //result = true;
-      this.refs.hotelDate.classList.remove("error");
+      refs.hotelDate.classList.remove("error");
     } else {
       result = false;
-      this.refs.hotelDate.classList.add("error");
+      refs.hotelDate.classList.add("error");
       toast.error("Date missing");
     }
+    if (state.arriveDate === state.leaveDate) {
+      result = false;
+      refs.hotelDate.classList.add("error");
+      toast.error("Checkin and checkout can't be on the same date");
+    }
+
     return result;
   }
   search() {

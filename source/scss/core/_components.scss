@@ -215,6 +215,11 @@ input[type=email] {
     max-width: 20px;
     margin-right: 5px;
   }
+  @include mq(0,512px) {
+    i {
+      display: none;
+    }
+  }
 }
 
 ul[data-rating] {

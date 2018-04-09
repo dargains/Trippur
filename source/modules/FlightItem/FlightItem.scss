@@ -204,7 +204,7 @@
       background-color: $PrimaryColor;
       border-radius: 0 5px 5px 0;
       option {
-        background-color: $White;
+        background-color: $White !important;
       }
     }
   }

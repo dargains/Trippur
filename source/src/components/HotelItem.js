@@ -21,7 +21,7 @@ class HotelItem extends Component {
               <li className="icon-star-full"></li>
               <li className="icon-star-full"></li>
             </ul>
-            <p>({this.props.reviewsCount ? this.props.reviewsCount : "No"} {lang[this.props.lang].Item.hotels.reviews})</p>
+            <p>({this.props.reviewsCount ? this.props.reviewsCount : lang[this.props.lang].Item.hotels.noReviews} {lang[this.props.lang].Item.hotels.reviews})</p>
           </div>
           <div className="hotelList">
             {

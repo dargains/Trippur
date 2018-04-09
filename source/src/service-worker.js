@@ -1,4 +1,4 @@
-var cacheName = 'trippur v2.5';
+var cacheName = 'trippur v2.7';
 var filesToCache = [
   '/',
   '/index.html',

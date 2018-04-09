@@ -23,11 +23,9 @@ const putIntoArray = element => {
 function removeDuplicates(originalArray, prop) {
   var newArray = [];
   var lookupObject  = {};
-
   for(var i in originalArray) {
     lookupObject[originalArray[i][prop]] = originalArray[i];
   }
-
   for(i in lookupObject) {
     newArray.push(lookupObject[i]);
   }
@@ -74,10 +72,11 @@ class Results extends Component {
       totalCount: 0,
       currentItems:0,
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 20,
       gotRates: false,
       intervalId:0,
-
+      tries:0,
+      maxTries:15
     };
     this.newSearch = this.newSearch.bind(this);
     this.updateView = this.updateView.bind(this);
@@ -171,7 +170,8 @@ class Results extends Component {
       itemsPerPage: 10,
       gotRates: false,
       intervalId:0,
-      gotResponse:""
+      gotResponse:"",
+      tries:0
     },this.getParams);
   }
   updateView(isNew) {
@@ -252,7 +252,6 @@ class Results extends Component {
         checkOut: state.leaveDate,
         siteCode: "PT",
         locale: this.props.lang,
-        lang: this.props.lang,
         currencyCode: this.state.actualCurrency,
         deviceType: "desktop",
         appType: "IOS_APP",
@@ -269,12 +268,9 @@ class Results extends Component {
       that.setState({
         searchId: response.data.search.id,
         info: response.data,
-        hotels: response.data.hotels,
-        gotResponse:"hotels",
-        loading:false,
-        firstLoad:false,
+        //hotels: response.data.hotels,
         responseCount: 0,
-        totalCount: response.data.hotels.length,
+        //totalCount: response.data.hotels.length,
       },that.getHotels);
     })
     .catch(function (error) {
@@ -293,7 +289,6 @@ class Results extends Component {
         checkOut: state.leaveDate,
         siteCode: "PT",
         locale: this.props.lang,
-        lang: this.props.lang,
         currencyCode: this.state.actualCurrency,
         deviceType: "desktop",
         appType: "IOS_APP",
@@ -311,13 +306,21 @@ class Results extends Component {
     )
     .then(function (response) {
       const data = response.data;
-      if (state.responseCount === data.count) return;
-      if (!data.count) {
-        that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
+      let newTry = state.tries + 1;
+      //if (state.responseCount === data.count) return;
+      if (!data.hotels.length) {
+        that.setState({tries:newTry},() => {
+          if (state.tries < state.maxTries) that.getHotels();
+          else if (!data.count) that.setState({noResults:true,loading:false,gotResponse:""});
+        });
+        return;
       }
-      if (state.responseCount === data.count) return;
 
-      let newHotels = state.hotels.concat(data.hotels);
+      // if (!data.count) {
+      //   that.setState({noResults:true,loading:false,gotResponse:""});
+      // }
+
+      let newHotels = data.hotels;
       let newRates = data.rates;
 
       newHotels.forEach((hotel,index) => {
@@ -362,13 +365,20 @@ class Results extends Component {
         initialPriceMax,
         priceMin,
         priceMax,
-        gotResponse: "hotels",
         responseCount: newCount,
-        totalCount: newHotels.length,
+        totalCount: newHotels.length + state.totalCount,
         currentItems: newHotels.length,
-        gotRates: true
+        gotRates: true,
+        gotResponse:"hotels",
+        loading:false,
+        firstLoad:false,
+        tries: newTry
       }, () => {
-        that.getHotels();
+        if (newTry < state.maxTries){
+          setTimeout(() => {
+            that.getHotels();
+          }, 500*newTry)
+        };
         that.sortResults(null,document.querySelector(`[data-sort='${that.state.sort}']`),that.state.order);
       });
     })
@@ -458,10 +468,15 @@ class Results extends Component {
     )
     .then(function(response) {
       let data = response.data;
-      if (!data.count) {
-        that.setState({noResults:true,loading:false,totalCount:0,flights:[],gotResponse:""});
+      let newTry = state.tries + 1;
+
+      if (!data.fares.length) {
+        that.setState({tries:newTry},() => {
+          if (state.tries < state.maxTries) that.getFlights();
+          else if (!data.count) that.setState({noResults:true,loading:false,gotResponse:""});
+        });
+        return;
       }
-      if (state.responseCount === data.count) return;
 
       let newFlights = data.trips;
       let shortestDuration = 0;
@@ -528,6 +543,7 @@ class Results extends Component {
 
       let totalCount = newFlights.length + state.totalCount;
 
+
       that.setState({
         info: data,
         flights,
@@ -547,9 +563,14 @@ class Results extends Component {
         noResults:false,
         totalCount,
         currentItems:totalCount,
-        responseCount: data.count
+        responseCount:data.count,
+        tries:newTry
       },() => {
-        that.getFlights();
+        if (newTry < state.maxTries){
+          setTimeout(() => {
+            that.getFlights();
+          }, 500*newTry)
+        };
         that.sortResults(null,document.querySelector(`[data-sort='${that.state.sort}']`),that.state.order);
       });
     })

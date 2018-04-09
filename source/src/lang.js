@@ -157,6 +157,7 @@ const lang = {
       },
       hotels: {
         reviews: 'reviews',
+        noReviews: 'No',
         deal: 'View deal'
       }
     },
@@ -773,6 +774,7 @@ const lang = {
       },
       hotels: {
         reviews: 'comentários',
+        noReviews: 'Sem',
         deal: 'Ver oferta'
       }
     },

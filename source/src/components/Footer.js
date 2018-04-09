@@ -50,7 +50,7 @@ export default(props) => (
           </a>
         </li>
       </ul>
-      <small>© 2017 trippur.com</small>
+      <small>© 2018 trippur.com</small>
     </div>
   </footer>
 )
