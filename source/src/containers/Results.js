@@ -40,8 +40,6 @@ class Results extends Component {
       noResults: false,
       loading: true,
       showFilters: false,
-      actualCurrency:"EUR",
-      actualCurrencySymbol: "€",
       hotels: [],
       flights: [],
       rates:[],
@@ -110,6 +108,10 @@ class Results extends Component {
         console.log(error);
       })
   }
+  componentWillReceiveProps(newProps) {
+    //if currency changes, make new search
+    if (newProps.currency !== this.props.currency || newProps.lang !== this.props.lang) this.newSearch();
+  }
   getParams() {
     const params = queryString.parse(this.props.history.location.search);
     if (typeof(params.stops) === "string") params.stops = putIntoArray(params.stops);
@@ -136,8 +138,6 @@ class Results extends Component {
       noResults: false,
       loading: true,
       showFilters: false,
-      actualCurrency:"EUR",
-      actualCurrencySymbol: "€",
       hotels: [],
       flights: [],
       rates:[],
@@ -163,8 +163,8 @@ class Results extends Component {
         airlines:[],
         filters:{}
       },
-      sort: "bestPrice",
-      order: "asc",
+      sort: "",
+      order: "",
       totalCount: 0,
       currentPage: 1,
       itemsPerPage: 10,
@@ -198,11 +198,14 @@ class Results extends Component {
       qs.leaveDate = this.state.leaveDate;
       qs.cabin = this.state.cabin;
       qs.cityDest = this.state.cityDest;
+      qs.countryDest = this.state.countryDest;
       qs.cityArri = this.state.cityArri;
+      qs.countryArri = this.state.countryArri;
       qs.adultsCount = this.state.adultsCount;
       qs.childrenCount = this.state.childrenCount;
-      qs.infantsCount	 = this.state.infantsCount	;
-      qs.currency_code = this.state.actualCurrency;
+      qs.infantsCount	 = this.state.infantsCount;
+      qs.currencyCode = this.props.currency;
+      qs.lang = this.props.lang;
       qs.stops = this.state.stops;
       qs.priceMin = this.state.priceMin;
       qs.priceMax = this.state.priceMax;
@@ -221,10 +224,12 @@ class Results extends Component {
       qs.leaveDate = this.state.leaveDate;
       qs.cityDest = this.state.cityDest;
       qs.cityCode = this.state.cityCode;
+      qs.countryName = this.state.countryName;
       qs.adultsCount = this.state.adultsCount;
       qs.childrenCount = this.state.childrenCount;
-      qs.infantsCount	 = this.state.infantsCount	;
-      qs.currency_code = this.state.actualCurrency;
+      qs.infantsCount	 = this.state.infantsCount;
+      qs.currencyCode = this.props.currency;
+      qs.lang = this.props.lang;
       qs.priceMin = this.state.priceMin;
       qs.priceMax = this.state.priceMax;
       qs.districts = this.state.districts;
@@ -252,10 +257,10 @@ class Results extends Component {
         checkOut: state.leaveDate,
         siteCode: "PT",
         locale: this.props.lang,
-        currencyCode: this.state.actualCurrency,
+        currencyCode: this.props.currency,
         deviceType: "desktop",
         appType: "IOS_APP",
-        userCountryCode: "PT"
+        userCountryCode: "PT",
       }
     }
     const headers = {"Content-Type": "application/json"};
@@ -267,7 +272,7 @@ class Results extends Component {
       });
       that.setState({
         searchId: response.data.search.id,
-        info: response.data,
+        //info: response.data,
         //hotels: response.data.hotels,
         responseCount: 0,
         //totalCount: response.data.hotels.length,
@@ -281,19 +286,8 @@ class Results extends Component {
     var that = this,
         state = this.state;
     const params = {
-      search: {
-        cityCode: state.cityCode,
-        roomsCount:1,
-        guestsCount:state.adultsCount,
-        checkIn: state.arriveDate,
-        checkOut: state.leaveDate,
-        siteCode: "PT",
-        locale: this.props.lang,
-        currencyCode: this.state.actualCurrency,
-        deviceType: "desktop",
-        appType: "IOS_APP",
-        userCountryCode: "PT"
-      },
+      locale: this.props.lang,
+      currencyCode: this.props.currency,
       offset:state.responseCount
     }
     Axios.get(
@@ -336,9 +330,9 @@ class Results extends Component {
         hotel.reviewsCount = reviewsCount;
       });
 
-      state.info && data.amenities.push(...state.info.amenities); //cumulative amenities
-      state.info && data.districts.push(...state.info.districts); //cumulative districts
-      state.info && data.propertyTypes.push(...state.info.propertyTypes); //cumulative propertyTypes
+      state.info.length && data.amenities.push(...state.info.amenities); //cumulative amenities
+      state.info.length && data.districts.push(...state.info.districts); //cumulative districts
+      state.info.length && data.propertyTypes.push(...state.info.propertyTypes); //cumulative propertyTypes
 
       let newCount = data.count;
 
@@ -393,7 +387,7 @@ class Results extends Component {
         siteCode: "PT",
         lang: this.props.lang,
         locale: this.props.lang,
-        currencyCode: this.state.actualCurrency,
+        currencyCode: this.props.currency,
         deviceType: "DESKTOP",
         cabin: this.state.cabin,
         adultsCount: this.state.adultsCount,
@@ -431,33 +425,11 @@ class Results extends Component {
     var that = this,
         state = this.state;
     const params = {
-      search: {
-        siteCode: "PT",
-        locale: this.props.lang,
-        lang: this.props.lang,
-        currencyCode: state.actualCurrency,
-        deviceType: "DESKTOP",
-        cabin: state.cabin,
-        adultsCount: state.adultsCount,
-        childrenCount: state.childrenCount,
-        infantsCount: state.infantsCount,
-        legs: [
-          {
-            departureAirportCode: state.inbound,
-            arrivalCityCode: state.outbound,
-            outboundDate: state.arriveDate
-          }
-        ]
-      },
-      offset: state.responseCount
+      offset: state.responseCount,
+      lang: this.props.lang,
+      locale: this.props.lang,
+      currencyCode: this.props.currency,
     };
-    if (!this.state.oneWay) {
-      params.search.legs.push({
-        "departureAirportCode": state.outbound,
-        "arrivalCityCode": state.inbound,
-        "outboundDate": state.leaveDate
-      });
-    }
     Axios.get(
       `${api.getFlightSearch}${that.state.searchId}/results`,
       {
@@ -506,7 +478,7 @@ class Results extends Component {
           // if (flight.duration < durationMin) durationMin = flight.duration;
           flight.departure = flight.legs[0].departureTimeMinutes;
           flight.arrival = flight.legs[0].arrivalTimeMinutes;
-        } else newFlights.splice(index,1);
+        } //else newFlights.splice(index,1);
       });
 
       if (state.info) { //cumulative filters
@@ -783,6 +755,7 @@ class Results extends Component {
                   {...this.state}
                   type={this.state.type}
                   lang={this.props.lang}
+                  currency={this.props.currency}
                   show={this.state.showFilters}
                   changeStops={this.updateStops}
                   changeCabin={this.updateCabin}
@@ -797,6 +770,7 @@ class Results extends Component {
                   info={this.state.info}
                   type={this.state.type}
                   lang={this.props.lang}
+                  currency={this.props.currency}
                   priceMin={this.state.priceMin}
                   priceMax={this.state.priceMax}
                   durationMin={this.state.durationMin}
@@ -808,7 +782,6 @@ class Results extends Component {
                   currentPage={this.state.currentPage}
                   itemsPerPage={this.state.itemsPerPage}
                   handlePagination={this.updatePagination}
-                  currency={this.state.actualCurrencySymbol}
                   pageCount={Math.ceil(this.state.totalCount/this.state.itemsPerPage)}
                   toggleFilters={() => this.setState({showFilters: !this.state.showFilters})}
                   getCurrentItems={this.getCurrentItems}
@@ -832,6 +805,7 @@ class Results extends Component {
                   rates={this.state.rates}
                   type={this.state.type}
                   lang={this.props.lang}
+                  currency={this.props.currency}
                   show={this.state.showFilters}
                   changeStar={this.updateStars}
                   changePrice={this.updatePriceH}
@@ -854,10 +828,10 @@ class Results extends Component {
                   priceMax={this.state.priceMax}
                   type={this.state.type}
                   lang={this.props.lang}
+                  currency={this.props.currency}
                   currentPage={this.state.currentPage}
                   itemsPerPage={this.state.itemsPerPage}
                   handlePagination={this.updatePagination}
-                  currency={this.state.actualCurrencySymbol}
                   gotRates={this.state.gotRates}
                   totalCount={this.state.totalCount}
                   currentItems={this.state.currentItems}

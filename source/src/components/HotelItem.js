@@ -5,6 +5,7 @@ import genericHotel from "../images/hotel.png";
 
 class HotelItem extends Component {
   render() {
+    const currencySymbol = lang[this.props.lang].Currency[this.props.currency].symbol;
     return (
       <article className="hotelItem" id={this.props.id}>
         {/* <figure>
@@ -27,7 +28,7 @@ class HotelItem extends Component {
             {
               this.props.rates &&
               <ul>
-                {this.props.rates.map((rate,index) => <li key={index}><a href={rate.handoffUrl} target="_blank"><span>€{rate.price.amount}</span> {rate.providerCode}</a></li>)}
+                {this.props.rates.map((rate,index) => <li key={index}><a href={rate.handoffUrl} target="_blank"><span>{currencySymbol}{rate.price.amount}</span> {rate.providerCode}</a></li>)}
               </ul>
             }
           </div>
@@ -37,7 +38,7 @@ class HotelItem extends Component {
             this.props.bestRate &&
             <div className="hotelPriceContainer">
               <p className="hotelPrice">
-                {this.props.currency}{this.props.bestRate.price.amount}
+                {currencySymbol}{this.props.bestRate.price.amount}
                 <span>{this.props.bestRate.providerCode}</span>
               </p>
               <p className="btn" onClick={() => window.open(this.props.bestRate.handoffUrl)}><span>{lang[this.props.lang].Item.hotels.deal}</span></p>

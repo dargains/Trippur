@@ -48,8 +48,14 @@ header {
   li {
     display: inline-block;
     vertical-align: middle;
+    color: $PrimaryColor;
+    text-decoration: none;
+    font-family: $Montserrat;
+    font-size: 14px;
+    line-height: 20px;
     a {
       padding: 10px 0;
+      color: $GrayBold;
     }
   }
   li + li {
@@ -57,11 +63,7 @@ header {
   }
 
   a {
-    color: $PrimaryColor;
     text-decoration: none;
-    font-family: $Montserrat;
-    font-size: 14px;
-    //font-weight: bold;
   }
   @include mq(0,512px) {
     padding: 20px 10px;
@@ -70,6 +72,9 @@ header {
     }
     li + li {
       margin-left: 10px;
+    }
+    li:nth-of-type(3) {
+      display: none;
     }
   }
 }

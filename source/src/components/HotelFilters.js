@@ -110,6 +110,7 @@ class HotelFilters extends React.Component {
   }
   render() {
     const filterLang = lang[this.props.lang].Filterbar.hotels;
+    const currencySymbol = lang[this.props.lang].Currency[this.props.currency].symbol;
     return (
     <div>
 
@@ -126,7 +127,7 @@ class HotelFilters extends React.Component {
           <InputRange
             maxValue={this.state.initialPrice.max}
             minValue={this.state.initialPrice.min}
-            formatLabel={value => `${value}${this.props.actualCurrencySymbol}`}
+            formatLabel={value => `${currencySymbol}${value}`}
             value={this.state.price}
             onChange={price => this.setState({price})}
             onChangeComplete={value => this.props.changePrice(value)}

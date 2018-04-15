@@ -25,17 +25,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lang:"en"
+      lang:"en",
+      currency: "EUR"
     }
   }
   render() {
     return (
         <BrowserRouter>
           <div>
-            <Route render={() => <Header changeLang={lang => this.setState({lang})} lang={this.state.lang}/>} />
+            <Route render={() => <Header changeLang={lang => this.setState({lang})} lang={this.state.lang} changeCurrency={currency => this.setState({currency})} currency={this.state.currency}/>} />
             <Switch>
-              <Route exact path="/" render={() => <Home lang={this.state.lang}/>} />
-              <Route exact path="/Results" render={() => <Results lang={this.state.lang}/>} />
+              <Route exact path="/" render={() => <Home lang={this.state.lang} currency={this.state.currency}/>} />
+              <Route exact path="/Results" render={() => <Results lang={this.state.lang} currency={this.state.currency}/>} />
               <Pages>
                   <PagesNav />
                   <article>

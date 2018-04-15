@@ -38,9 +38,9 @@
 
   .center {
     display: inline-block;
-    margin-left: 40px;
+    margin-left: 5%;
     width: 350px;
-    width: 50%;
+    width: calc(95% - 200px);
     @include mq(0, 768px) {
       width: 100%;
       margin-left: 0;
@@ -61,6 +61,12 @@
       }
       @include mq(0,1024px) {
         padding-bottom: 10px;
+      }
+      @include mq(0,768px) {
+        padding-top: 10px;
+      }
+      @include mq(0,512px) {
+        padding-top: 0;
       }
     }
 

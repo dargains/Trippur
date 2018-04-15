@@ -10,6 +10,7 @@ class FlightItem extends Component {
   }
   render() {
     const props = this.props;
+    const currencySymbol = lang[props.lang].Currency[props.currency].symbol;
     const itemLang = lang[props.lang].Item.flights;
     const stops = itemLang.stops;
     const routesElement = props.legs.map((leg,j) =>
@@ -34,7 +35,7 @@ class FlightItem extends Component {
     return (
       <article className="flightItem">
         <div className="price">
-          <p>{props.currency}{props.bestPrice}<span>{props.bestFare.providerCode}</span></p>
+          <p>{currencySymbol}{props.bestPrice}<span>{props.bestFare.providerCode}</span></p>
         </div>
         <ul className="flightLogo">
           {
@@ -56,7 +57,7 @@ class FlightItem extends Component {
           </a>
           <select onChange={this.goToLink}>
             <option>{itemLang.selectProvider}</option>
-            {props.fares.map(fare => <option key={fare.id} data-link={fare.handoffUrl}>{fare.providerCode} - {props.currency}{fare.price.amount}</option>)}
+            {props.fares.map(fare => <option key={fare.id} data-link={fare.handoffUrl}>{fare.providerCode} - {currencySymbol}{fare.price.amount}</option>)}
           </select>
         </div>
       </article>

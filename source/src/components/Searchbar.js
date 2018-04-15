@@ -82,19 +82,19 @@ class Searchbar extends Component {
             adultsCount: parseInt(params.adultsCount, 10),
             childrenCount: parseInt(params.childrenCount, 10),
             infantsCount: parseInt(params.infantsCount, 10),
-            inboundAirportValue: params.cityArri,
-            outboundAirportValue: params.cityDest,
+            inboundAirportValue: `${params.cityArri}, ${params.countryArri}`,
+            outboundAirportValue: `${params.cityDest}, ${params.countryDest}`,
             chosenHotel: {},
             oneWay: params.oneWay === "true",
             chosenFlight: {
               inbound: {
                 city: params.cityArri,
-                countryName: params.cityArri,
+                countryName: params.countryArri,
                 id: params.inbound
               },
               outbound: {
                 city: params.cityDest,
-                countryName: params.cityDest,
+                countryName: params.countryDest,
                 id: params.outbound
               }
             },
@@ -115,7 +115,7 @@ class Searchbar extends Component {
             adultsCount: parseInt(params.adultsCount, 10),
             childrenCount: parseInt(params.childrenCount, 10),
             infantsCount: parseInt(params.infantsCount, 10),
-            hotelValue: params.cityDest,
+            hotelValue: `${params.cityDest}, ${params.countryName}`,
             chosenHotel: {
               cityCode: params.cityCode,
               cityDest: params.cityDest,
@@ -132,8 +132,6 @@ class Searchbar extends Component {
           }, () => {
             //this.refs.hotel.value = params.cityDest;
             this.refs.hotelDate.value = `${moment(params.arriveDate).format("D[/]M[/]YYYY")} ${lang[this.props.lang].Searchbar.until} ${moment(params.leaveDate).format("D[/]M[/]YYYY")}`;
-            this.setState({
-            })
           });
     }
   }
@@ -224,12 +222,12 @@ class Searchbar extends Component {
   }
   chooseAirport(type, event) {
     const airport = event.target.dataset,
-      flightInfo = {
-        id: airport.airportid,
-        countryName: airport.countryname,
-        countryCode: airport.countrycode,
-        city: airport.cityname
-      };
+          flightInfo = {
+            id: airport.airportid,
+            countryName: airport.countryname,
+            countryCode: airport.countrycode,
+            city: airport.cityname
+          };
     let chosenFlight = this.state.chosenFlight;
     chosenFlight[type] = flightInfo
     this.setState({chosenFlight});
@@ -417,10 +415,14 @@ class Searchbar extends Component {
         leaveDate: state.leaveDate,
         cabin: state.cabin,
         cityDest: state.chosenFlight.outbound.city,
+        countryDest: state.chosenFlight.outbound.countryName,
         cityArri: state.chosenFlight.inbound.city,
+        countryArri: state.chosenFlight.inbound.countryName,
         adultsCount: parseInt(state.adultsCount, 10),
         childrenCount: parseInt(state.childrenCount, 10),
         infantsCount	: parseInt(state.infantsCount	, 10),
+        sort:"bestPrice",
+        order:"asc",
         oneWay: state.oneWay
       }
       : {
@@ -434,7 +436,9 @@ class Searchbar extends Component {
         cityDest: state.chosenHotel.cityDest,
         adultsCount: parseInt(state.adultsCount, 10),
         childrenCount: parseInt(state.childrenCount, 10),
-        infantsCount	: parseInt(state.infantsCount	, 10)
+        infantsCount	: parseInt(state.infantsCount	, 10),
+        sort:"reviewsCount",
+        order:"desc"
       }
     this.props.history.push(`/Results?${serialize(info)}`);
     this.props.context === "results" && this.props.handleSearch();

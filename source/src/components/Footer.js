@@ -12,10 +12,10 @@ export default(props) => (
           <Link to="/About">{lang[props.lang].Footer.about}</Link>
         </li>
         <li>
-          <a href="http://guides.trippur.com">{lang[props.lang].Footer.guides}</a>
+          <a href="http://guides.trippur.com" target="_blank" rel="noopener noreferrer">{lang[props.lang].Footer.guides}</a>
         </li>
         <li>
-          <a href="http://blog.trippur.com">{lang[props.lang].Footer.blog}</a>
+          <a href="http://blog.trippur.com" target="_blank" rel="noopener noreferrer">{lang[props.lang].Footer.blog}</a>
         </li>
         <li>
           <Link to="/Privacy">{lang[props.lang].Footer.privacy}</Link>

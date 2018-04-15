@@ -97,6 +97,7 @@ const lang = {
       results1: 'We found',
       resultsF: 'flights',
       resultsH: 'hotels',
+      of: 'of',
       noResults: 'hmmm, there are no results for this search.',
       noResultsFilter: 'Sorry , there are no results for this search. Maybe clear some filters?'
     },
@@ -156,7 +157,26 @@ const lang = {
       },
       hotels: {
         reviews: 'reviews',
+        noReviews: 'No',
         deal: 'View deal'
+      }
+    },
+    Currency: {
+      EUR: {
+        name: 'Euro',
+        symbol: '€'
+      },
+      USD: {
+        name: 'Dollar',
+        symbol: '$'
+      },
+      GBP: {
+        name: 'Pound',
+        symbol: '£'
+      },
+      BRL: {
+        name: 'Real',
+        symbol: 'R$'
       }
     },
     Help: {
@@ -624,7 +644,7 @@ const lang = {
   pt: {
     Header: {
       help: 'Ajuda',
-      guias: 'Guias',
+      guides: 'Guias',
       blog: 'Blog'
     },
     Footer: {
@@ -719,6 +739,7 @@ const lang = {
       results1: 'Encontrámos',
       resultsF: 'voos',
       resultsH: 'hotéis',
+      of: 'de',
       noResults: 'Não encontrámos resultados para esta pesquisa',
       noResultsFilter: 'Não encontrámos resultados para esta pesquisa. Tente retirar alguns filtros'
     },
@@ -778,7 +799,26 @@ const lang = {
       },
       hotels: {
         reviews: 'comentários',
+        noReviews: 'Sem',
         deal: 'Ver oferta'
+      }
+    },
+    Currency: {
+      EUR: {
+        name: 'Euro',
+        symbol: '€'
+      },
+      USD: {
+        name: 'Dolar',
+        symbol: '$'
+      },
+      GBP: {
+        name: 'Libra',
+        symbol: '£'
+      },
+      BRL: {
+        name: 'Real',
+        symbol: 'R$'
       }
     },
     Help: {

@@ -184,7 +184,7 @@ input[type=email] {
     background: transparent;
   }
   p {
-    color: $GrayRegular;
+    color: $GrayBold;
     cursor: pointer;
   }
   i {
@@ -218,6 +218,9 @@ input[type=email] {
   @include mq(0,512px) {
     i {
       display: none;
+    }
+    img {
+      margin-right: 0;
     }
   }
 }

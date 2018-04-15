@@ -70,6 +70,7 @@ class FlightFilters extends React.Component {
   }
   render() {
     const filterLang = lang[this.props.lang].Filterbar.flights;
+    const currencySymbol = lang[this.props.lang].Currency[this.props.currency].symbol;
     return (
       <div>
 
@@ -78,7 +79,7 @@ class FlightFilters extends React.Component {
           <InputRange
             maxValue={this.state.initialPrice.max}
             minValue={this.state.initialPrice.min}
-            formatLabel={value => `${this.props.actualCurrencySymbol}${value}`}
+            formatLabel={value => `${currencySymbol}${value}`}
             value={this.state.price}
             onChange={price => this.setState({price})}
             onChangeComplete={value => this.props.changePrice(value)}
