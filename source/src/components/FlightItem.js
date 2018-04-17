@@ -57,7 +57,7 @@ class FlightItem extends Component {
           </a>
           <select onChange={this.goToLink}>
             <option>{itemLang.selectProvider}</option>
-            {props.fares.map(fare => <option key={fare.id} data-link={fare.handoffUrl}>{fare.providerCode} - {currencySymbol}{fare.price.amount}</option>)}
+            {props.fares.map(fare => <option key={fare.id} data-link={fare.handoffUrl}>{fare.providerCode} - {currencySymbol}{fare.price.totalAmount}</option>)}
           </select>
         </div>
       </article>

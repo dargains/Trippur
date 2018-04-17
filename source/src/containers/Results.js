@@ -455,8 +455,8 @@ class Results extends Component {
       let longestDuration = 1;
       newFlights.forEach((flight,index) => {
         flight.fares = data.fares.filter(fare => fare.tripId === flight.id);
-        const bestPrice = Math.min(...flight.fares.map(fare => fare.price.amount));
-        const bestFare = flight.fares.filter(rate => rate.price.amount === bestPrice)[0];
+        const bestPrice = Math.min(...flight.fares.map(fare => fare.price.totalAmount));
+        const bestFare = flight.fares.filter(rate => rate.price.totalAmount === bestPrice)[0];
 
         if (!flight.hasOwnProperty("legs")) flight.legs = [];
         flight.legIds.forEach(leg => flight.legs.push(...data.legs.filter(legF => legF.id === leg)));
@@ -549,16 +549,6 @@ class Results extends Component {
     .catch(function (error) {
       console.log(error);
       that.props.history.push("/");
-    });
-  }
-  getCurrency() {
-    const that = this;
-    Axios.get(api.getCurrency)
-    .then(function (response) {
-      that.setState({currencies:response.data.currencies.currencies});
-    })
-    .catch(function (error) {
-      console.log(error);
     });
   }
   updateDistricts(event) {

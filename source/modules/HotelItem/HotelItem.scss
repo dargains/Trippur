@@ -29,6 +29,9 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    @include mq(0, 768px) {
+      height: 250px;
+    }
     @include mq(0,512px) {
       width: calc(100% + 40px);
       left: -20px;
@@ -40,7 +43,10 @@
     display: inline-block;
     margin-left: 5%;
     width: 350px;
-    width: calc(95% - 200px);
+    width: calc(95% - 330px);
+    @include mq(0, 1024px) {
+      width: calc(95% - 200px);
+    }
     @include mq(0, 768px) {
       width: 100%;
       margin-left: 0;
@@ -115,18 +121,18 @@
       vertical-align: top;
       text-align: right;
       float: right;
-      max-width: 22%;
-      @include mq(0, 768px) {
+      width: 120px;
+      @include mq(0, 1024px) {
         float: none;
         margin-top: 20px;
         text-align: left;
-        max-width: 100%;
+        width: 100%;
       }
 
       .hotelPriceContainer {
         .hotelPrice {
           @include fontM($PrimaryColor);
-          margin-bottom: 40px;
+          margin-bottom: 15px;
           @include mq(0, 1280px) {
             margin-bottom: 20px;
           }
