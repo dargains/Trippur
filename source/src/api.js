@@ -5,6 +5,7 @@ const config = {
   clientId: "&client_id=0dd3120d9b4aa89a92aff5a7",
   clientSecret: "&client_secret=195012c76b7487e6ef1489a8",
   getCredentials: "/users/oauth/token?grant_type=client_credentials&scope=affiliate",
+  ts_code: "18109",
   //location
   getLocation: "places/search",
   //flights
@@ -25,6 +26,7 @@ const api = {
   getTrip: config.baseUrl + config.getTrip, //GET
   getHotelSearch: config.cors + config.baseUrl + config.getHotelSearch, //POST
   getHotels:config.baseUrl + config.getHotels, //GET
+  tsCode: config.tsCode
 }
 
 export default api;

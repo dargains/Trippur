@@ -197,6 +197,7 @@ class Searchbar extends Component {
         locales: [this.props.lang],
         query: term,
         site_code: "pt",
+        ts_code: "18109"
       },
       cancelToken: new CancelToken(function executor(c) {
         cancel = c;
@@ -246,7 +247,8 @@ class Searchbar extends Component {
         language: this.props.lang,
         types: ["city","district","hotel"],
         site_code: "pt",
-        currency_code: "EUR"
+        currency_code: "EUR",
+        ts_code: "18109"
       },
       cancelToken: new CancelToken(function executor(c) {
         cancel = c;

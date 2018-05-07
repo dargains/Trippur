@@ -1,7 +1,7 @@
 .sidebar {
   width: 20%;
   transition: transform .3s ease-in;
-  box-shadow: 2px 2px 20px rgba(0,0,0,.2);
+  border: 1px solid $GrayLight;
   display: inline-block;
   vertical-align: top;
   padding: 20px;

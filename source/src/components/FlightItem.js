@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
+import ProviderItem from "./ProviderItem";
 import moment from "moment";
 import lang from "../lang";
 
 class FlightItem extends Component {
-  goToLink(event) {
-    let select = event.target,
-        selectedIndex = select.selectedIndex;
-    if (selectedIndex) window.open(select.childNodes[selectedIndex].dataset.link);
+  constructor() {
+    super();
+    this.state = {
+      showProviders: false
+    }
+    this.toggleProviderList = this.toggleProviderList.bind(this);
+  }
+  toggleProviderList() {
+    const showProviders = !this.state.showProviders;
+    this.setState({showProviders})
+  }
+  componentDidMount() {
+    document.addEventListener('click', this.clickOutsideProviderList.bind(this));
+  }
+  componentWillUnmount() {
+    document.removeEventListener('click', this.clickOutsideProviderList);
+  }
+  clickOutsideProviderList(event) {
+    if (!document.getElementById(this.props.id)) return;
+    if (event.target && !document.getElementById(this.props.id).contains(event.target)) this.setState({showProviders: false});
   }
   render() {
     const props = this.props;
@@ -52,13 +69,14 @@ class FlightItem extends Component {
         </div>
         <div className="flightType">
           <em>{props.legs[0].segments[0].cabin}</em>
-          <a href={props.bestFare.handoffUrl} className="btn primary" target="_BLANK">
+          <a href={`${props.bestFare.handoffUrl}&ts_code=18109&client_id=0dd3120d9b4aa89a92aff5a7`} className="btn primary" target="_BLANK">
             <span>{itemLang.select}</span>
           </a>
-          <select onChange={this.goToLink}>
-            <option>{itemLang.selectProvider}</option>
-            {props.fares.map(fare => <option key={fare.id} data-link={fare.handoffUrl}>{fare.providerCode} - {currencySymbol}{fare.price.totalAmount}</option>)}
-          </select>
+          <ul className={this.state.showProviders ? "providerList opened" : "providerList"} onClick={this.toggleProviderList} id={props.id}>
+            {
+              props.fares.map(fare => <ProviderItem key={fare.id} link={`${fare.handoffUrl}&ts_code=18109&client_id=0dd3120d9b4aa89a92aff5a7`} provider={fare.providerCode} price={`${currencySymbol}${fare.price.totalAmount}`}/>)
+            }
+          </ul>
         </div>
       </article>
     )

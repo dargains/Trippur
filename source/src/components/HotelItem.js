@@ -28,7 +28,7 @@ class HotelItem extends Component {
             {
               this.props.rates &&
               <ul>
-                {this.props.rates.map((rate,index) => <li key={index}><a href={rate.handoffUrl} target="_blank"><span>{currencySymbol}{rate.price.amount}</span> {rate.providerCode}</a></li>)}
+                {this.props.rates.map((rate,index) => <li key={index}><a href={`${rate.handoffUrl}&ts_code=18109&client_id=0dd3120d9b4aa89a92aff5a7`} target="_blank"><span>{currencySymbol}{rate.price.amount}</span> {rate.providerCode}</a></li>)}
               </ul>
             }
           </div>
@@ -41,7 +41,7 @@ class HotelItem extends Component {
                 {currencySymbol}{this.props.bestRate.price.amount}
                 <span>{this.props.bestRate.providerCode}</span>
               </p>
-              <p className="btn" onClick={() => window.open(this.props.bestRate.handoffUrl)}><span>{lang[this.props.lang].Item.hotels.deal}</span></p>
+              <p className="btn" onClick={() => window.open(`${this.props.bestRate.handoffUrl}&ts_code=18109&client_id=0dd3120d9b4aa89a92aff5a7`)}><span>{lang[this.props.lang].Item.hotels.deal}</span></p>
             </div>
           }
         </aside>

@@ -1,7 +1,7 @@
 .flightItem {
   border-top: 1px solid $GrayThin;
   padding: 20px 40px;
-  overflow: hidden;
+  //overflow: hidden;
   @include mq(0, 768px) {
     padding: 20px;
   }
@@ -161,6 +161,7 @@
   .flightType {
     display: block;
     text-align: right;
+    position: relative;
     @include mq(0,768px) {
       float: none;
       margin-top: 40px;
@@ -190,6 +191,68 @@
         margin: 0 auto;
       }
     }
+
+    .providerList {
+      border: 1px solid $GrayLight;
+      box-shadow: 2px 2px 10px rgba(0,0,0,.2);
+      //max-width: 250px;
+      position: absolute;
+      right: -21px;
+      top: 100%;
+      z-index: 1;
+      @include mq(0, 768px) {
+        right: calc(50% - 112px);
+      }
+      &:before {
+        content: "\e907";
+        color: $White;
+        font-family: 'icomoon';
+        font-size: .8rem;
+        text-align: center;
+        display: block;
+        background-color: $PrimaryColor;
+        width: 20px;
+        line-height: 37px;
+        position: absolute;
+        top: -38px;
+        right: 0;
+        border-radius: 0 5px 5px 0;
+        border-left: 1px solid $GrayThin;
+        cursor: pointer;
+      }
+      &.opened {
+        li {
+          display: block;
+        }
+      }
+      li {
+        display: none;
+        background-color: $White;
+        transition: all .2s ease-out;
+        &:hover {
+          background-color: $GrayLight;
+        }
+      }
+      li + li {
+        border-top: 1px solid $GrayLight;
+      }
+      a {
+        @include fontS;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-decoration: none;
+        span:first-of-type {
+          margin-right: 20px;
+        }
+        span:last-of-type {
+          font-weight: $Bold;
+          color: $PrimaryColor;
+        }
+      }
+    }
+
 
     select {
       // width: 180px;

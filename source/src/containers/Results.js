@@ -261,7 +261,8 @@ class Results extends Component {
         deviceType: "desktop",
         appType: "IOS_APP",
         userCountryCode: "PT",
-      }
+      },
+      ts_code: "18109"
     }
     const headers = {"Content-Type": "application/json"};
     Axios.post(api.getHotelSearch, JSON.stringify(params), {headers})
@@ -288,7 +289,8 @@ class Results extends Component {
     const params = {
       locale: this.props.lang,
       currencyCode: this.props.currency,
-      offset:state.responseCount
+      offset:state.responseCount,
+      ts_code: "18109"
     }
     Axios.get(
       `${api.getHotelSearch}${state.searchId}/results`,
@@ -400,7 +402,8 @@ class Results extends Component {
             outboundDate: this.state.arriveDate
           }
         ]
-      }
+      },
+      ts_code: "18109"
     };
     if (!this.state.oneWay) {
       params.search.legs.push({
@@ -429,6 +432,7 @@ class Results extends Component {
       lang: this.props.lang,
       locale: this.props.lang,
       currencyCode: this.props.currency,
+      ts_code: "18109"
     };
     Axios.get(
       `${api.getFlightSearch}${that.state.searchId}/results`,
