@@ -74,7 +74,7 @@ class Results extends Component {
       gotRates: false,
       intervalId:0,
       tries:0,
-      maxTries:15
+      maxTries:20
     };
     this.newSearch = this.newSearch.bind(this);
     this.updateView = this.updateView.bind(this);

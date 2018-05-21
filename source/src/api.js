@@ -21,11 +21,11 @@ const config = {
 const api = {
   getCredentials: config.baseUrl + config.getCredentials + config.clientId + config.clientSecret, //POST
   getLocation: config.baseUrl + config.getLocation, //GET
-  getFlightSearch: config.baseUrl + config.getFlightSearch, //POST
-  getFlights: config.baseUrl + config.getFlights, //GET
-  getTrip: config.baseUrl + config.getTrip, //GET
+  getFlightSearch: config.cors + config.baseUrl + config.getFlightSearch, //POST
+  getFlights: config.cors + config.baseUrl + config.getFlights, //GET
+  getTrip: config.cors + config.baseUrl + config.getTrip, //GET
   getHotelSearch: config.cors + config.baseUrl + config.getHotelSearch, //POST
-  getHotels:config.baseUrl + config.getHotels, //GET
+  getHotels: config.cors + config.baseUrl + config.getHotels, //GET
   tsCode: config.tsCode
 }
 

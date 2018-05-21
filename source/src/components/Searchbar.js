@@ -12,6 +12,7 @@ import Spinner from "./Spinner";
 import Checkbox from './Checkbox';
 
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 var CancelToken = Axios.CancelToken;
 var cancel;
