@@ -29,6 +29,11 @@ class App extends Component {
       currency: "EUR"
     }
   }
+  componentWillMount() {
+    var lang = navigator.language || navigator.userLanguage;
+    lang = lang.split("-")[0] === "pt" ? "pt" : "en";
+    this.setState({lang})
+  }
   render() {
     return (
         <BrowserRouter>
